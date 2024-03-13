@@ -19,5 +19,8 @@
   
   .loginButton {
     /* Add styles for the login button */
+    border: 5px;
+    border-color: white;
+    font-family: 'Poppins'
   }
   
