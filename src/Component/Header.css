@@ -1,0 +1,23 @@
+/* styles.css */
+.flexContainer {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+    align-items: center; /* Align items vertically */
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navLinks li {
+    /* Add additional styling if needed */
+  }
+  
+  .loginButton {
+    /* Add styles for the login button */
+  }
+  
