@@ -1,5 +1,5 @@
 import React from "react";
-import images from "../Constants/images";
+import Trademark from "../Constants/Trademark";
 import "./Style.css";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const Header = () => {
                 {/** The Logo here */}
                 <div>
                     <a href = "/">
-                        <img src = {images.Trademark} alt = "Logo" style={{ width: '20%', }} />
+                        <img src = {Trademark.Trademarks} alt = "Logo" style={{ width: '20%', }} />
                     </a>
                 </div>
                 

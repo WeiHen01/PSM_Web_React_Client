@@ -1,1 +1,1 @@
-export {default as trademark} from "../Constants/images";
+export {default as trademark} from "../Constants/Trademark";

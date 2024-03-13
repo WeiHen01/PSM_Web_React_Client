@@ -1,3 +1,7 @@
+/**
+ * Home Page: Default Landing Page of the web application
+ */
+
 import React from "react";
 import MainLayout from "../Component/MainLayout";
 import Health from "../images/blood.png";
