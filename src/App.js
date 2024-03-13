@@ -1,16 +1,16 @@
-import Login from "./Login";
-import HomePage from "./View/Home Page";
 import { Routes, Route } from 'react-router-dom';
+import HomePage from "./View/Home Page";
+import Login from "./View/Login";
 
 function App() {
   return (
     <div className="App">
-        <HomePage />
-        <Routes>
-          <Route path="/" element={<Login />} />
-        </Routes>
+    <Routes>
+      <Route index path ="/" element={<HomePage />} />
+      <Route index path ="/Login" element={<Login />} />
+    </Routes>
+        
     </div>
-    
   );
 }
 
