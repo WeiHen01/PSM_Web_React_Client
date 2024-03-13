@@ -84,7 +84,7 @@ const Login = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="bg-blue-500 text-white px-3 py-2 rounded-md focus:outline-none"
+              className="bg-orange-400 text-white px-3 py-2 rounded-md focus:outline-none hover:text-orange-400 hover:bg-white duration-300"
             >
               {showPassword ? 'Hide' : 'Show'} Password
             </button>
@@ -93,7 +93,11 @@ const Login = () => {
           <div style = {{marginTop: '5vh'}}></div>
 
           <div>
-            <button className = "bg-gradient-to-r from-purple-dark to-red-deep text-white px-3 py-2 rounded-md focus:outline-none">Sign In</button>
+            <button 
+              className = "font-bold border-2 border-orange-400 text-orange-400 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
+            >
+              Sign In
+            </button>
           </div>
 
         </div>
