@@ -17,11 +17,19 @@ const Login = () => {
     color: '#fff', // Set text color to contrast with the gradient
     fontSize: '24px',
   };
+
+  const shadowStyle = {
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)', // Horizontal offset, Vertical offset, Blur radius, Color
+  };
   
   const navigate = useNavigate();
 
   const Back=()=>{
       navigate("/");
+  }
+
+  const LoginToDoctor=()=>{
+    navigate("/Doctor/DoctorHome");
   }
 
   const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +38,12 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+
   
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
-      
+       <title>BITU3973 | Login</title>
       {/** Back button */}
       <div style={{ 
           width: '50%',
@@ -56,7 +66,7 @@ const Login = () => {
       </div>
 
       <div style = {{fontFamily: 'Poppins'}} className = "px-8">
-        <h1 className="text-4xl"><strong>Login</strong></h1>
+        <h1 className="text-6xl"><strong style={shadowStyle}>Login</strong></h1>
 
         <div style = {{marginTop: '3vh'}}></div>
 
@@ -94,9 +104,10 @@ const Login = () => {
 
           <div>
             <button 
-              className = "font-bold border-2 border-orange-400 text-orange-400 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
+              className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
+              onClick={()=>LoginToDoctor()}
             >
-              Sign In
+              Login
             </button>
           </div>
 

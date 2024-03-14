@@ -10,6 +10,7 @@ const HomePage = () => {
     return (
         // Recall the component in MainLayout.js
         <MainLayout>
+            <title>BITU3973 | EpiHealth Monitoring System</title>
             <div className="bg-gradient-to-r from-purple-dark to-red-deep h-full w-full">
                 <div className="grid grid-cols-2 grid-rows-1 items-center">
                     <img src={Health} className="w-50 h-screen px-5" alt="welcome" />
