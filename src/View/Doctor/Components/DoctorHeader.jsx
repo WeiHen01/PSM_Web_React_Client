@@ -1,12 +1,20 @@
 import React from 'react';
 import Trademark from "../../../images/Trademark_color.png";
+import { useNavigate } from 'react-router-dom';
 
 const DoctorHeader = ({ username, notificationCount, children }) => {
-  return (
+
+    const navigate = useNavigate();
+
+    const Home=()=>{
+        navigate("/Doctor/DoctorHome");
+    }
+  
+    return (
     <div className=" flex gap-5 px-2">
       {children}
       <div className="logo">
-        <img src={Trademark} alt="Logo" className = "w-36 py-1"/>
+        <img src={Trademark} onClick={Home} alt="Logo" className = "w-36 py-1"/>
       </div>
       <div className="user-info">
         
