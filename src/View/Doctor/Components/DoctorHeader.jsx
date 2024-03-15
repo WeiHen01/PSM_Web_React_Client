@@ -24,4 +24,4 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
     )
 }
 
-export default DoctorHeader
+export default DoctorHeader;
