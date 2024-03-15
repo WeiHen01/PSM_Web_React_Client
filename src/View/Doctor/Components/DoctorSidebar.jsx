@@ -1,7 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-import Logo from "../../../images/Logo.png";
-import {MoreVertical} from 'lucide-react';
-import { Link } from 'react-router-dom';
 import Trademark from "../../../images/Trademark_color.png";
 
 const SidebarContext = createContext();
@@ -9,42 +6,25 @@ const SidebarContext = createContext();
 const DoctorSidebar = ({children}) => {
     const [expanded] = useState(true);
 
+
     return (
-        <aside className = "h-screen">
-            <nav className = "w-56 flex flex-col bg-white border-r shadow-sm">
-                <div className = "flex justify-center">
+        <aside className = "h-screen relative ">
+            <nav className = "relative w-56 flex flex-col bg-white border-r shadow-sm">
+                <div className = "flex justify-center w-full h-full">
                     <a href = "/Doctor/DoctorHome">
                         <img src={Trademark} alt = "/" className="my-2 w-32"/>
                     </a>
                 </div>
-                <SidebarContext.Provider value={{ expanded }}>
+                <div className = "bg-gradient-to-r from-purple-dark to-red-deep h-screen">
+                    <SidebarContext.Provider value={{ expanded }}>
 
-                    {/** Render sidebar items  */}
-                    <ul className = 'flex-1 text-white py-6 bg-gradient-to-r from-purple-dark to-red-deep'>{children}</ul>
+                        {/** Render sidebar items  */}
+                        <ul className = ' text-white py-6 bg-gradient-to-r from-purple-dark to-red-deep h-auto'>
+                            {children}
+                        </ul>
 
-                </SidebarContext.Provider>
-
-
-                {/** Profile Image */}
-                <div className="border-t flex p-3 gap-3 bg-white items-center justify-between">
-                    {/* Profile Image and Username/Email Details */}
-                    <div className="flex gap-4 flex-1 items-center h-56">
-                        <div>
-                            <img src={Logo} alt = "/" className="w-10 h-10 rounded-full"/>
-                        </div>
-                        
-                        {/* Username and Email Details */}
-                        <div className='leading-4'>
-                            <h4 className='font-special font-semibold'>Username</h4>
-                            <span className='text-xs font-special'>email</span>
-                        </div>
-                    </div>
-                    
-                    <button>
-                        <MoreVertical />
-                    </button>
+                    </SidebarContext.Provider>
                 </div>
-
             </nav>
         </aside> 
     );

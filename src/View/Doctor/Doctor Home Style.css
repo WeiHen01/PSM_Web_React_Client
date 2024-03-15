@@ -1,0 +1,155 @@
+.large-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: url("https://picsum.photos/id/622/1920/1080");
+    background-size: 100%;
+    background-position: center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+      rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+      rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+      rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+      rgba(0, 0, 0, 0.09) 0px 16px 8px;
+    z-index: 1;
+    transition: all 0.5s ease-in-out;
+  }
+
+
+.large-banner:hover {
+    background-size: 120%;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .large-banner h2 {
+    color: white;
+    font-size: 30pt;
+    margin: 0;
+    padding: 0;
+    line-height: 30pt;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 0px SeaGreen, 2px 2px 0px FF7F50;
+  }
+  
+  .large-banner a {
+    position: relative;
+    background: white;
+    font-size: 12pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: dimgray;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px 0 #000000bb, inset 0px -5px 10px 1px #FF7F50;
+  }
+  
+  .large-banner a::after {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: #FF7F50;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px 0 #000000bb, inset 0px -5px 10px 1px #e03d02;
+    opacity: 0;
+    z-index: -1;
+  }
+  
+  .large-banner a:hover {
+    transform: translateY(5px);
+    color: black;
+  }
+  
+  .large-banner a:hover::after {
+    top: 0;
+    opacity: 1;
+  }
+  
+  .large-banner a:active {
+    transform: scale(0.92);
+  }
+  
+  .large-banner::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#301847, #C10214);
+    content: "";
+    border-radius: 20px;
+    mix-blend-mode: soft-light;
+    z-index: -1;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+      rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+      rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .smaller-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: calc(100vw / 4);
+    height: 200px;
+    background: white;
+    background-size: 100%;
+    background-position: center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+      rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+      rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+      rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+      rgba(0, 0, 0, 0.09) 0px 16px 8px;
+    z-index: 1;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .smaller-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    background: linear-gradient(#301847, #C10214);
+    content: "";
+    border-radius: 20px;
+    mix-blend-mode: soft-light;
+    z-index: -1;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+      rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+      rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .smaller-card ::after {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: #FF7F50;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px 0 #000000bb, inset 0px -5px 10px 1px #e03d02;
+    opacity: 0;
+    z-index: -1;
+  }
+  

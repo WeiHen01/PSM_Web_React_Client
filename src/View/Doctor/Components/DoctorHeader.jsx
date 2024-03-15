@@ -11,6 +11,10 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
     const Home=()=>{
         navigate("/Doctor/DoctorHome");
     }
+
+    const Profile=()=>{
+        navigate("/Doctor/DoctorProfile");
+    }
   
     return (
         <div className="flex items-center justify-between px-2">
@@ -36,9 +40,12 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
 
                 {/* User profile section */}
                 <div className="cursor-pointer flex gap-3" onClick={null}>
-                    <button className="flex gap-2 hover:text-gray-200 cursor-pointer items-center ">
+                    <button 
+                        className="flex gap-2 hover:text-gray-200 cursor-pointer items-center"
+                        onClick={Profile}
+                    >
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
-                        <p className = "font-special text-sm">Username</p>
+                        <p className = "font-special text-sm font-semibold">Username</p>
                         <span>{username}</span> {/* Display username */}
                     </button>
                 </div>
