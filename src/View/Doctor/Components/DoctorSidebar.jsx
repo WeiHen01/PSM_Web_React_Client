@@ -28,7 +28,7 @@ const DoctorSidebar = ({children}) => {
                 {/** Profile Image */}
                 <div className="border-t flex p-3 gap-3 bg-white items-center justify-between">
                     {/* Profile Image and Username/Email Details */}
-                    <div className="flex gap-4 flex-1 items-center">
+                    <div className="flex gap-4 flex-1 items-center h-64">
                         <div>
                             <img src={Logo} alt = "/" className="h-10"/>
                         </div>
