@@ -7,12 +7,6 @@ const DoctorLayout = ({children}) => {
     const [expanded, setExpanded] = useState(false);
     return (
         <div className = "flex flex-col">
-            {/* Header */}
-            <DoctorHeader>
-                <button onClick={() => setExpanded((curr) => !curr)} className="hover:text-gray-400">
-                    {expanded ? <ChevronLeft /> : <Menu />}
-                </button>
-            </DoctorHeader>
             
             {/* Main content and sidebar */}
             <div className="flex ">
@@ -31,9 +25,21 @@ const DoctorLayout = ({children}) => {
                     </DoctorSidebar>
                 </div>
 
+                
+            
+
                 {/* Content Area */}
                 
-                <div className='font-special flex-grow px-3 bg-gradient-to-r from-purple-dark to-red-deep '>
+                <div className='font-special flex-grow bg-gradient-to-r from-purple-dark to-red-deep '>
+                    {/* Header */}
+                    <div className="bg-white">
+                        <DoctorHeader>
+                            <button onClick={() => setExpanded((curr) => !curr)} className="hover:text-gray-400">
+                                {expanded ? <ChevronLeft /> : <Menu />}
+                            </button>
+                        </DoctorHeader>
+                    </div>
+
                     {children}
                 </div>
 
