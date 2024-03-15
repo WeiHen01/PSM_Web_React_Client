@@ -1,6 +1,5 @@
 import React from 'react'
 import DoctorLayout from '../Components/DoctorLayout'
-
 const DoctorProfile = () => {
 
   return (
