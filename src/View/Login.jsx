@@ -39,7 +39,6 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-
   
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">

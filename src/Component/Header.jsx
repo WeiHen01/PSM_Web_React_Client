@@ -12,7 +12,7 @@ const Header = () => {
 
     return (
         <section>
-            <header className = "container mx-auto px-5 py-4 items-center flex justify-between" style = {{fontFamily: 'Poppins'}} >
+            <header className = "container mx-auto px-5 py-1 items-center flex justify-between" style = {{fontFamily: 'Poppins'}} >
                 {/** The Logo here */}
                 <div>
                     <a href = "/">
@@ -34,7 +34,8 @@ const Header = () => {
                         </li>
                     </ul>
                     <button className = "px-6 py-2 rounded-full font-bold border-2 border-orange-400 hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-                        type="button" onClick={() => gotToNewPage()}
+                        type="button" 
+                        onClick={() => gotToNewPage()}
                     >
                         Login
                     </button>
