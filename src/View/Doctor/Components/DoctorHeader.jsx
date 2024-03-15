@@ -18,7 +18,7 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                 {children}
                 <div className="logo">
                     <a href="/Doctor/DoctorHome">
-                        <img src={Trademark} onClick={Home} alt="Logo" className="w-36 py-1 cursor-pointer" />
+                        <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
                     </a>
                 </div>
             </div>

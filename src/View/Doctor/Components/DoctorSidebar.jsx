@@ -14,7 +14,7 @@ const DoctorSidebar = ({children}) => {
             <nav className = "w-56 flex flex-col bg-white border-r shadow-sm">
                 <div className = "flex justify-center">
                     <a href = "/Doctor/DoctorHome">
-                        <img src={Trademark} alt = "/" className="my-1 w-36"/>
+                        <img src={Trademark} alt = "/" className="my-2 w-32"/>
                     </a>
                 </div>
                 <SidebarContext.Provider value={{ expanded }}>
@@ -28,9 +28,9 @@ const DoctorSidebar = ({children}) => {
                 {/** Profile Image */}
                 <div className="border-t flex p-3 gap-3 bg-white items-center justify-between">
                     {/* Profile Image and Username/Email Details */}
-                    <div className="flex gap-4 flex-1 items-center h-64">
+                    <div className="flex gap-4 flex-1 items-center h-56">
                         <div>
-                            <img src={Logo} alt = "/" className="h-10"/>
+                            <img src={Logo} alt = "/" className="w-10 h-10 rounded-full"/>
                         </div>
                         
                         {/* Username and Email Details */}
@@ -61,11 +61,11 @@ export function DoctorSidebarItem({icon, text, active, alert, url}){
         <li 
             className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:text-pink-400"}`}
         >
-            {/* Use Link to navigate to the specified URL */}
-            <Link to={url} className='flex items-center gap-3.5 my-1'>
+
+            <a href={url} className='flex items-center gap-3.5 my-1'>
                 {icon}
                 <span className='font-special text-sm'>{text}</span>
-            </Link>
+            </a>
             
             {/** Show if there's new notification */}
 
