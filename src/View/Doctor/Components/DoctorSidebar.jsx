@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import Logo from "../../../images/Logo.png";
 import {MoreVertical} from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Trademark from "../../../images/Trademark_color.png";
 
 const SidebarContext = createContext();
 
@@ -11,6 +12,11 @@ const DoctorSidebar = ({children}) => {
     return (
         <aside className = "h-screen">
             <nav className = "w-56 flex flex-col bg-white border-r shadow-sm">
+                <div className = "flex justify-center">
+                    <a href = "/Doctor/DoctorHome">
+                        <img src={Trademark} alt = "/" className="my-1 w-36"/>
+                    </a>
+                </div>
                 <SidebarContext.Provider value={{ expanded }}>
 
                     {/** Render sidebar items  */}
@@ -22,9 +28,10 @@ const DoctorSidebar = ({children}) => {
                 {/** Profile Image */}
                 <div className="border-t flex p-3 gap-3 bg-white items-center justify-between">
                     {/* Profile Image and Username/Email Details */}
-                    <div className="flex gap-4 flex-1">
-                        {/* Profile Image */}
-                        <img src={Logo} className="h-10" alt='' />
+                    <div className="flex gap-4 flex-1 items-center">
+                        <div>
+                            <img src={Logo} alt = "/" className="h-10"/>
+                        </div>
                         
                         {/* Username and Email Details */}
                         <div className='leading-4'>
@@ -55,9 +62,9 @@ export function DoctorSidebarItem({icon, text, active, alert, url}){
             className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:text-pink-400"}`}
         >
             {/* Use Link to navigate to the specified URL */}
-            <Link to={url} className='flex items-center gap-2'>
+            <Link to={url} className='flex items-center gap-3.5 my-1'>
                 {icon}
-                <span className='font-special'>{text}</span>
+                <span className='font-special text-sm'>{text}</span>
             </Link>
             
             {/** Show if there's new notification */}

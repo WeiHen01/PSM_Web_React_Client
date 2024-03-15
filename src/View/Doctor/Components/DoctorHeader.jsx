@@ -11,20 +11,17 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
     }
   
     return (
-    <div className=" flex gap-5 px-2">
-      {children}
-      <div className="logo">
-        <img src={Trademark} onClick={Home} alt="Logo" className = "w-36 py-1"/>
-      </div>
-      <div className="user-info">
+        <div className=" flex gap-5 px-2">
         
-        <div className="notification">
-          <span>{notificationCount}</span>
-          {/* Add notification icon or bell icon here */}
+            {children}
+            
+            <div className="logo">
+                <a href = "/Doctor/DoctorHome">
+                    <img src={Trademark} onClick={Home} alt="Logo" className = "w-36 py-1"/>
+                </a>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
 
 export default DoctorHeader
