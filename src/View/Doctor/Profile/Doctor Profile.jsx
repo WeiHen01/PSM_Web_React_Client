@@ -81,7 +81,7 @@ const DoctorProfile = () => {
 
             <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
               <div className ="flex justify-between text-black items-center">
-                <b><h1 className = "text-black text-2xl">Personal Info</h1></b>
+                <b><h1 className = "text-black text-2xl">Account</h1></b>
                 <button>
                   <Edit />
                 </button>

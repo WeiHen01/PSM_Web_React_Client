@@ -1,5 +1,6 @@
 import React from 'react';
 import DoctorLayout from '../Components/DoctorLayout';
+import { Thermometer, HeartPulse } from "lucide-react"
 
 const DoctorHome = () => {
 
@@ -16,22 +17,29 @@ const DoctorHome = () => {
         
         {/* <!-- row 1 --> */}
         <div class="flex flex-wrap px-3 -mx-2 justify-between">
-          <div className="claymorphism-card">
-            <div className="claymorphism-card-header">
-              <p className="font-semibold">Temperature</p>
+          <div className="claymorphism-card flex items-center justify-between">
+            <div>
+              <div className="claymorphism-card-header">
+                <p className="font-semibold">Temperature</p>
+              </div>
+              <div className="claymorphism-card-content">
+                <p>Record</p>
+              </div>
             </div>
-            <div className="claymorphism-card-content">
-              <p>Record</p>
-            </div>
+            <Thermometer size={50}/>
           </div>
 
-          <div className="claymorphism-card">
-            <div className="claymorphism-card-header">
-              <p className='font-semibold'>Pulse</p>
+          <div className="claymorphism-card flex items-center justify-between">
+            <div>
+              <div className="claymorphism-card-header">
+                <p className='font-semibold'>Pulse</p>
+              </div>
+              <div className="claymorphism-card-content">
+                <p>Record</p>
+              </div>
             </div>
-            <div className="claymorphism-card-content">
-              <p>Record</p>
-            </div>
+            <HeartPulse size={50} />
+
           </div>
 
           <div className="claymorphism-card">
