@@ -3,7 +3,7 @@ import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
 import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
 
-const DoctorLayout = ({children, active}) => {
+const DoctorLayout = ({children}) => {
     const [expanded, setExpanded] = useState(false);
     return (
         <div className = "flex flex-col">
@@ -17,7 +17,7 @@ const DoctorLayout = ({children, active}) => {
                         <DoctorSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
-                        <DoctorSidebarItem icon={<Book size={20} />} text="Report" alert/>
+                        <DoctorSidebarItem icon={<Book size={20} />} text="Report" url="/Doctor/DoctorReport"/>
                         <hr className="my-4"></hr>
 
                         <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
@@ -30,7 +30,7 @@ const DoctorLayout = ({children, active}) => {
 
                 {/* Content Area */}
                 
-                <div className='font-special flex-grow h-full bg-gradient-to-b from-gray-200 to-gray-400'>
+                <div className='font-special flex-grow h-screen bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
                         <DoctorHeader>

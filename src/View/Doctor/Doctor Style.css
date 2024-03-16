@@ -11,7 +11,7 @@
   }
 
   .claymorphism-card-01 {
-    width: 80vw;
+    width: 50vw;
     padding: 20px;
     border-radius: 20px;
     background-image: linear-gradient(#301847, #C10214);
@@ -21,10 +21,20 @@
   }
 
   .claymorphism-card-02 {
-    width: 80vw;
+    width: 55vw;
     padding: 20px;
     border-radius: 20px;
     background-image: linear-gradient(#dddddd, #808080);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.5);
+    transition: transform 0.2s ease-in-out;
+    color: white
+  }
+
+  .claymorphism-card-03 {
+    width: 20vw;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: linear-gradient(#301847, #C10214);
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.5);
     transition: transform 0.2s ease-in-out;
     color: white
@@ -39,6 +49,10 @@
   }
 
   .claymorphism-card-02:hover {
+    transform: translateY(4px);
+  }
+
+  .claymorphism-card-03:hover {
     transform: translateY(4px);
   }
   
