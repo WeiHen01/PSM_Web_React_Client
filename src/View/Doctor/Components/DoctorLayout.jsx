@@ -9,7 +9,7 @@ const DoctorLayout = ({children, active}) => {
         <div className = "flex flex-col">
             
             {/* Main content and sidebar */}
-            <div className="flex ">
+            <div className="flex h-screen">
                 {/* Sidebar */}
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
@@ -30,7 +30,7 @@ const DoctorLayout = ({children, active}) => {
 
                 {/* Content Area */}
                 
-                <div className='font-special flex-grow h-screen overflow-hidden bg-gradient-to-r from-purple-dark to-red-deep '>
+                <div className='font-special flex-grow h-full bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
                         <DoctorHeader>

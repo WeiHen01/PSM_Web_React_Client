@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 
+
 const SidebarContext = createContext();
 
 const DoctorSidebar = ({children}) => {
     const [expanded] = useState(true);
-
 
     return (
         <aside className = "h-screen relative ">
@@ -16,7 +16,7 @@ const DoctorSidebar = ({children}) => {
                     </a>
                 </div>
                 <div className = "bg-gradient-to-r from-purple-dark to-red-deep h-screen">
-                    <SidebarContext.Provider value={{ expanded }}>
+                    <SidebarContext.Provider value={{ expanded}}>
 
                         {/** Render sidebar items  */}
                         <ul className = ' text-white py-6 bg-gradient-to-r from-purple-dark to-red-deep h-auto'>
@@ -35,11 +35,12 @@ export default DoctorSidebar;
 // Generate the sidebar menu items
 export function DoctorSidebarItem({icon, text, active, alert, url}){
     const { expanded } = useContext(SidebarContext);
-
+    
     return(
         // checking the state if the item active then change the css property of that item
         <li 
             className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:text-pink-400"}`}
+
         >
 
             <a href={url} className='flex items-center gap-3.5 my-1'>

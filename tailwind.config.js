@@ -12,6 +12,9 @@ module.exports = {
         'purple-dark': '#301847',
         'red-deep': '#C10214',
       }),
+      borderImage: {
+        'gradient': 'linear-gradient(to right, #301847, #C10214)',
+      },
     },
   },
   variants: {},
