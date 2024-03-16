@@ -16,13 +16,16 @@ const DoctorProfile = () => {
         <h1 class="text-xl"><b>User Profile</b></h1>
         
         {/* <!-- row 1 --> */}
-        <div class="flex flex-wrap -mx-3 my-3 gap-3 justify-center">
+        <div class="flex flex-wrap -mx-3 my-3 justify-center">
           
-          <div className="claymorphism-card-01 w-full flex items-center gap-3">
-            <img src = {Logo} className = " w-32 h-32 p-2 rounded-full border-4 border-gradient bg-white " alt = "avatar"/>
+          <div className="claymorphism-card-01 w-full flex items-center">
+            <img src = {Logo} className = " w-20 h-20 p-2 rounded-full border-4 border-gradient bg-white " alt = "avatar"/>
 
-            <div className="claymorphism-card-header p-3 ">
-              <p><b>Name</b></p>
+            <div className="claymorphism-card-header p-3 w-full">
+              <div className="flex justify-between">
+                <p><b>Name</b></p>
+                <p><b>Role:</b> Doctor</p>
+              </div>
               <div className="claymorphism-card-content mt-2">
                 <p>abc@gmail.com</p>
                 <p>Registered in 16 March 2024</p>
