@@ -34,7 +34,7 @@ const DoctorLayout = ({children}) => {
                     {/* Header */}
                     <div className="bg-white">
                         <DoctorHeader>
-                            <button onClick={() => setExpanded((curr) => !curr)} className="hover:text-gray-400">
+                            <button onClick={() => setExpanded((curr) => !curr)} className="pl-3 hover:text-gray-400">
                                 {expanded ? <ChevronLeft /> : <Menu />}
                             </button>
                         </DoctorHeader>

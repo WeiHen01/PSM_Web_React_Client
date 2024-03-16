@@ -16,50 +16,31 @@ const DoctorHome = () => {
       <div class="w-full px-5 py-6 mx-auto h-fit overflow-hidden ">
         
         {/* <!-- row 1 --> */}
-        <div class="flex flex-wrap px-3 -mx-2 justify-between">
-          <div className="claymorphism-card flex items-center justify-between">
+        <div class="flex flex-wrap px-3 -mx-2 gap-4">
+          <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className="font-semibold">Temperature</p>
+                <p className="font-semibold">Recent Temperature</p>
               </div>
               <div className="claymorphism-card-content">
-                <p>Record</p>
+                <p>Record °C</p>
               </div>
             </div>
             <Thermometer size={50}/>
           </div>
 
-          <div className="claymorphism-card flex items-center justify-between">
+          <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className='font-semibold'>Pulse</p>
+                <p className='font-semibold'>Recent Pulse</p>
               </div>
               <div className="claymorphism-card-content">
-                <p>Record</p>
+                <p>Record bpm</p>
               </div>
             </div>
             <HeartPulse size={50} />
 
           </div>
-
-          <div className="claymorphism-card">
-            <div className="claymorphism-card-header">
-              <p>Hello world</p>
-            </div>
-            <div className="claymorphism-card-content">
-              <p>Hello world</p>
-            </div>
-          </div>
-
-          <div className="claymorphism-card">
-            <div className="claymorphism-card-header">
-              <p>Hello world</p>
-            </div>
-            <div className="claymorphism-card-content">
-              <p>Hello world</p>
-            </div>
-          </div>
-
           
         </div>
 

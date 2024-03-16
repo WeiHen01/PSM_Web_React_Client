@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 
-
 const SidebarContext = createContext();
 
 const DoctorSidebar = ({children}) => {
