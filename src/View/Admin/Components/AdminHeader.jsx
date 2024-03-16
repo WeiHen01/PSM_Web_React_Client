@@ -52,6 +52,7 @@ const AdminHeader = ({ username, notificationCount, children }) => {
 
                             <p className = "font-special text-xs">Doctor</p>
                         </div>
+                        
                     </button>
                 </div>
 
