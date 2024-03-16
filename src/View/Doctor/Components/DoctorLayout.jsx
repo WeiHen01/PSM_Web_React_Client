@@ -16,8 +16,8 @@ const DoctorLayout = ({children, active}) => {
                     <DoctorSidebar>
                         <DoctorSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
-                        <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" />
-                        <DoctorSidebarItem icon={<Book size={20} />} text="Report" />
+                        <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
+                        <DoctorSidebarItem icon={<Book size={20} />} text="Report" alert/>
                         <hr className="my-4"></hr>
 
                         <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />

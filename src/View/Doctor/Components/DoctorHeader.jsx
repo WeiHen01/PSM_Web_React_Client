@@ -45,8 +45,13 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                         onClick={Profile}
                     >
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
-                        <p className = "font-special text-sm font-semibold">Username</p>
-                        <span>{username}</span> {/* Display username */}
+                        
+                        <div className='flex flex-col items-start'>
+                            <p className = "flex font-special text-sm font-semibold">Username</p>
+                            <span>{username}</span> {/* Display username */}
+
+                            <p className = "font-special text-xs">Doctor</p>
+                        </div>
                     </button>
                 </div>
 

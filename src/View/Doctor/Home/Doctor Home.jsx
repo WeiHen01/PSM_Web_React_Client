@@ -7,6 +7,9 @@ const DoctorHome = () => {
     <div>
       <title>BITU3973 | Doctor Home</title>
       <DoctorLayout>
+      <div class="w-full px-6 pt-6 h-fit overflow-hidden ">
+        <h1 class="text-xl"><b>Dashboard</b></h1>
+      </div>
       {/* <!-- cards --> */}
       <div class="w-full px-6 py-6 mx-auto h-fit overflow-hidden ">
         

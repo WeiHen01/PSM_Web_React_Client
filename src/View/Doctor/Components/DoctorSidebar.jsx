@@ -51,7 +51,7 @@ export function DoctorSidebarItem({icon, text, active, alert, url}){
             {/** Show if there's new notification */}
 
             {alert && (
-                <div className = {`absolute right-2 rounded w-2 h-2 bg-orange-400`} ></div>
+                <div className = {`absolute right-4 rounded w-2 h-2 bg-orange-400`} ></div>
             )}
 
             {!expanded && (
