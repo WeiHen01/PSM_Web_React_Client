@@ -8,6 +8,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@iconify/icons-ic": "^1.2.13",
+    "@iconify/react": "^4.1.1",
     "@mui/material": "^5.15.13",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/line-clamp": "^0.4.4",

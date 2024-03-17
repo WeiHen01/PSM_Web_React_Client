@@ -5,8 +5,57 @@
 import React, { useState } from 'react';
 import bgSignIn from "../images/Login.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faUserCog, faStethoscope  } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const Tab = styled.button`
+  width: 50%;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 0;
+  background: ${({ active }) => (active ? 'linear-gradient(#301847, #C10214)' : 'white')}; /* Set background color based on active prop */
+  color: ${({ active }) => (active ? 'white' : 'black')}; /* Set text color based on active prop */
+  outline: 0;
+  transition: ease border-bottom 250ms, background-color 250ms, color 250ms;
+  font-size: 20px;
+  
+  &:hover {
+    opacity: 0.8; /* Reduce opacity on hover */
+  }
+
+  ${({ active }) =>
+    active &&
+    `
+    opacity: 1;
+    `
+  }
+`;
+
+function TabGroup() {
+  const [active, setActive] = useState(types[0]);
+  return (
+    <>
+      <div>
+        {types.map((type, index) => (
+          <Tab
+            key={type}
+            active={active === type}
+            onClick={() => setActive(type)}
+          >
+            {icons[index]} {/* Icon before text */}
+            {type}
+          </Tab>
+        ))}
+      </div>
+      
+    </>
+  );
+}
+
+const types = ["Doctor", "Admin"];
+// Define your corresponding icons array
+const icons = [<FontAwesomeIcon icon={faStethoscope} style={{ marginRight: '5px' }}  />, <FontAwesomeIcon icon={faUserCog} style={{ marginRight: '5px' }} />];
 
 const Login = () => {
   
@@ -22,16 +71,10 @@ const Login = () => {
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)', // Horizontal offset, Vertical offset, Blur radius, Color
   };
   
+  /** Navigation */
   const navigate = useNavigate();
 
-  const Back=()=>{
-      navigate("/");
-  }
-
-  const LoginToDoctor=()=>{
-    navigate("/Doctor/DoctorHome");
-  }
-
+  /** For toggle to show password */
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
 
@@ -42,7 +85,8 @@ const Login = () => {
   
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
-       <title>BITU3973 | Login</title>
+      <title>BITU3973 | Login</title>
+      
       {/** Back button */}
       <div style={{ 
           width: '50%',
@@ -54,7 +98,7 @@ const Login = () => {
       
         <div className="text-white hover:text-orange-500 duration-300">
           <button
-            onClick={() => Back()}
+            onClick={() => navigate("/")}
             className="flex items-center justify-center gap-2 w-10 h-10 rounded-full focus:outline-none "
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
@@ -69,10 +113,16 @@ const Login = () => {
 
         <div style = {{marginTop: '3vh'}}></div>
 
-        <p>Welcome back! Enter your email and password to sign in.</p>
+        <p className="text-sm">Welcome back! Enter your email and password to sign in.</p>
+
+        {/** Role Selection for Login */}
+        <p className="text-md font-semibold mt-2">Role</p>
+        <div className="p-1 bg-white mt-2 border-2 border-orange rounded-sm">
+          <TabGroup />
+        </div>
 
         {/** The login form */}
-        <div style={{ marginTop: '10vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-md">
+        <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-sm">
           
           <div>
             <p className="text-xl">User Email</p>
@@ -85,6 +135,7 @@ const Login = () => {
             <p>User Password</p>
             <input 
               type={showPassword ? 'text' : 'password'} 
+              className = "w-full"
               placeholder = "Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -104,7 +155,7 @@ const Login = () => {
           <div>
             <button 
               className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-              onClick={()=>LoginToDoctor()}
+              onClick={()=>navigate("/Doctor/DoctorHome")}
             >
               Login
             </button>
