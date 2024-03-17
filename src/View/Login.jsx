@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import bgSignIn from "../images/Login.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faUserCog, faStethoscope  } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -90,7 +90,6 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
       <title>BITU3973 | Login</title>
@@ -132,18 +131,64 @@ const Login = () => {
         {/** Display active at here */}
         <p className='text-white text-sm'>You choose to login as: <strong>{activeRole}</strong></p>
 
+        
         {/** The login form */}
-        <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-sm">
+        <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-md text-base">
           
+          <p className='font-semibold'>User Email</p>
           
+          <div style={{ position: 'relative' }}>
+            
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+            />
 
-          <div>
+            <input placeholder="Email" className="w-full pl-12 pr-2 py-2 bg-gray-100" style={{ paddingLeft: '35px' }} />
+          </div>
+
+          <p className='mt-3 font-semibold'>Password</p>
+          
+          <div style={{ position: 'relative' }}>
+            <FontAwesomeIcon
+              icon={faLock}
+              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+            />
+            
+            <input 
+              placeholder="Password" 
+              className="w-full pl-12 py-2 bg-gray-100" 
+              value={password}
+              type={showPassword ? 'text' : 'password'} // Toggle between text and password type
+              style={{ paddingLeft: '35px', paddingRight: '40px'}}
+              onChange={(e) => setPassword(e.target.value)}   
+            />
+
+            {/* Toggle button for password visibility */}
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
+              onClick={togglePasswordVisibility}
+            />
+
+          </div>
+
+          <div className="flex justify-end mt-2"> {/* Flex container with end alignment */}
+            <a href="/ForgetPassword" className='text-sm'>Forget Password?</a> {/* Removed unnecessary styles */}
+          </div>
+         
+          <div className = "mt-2">
             <button 
               className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
               onClick={()=>navigate("/Doctor/DoctorHome")}
             >
               Login
             </button>
+          </div>
+
+          <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
+            <p className='text-sm'>Don't have an account? </p>
+            <a href="/Register" className='text-sm'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
           </div>
 
         </div>
