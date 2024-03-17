@@ -17,9 +17,9 @@ const Tab = styled.button`
   background: ${({ active }) => (active ? 'linear-gradient(#301847, #C10214)' : 'white')}; /* Set background color based on active prop */
   color: ${({ active }) => (active ? 'white' : 'black')}; /* Set text color based on active prop */
   outline: 0;
-  transition: ease border-bottom 250ms, background-color 250ms, color 250ms;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
   font-size: 20px;
-  
+
   &:hover {
     opacity: 0.8; /* Reduce opacity on hover */
   }
@@ -28,12 +28,19 @@ const Tab = styled.button`
     active &&
     `
     opacity: 1;
+    transform: translateX(-3px); /* Slide up slightly when active */
     `
   }
 `;
 
-function TabGroup() {
+function TabGroup({ setActiveRole }) {
   const [active, setActive] = useState(types[0]);
+
+  const handleTabClick = (type) => {
+    setActive(type);
+    setActiveRole(type); // Update active role in parent component
+  };
+
   return (
     <>
       <div>
@@ -41,7 +48,7 @@ function TabGroup() {
           <Tab
             key={type}
             active={active === type}
-            onClick={() => setActive(type)}
+            onClick={() => handleTabClick(type)}
           >
             {icons[index]} {/* Icon before text */}
             {type}
@@ -73,6 +80,7 @@ const Login = () => {
   
   /** Navigation */
   const navigate = useNavigate();
+  const [activeRole, setActiveRole] = useState(types[0]); // State to track active role
 
   /** For toggle to show password */
   const [showPassword, setShowPassword] = useState(false);
@@ -118,39 +126,16 @@ const Login = () => {
         {/** Role Selection for Login */}
         <p className="text-md font-semibold mt-2">Role</p>
         <div className="p-1 bg-white mt-2 border-2 border-orange rounded-sm">
-          <TabGroup />
+          <TabGroup setActiveRole={setActiveRole} />
         </div>
+
+        {/** Display active at here */}
+        <p className='text-white text-sm'>You choose to login as: <strong>{activeRole}</strong></p>
 
         {/** The login form */}
         <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-sm">
           
-          <div>
-            <p className="text-xl">User Email</p>
-            <input type = "text" placeholder = "Email"></input>
-          </div>
-
-          <div style = {{marginTop: '5vh'}}></div>
-
-          <div>
-            <p>User Password</p>
-            <input 
-              type={showPassword ? 'text' : 'password'} 
-              className = "w-full"
-              placeholder = "Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="bg-orange-400 text-white px-3 py-2 rounded-md focus:outline-none hover:text-orange-400 hover:bg-white duration-300"
-            >
-              {showPassword ? 'Hide' : 'Show'} Password
-            </button>
-          </div>
-
-          <div style = {{marginTop: '5vh'}}></div>
+          
 
           <div>
             <button 
