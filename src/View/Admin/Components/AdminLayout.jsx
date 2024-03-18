@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, Stethoscope, Book} from 'lucide-react';
+import {HomeIcon, SettingsIcon, LayoutDashboard, 
+    ChevronLeft, Menu, LogOutIcon, Stethoscope, 
+    Users2} from 'lucide-react';
 import AdminSidebar, { AdminSidebarItem } from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 
@@ -14,9 +16,9 @@ const AdminLayout = ({children}) => {
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
                     <AdminSidebar>
-                        <AdminSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
-                        <AdminSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
-                        <AdminSidebarItem icon={<Book size={20} />} text="Report" url="/Doctor/DoctorReport"/>
+                        <AdminSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" />
+                        <AdminSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Admin/AdminHome" />
+                        <AdminSidebarItem icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser"/>
                         <AdminSidebarItem icon={<Stethoscope size={20} />} text="Doctor Page" url="/Doctor/DoctorHome"/>
                         <hr className="my-4"></hr>
 

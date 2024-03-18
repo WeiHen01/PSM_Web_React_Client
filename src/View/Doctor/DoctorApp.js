@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import DoctorHome from './Home/Doctor Home';
-import DoctorProfile from './Profile/Doctor Profile';
-import DoctorChat from './Chat/DoctorChat';
-import DoctorReport from './Report/Doctor Report';
+import DoctorHome from './Pages/Doctor Home';
+import DoctorChat from './Pages/Chat/DoctorChat';
+import DoctorReport from './Pages/Report/Doctor Report';
+import DoctorProfile from './Pages/Profile/Doctor Profile';
 
 function DoctorApp() {
   return (

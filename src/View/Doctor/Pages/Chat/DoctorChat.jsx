@@ -1,5 +1,5 @@
 import React from 'react'
-import DoctorLayout from '../Components/DoctorLayout';
+import DoctorLayout from '../../Components/DoctorLayout';
 
 const DoctorChat = () => {
   return (

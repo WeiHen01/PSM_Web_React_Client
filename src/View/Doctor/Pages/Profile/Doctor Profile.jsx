@@ -1,7 +1,7 @@
 import React from 'react'
-import DoctorLayout from '../Components/DoctorLayout'
-import '../Doctor Style.css';
-import Logo from '../../../images/Logo.png'
+import DoctorLayout from '../../Components/DoctorLayout'
+import '../../Doctor Style.css';
+import Logo from '../../../../images/Logo.png'
 import {Edit} from 'lucide-react';
 
 const DoctorProfile = () => {
