@@ -44,9 +44,6 @@ const DoctorHome = () => {
           
         </div>
 
-        <div class="w-full pt-6 h-fit overflow-hidden ">
-          <h1 class="text-xl"><b>Recent Record</b></h1>
-        </div>
 
         {/** <!-- row 2 --> */}
         <div class= "flex flex-wrap -mx-3 group justify-between">

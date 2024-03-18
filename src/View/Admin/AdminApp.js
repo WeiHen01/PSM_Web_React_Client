@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import AdminHome from './AdminHome';
+import AdminHome from './Home/AdminHome';
 function AdminApp() {
   return (
     <div className="AdminApp">

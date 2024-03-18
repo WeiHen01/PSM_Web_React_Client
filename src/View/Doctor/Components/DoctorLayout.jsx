@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
-import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
+import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book, UserCog2} from 'lucide-react';
 
 const DoctorLayout = ({children}) => {
     const [expanded, setExpanded] = useState(false);
@@ -18,6 +18,7 @@ const DoctorLayout = ({children}) => {
                         <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
                         <DoctorSidebarItem icon={<Book size={20} />} text="Report" url="/Doctor/DoctorReport"/>
+                        <DoctorSidebarItem icon={<UserCog2 size={20} />} text="Admin Page" url="/Admin/AdminHome"/>
                         <hr className="my-4"></hr>
 
                         <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
