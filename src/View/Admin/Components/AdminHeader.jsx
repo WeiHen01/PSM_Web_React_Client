@@ -8,10 +8,6 @@ const AdminHeader = ({ username, notificationCount, children }) => {
 
     const navigate = useNavigate();
 
-    const Home=()=>{
-        navigate("/Doctor/DoctorHome");
-    }
-
     const Profile=()=>{
         navigate("/Doctor/DoctorProfile");
     }
@@ -44,7 +40,7 @@ const AdminHeader = ({ username, notificationCount, children }) => {
                 {children}
                 <div className="logo">
                     <a href="/Admin/AdminHome">
-                        <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
+                        <img src={Trademark} alt="Logo" className="w-32 my-2 cursor-pointer" />
                     </a>
                 </div>
             </div>
@@ -85,7 +81,7 @@ const AdminHeader = ({ username, notificationCount, children }) => {
                             <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Settings
                             </button>
-                            <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                            <button onClick={navigate("/Login")} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Logout
                             </button>
                         </div>

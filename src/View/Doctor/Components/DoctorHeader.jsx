@@ -85,7 +85,7 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                             <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Settings
                             </button>
-                            <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                            <button onClick={navigate("/Login")} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Logout
                             </button>
                         </div>
