@@ -16,6 +16,14 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
         navigate("/Doctor/DoctorProfile");
     }
 
+    const Logout=()=>{
+        const confirmed = window.confirm("Are you sure you want to logout?");
+        if(confirmed){
+            window.alert("You have been logged out!");
+            navigate("/Login");
+        }
+    }
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const dropdownRef = useRef(null);
@@ -85,7 +93,7 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                             <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Settings
                             </button>
-                            <button onClick={navigate("/Login")} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                            <button onClick={Logout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 Logout
                             </button>
                         </div>
