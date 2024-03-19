@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
-import {Bell, UserCircle2} from 'lucide-react';
+import {Bell, LogOut, Settings, UserCircle2} from 'lucide-react';
 
 const DoctorHeader = ({ username, notificationCount, children }) => {
 
@@ -90,11 +90,11 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                             <button onClick={Profile} className= "flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 <UserCircle2/>Profile
                             </button>
-                            <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
-                                Settings
+                            <button onClick={null} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                                <Settings/>Settings
                             </button>
-                            <button onClick={Logout} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
-                                Logout
+                            <button onClick={Logout} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                                <LogOut/>Logout
                             </button>
                         </div>
                     )}

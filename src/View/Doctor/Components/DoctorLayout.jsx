@@ -2,9 +2,21 @@ import React, {useState} from "react";
 import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
 import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book, UserCog2} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const DoctorLayout = ({children}) => {
     const [expanded, setExpanded] = useState(false);
+
+    const navigate = useNavigate();
+
+    const Logout=()=>{
+        const confirmed = window.confirm("Are you sure you want to logout?");
+        if(confirmed){
+            window.alert("You have been logged out!");
+            navigate("/Login");
+        }
+    }
+
     return (
         <div className = "flex flex-col">
             
@@ -22,7 +34,7 @@ const DoctorLayout = ({children}) => {
                         <hr className="my-4"></hr>
 
                         <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
-                        <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" url="/Login" />
+                        <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" onClick={Logout}/>
                     </DoctorSidebar>
                 </div>
 
