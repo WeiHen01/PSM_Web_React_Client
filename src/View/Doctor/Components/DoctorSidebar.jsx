@@ -34,8 +34,6 @@ export default DoctorSidebar;
 // Generate the sidebar menu items
 export function DoctorSidebarItem({icon, text, active, alert, url, onClick}){
     const { expanded } = useContext(SidebarContext);
-
-    
     
     return(
         // checking the state if the item active then change the css property of that item
