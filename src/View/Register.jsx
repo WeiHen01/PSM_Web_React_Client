@@ -108,6 +108,7 @@ const Register = () => {
           backgroundPosition: 'center',
           fontFamily: 'Poppins'
         }} className = "px-3 " >
+        
         <div className="text-white hover:text-orange-500 duration-300">
           <button
             onClick={() => navigate("/")}

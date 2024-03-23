@@ -101,7 +101,7 @@ const Login = () => {
           backgroundImage: `url(${bgSignIn})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-      }} className = "grid grid-cols-2 px-3 " >
+      }} className = "px-3 " >
       
         <div className="text-white hover:text-orange-500 duration-300">
           <button
@@ -115,7 +115,7 @@ const Login = () => {
 
       </div>
 
-      <div style = {{fontFamily: 'Poppins'}} className = "px-8">
+      <div style = {{fontFamily: 'Poppins', width: '50%',}} className = "px-8">
         <h1 className="text-6xl"><strong style={shadowStyle}>Login</strong></h1>
 
         <div style = {{marginTop: '3vh'}}></div>
