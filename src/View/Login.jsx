@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from 'axios';
 
 const Tab = styled.button`
   width: 50%;
@@ -64,6 +65,11 @@ const types = ["Doctor", "Admin"];
 // Define your corresponding icons array
 const icons = [<FontAwesomeIcon icon={faStethoscope} style={{ marginRight: '5px' }}  />, <FontAwesomeIcon icon={faUserCog} style={{ marginRight: '5px' }} />];
 
+
+/**
+ * 
+ * @returns Login Page UI
+ */
 const Login = () => {
   
   const bodyStyle = {
@@ -88,6 +94,57 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  const handleDoctorLogin = async (e) => {
+    
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/doctor/login', { email, password });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as doctor!");
+        // Redirect to another route upon successful login
+        navigate('/Doctor/DoctorHome'); // Change '/dashboard' to your desired route
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
+  };
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  const handleAdminLogin = async (e) => {
+    
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/admin/login', { email, password });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as admin!");
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
   };
 
   return (
@@ -144,7 +201,13 @@ const Login = () => {
               style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
             />
 
-            <input placeholder="Email" className="w-full pl-12 pr-2 py-2 bg-gray-100" style={{ paddingLeft: '35px' }} />
+            <input 
+              placeholder="Email" 
+              className="w-full pl-12 pr-2 py-2 bg-gray-100" 
+              style={{ paddingLeft: '35px' }} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
           <p className='mt-3 font-semibold'>Password</p>
@@ -180,10 +243,11 @@ const Login = () => {
           <div className = "mt-2">
             <button 
               className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-              onClick={()=>navigate("/Doctor/DoctorHome")}
+              onClick= {activeRole === 'Doctor' ? handleDoctorLogin : handleAdminLogin}
             >
               Login
             </button>
+            {error && <div style={{ color: 'red' }}>{error}</div>}
           </div>
 
           <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
