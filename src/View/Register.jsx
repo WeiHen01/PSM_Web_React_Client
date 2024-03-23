@@ -68,11 +68,12 @@ const Register = () => {
   const navigate = useNavigate();
 
   const bodyStyle = {
-    background: 'linear-gradient(to right, #301847, #C10214)', // Set your desired background color here
-    minHeight: '100vh', // Ensure the gradient covers the entire viewport height
+    background: 'linear-gradient(to right, #301847, #C10214)', // Set your desired background color here // Ensure the gradient covers the entire viewport height
     display: 'flex',
     color: '#fff', // Set text color to contrast with the gradient
     fontSize: '24px',
+    minHeight: '100vh', // Ensure the div covers the full viewport height
+    overflowY: 'auto', // Add vertical scrollbar if content overflows
   };
 
   const shadowStyle = {
@@ -83,15 +84,21 @@ const Register = () => {
   
   /** For toggle to show password */
   const [showPassword, setShowPassword] = useState(false);
+  const [showConPassword, setShowConPassword] = useState(false);
   const [password, setPassword] = useState('');
+  const [conPassword, setConPassword] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };// State to track active role
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConPassword(!showConPassword);
+  };// State to track active role
+
 
   return (
-    <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
+    <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
       <title>BITU3973 | Register</title>
       
       <div style={{ 
@@ -164,6 +171,32 @@ const Register = () => {
               icon={showPassword ? faEyeSlash : faEye}
               style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
               onClick={togglePasswordVisibility}
+            />
+
+          </div>
+
+          <p className='mt-3 font-semibold'>Confirm Password</p>
+          
+          <div style={{ position: 'relative' }}>
+            <FontAwesomeIcon
+              icon={faLock}
+              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+            /> 
+            
+            <input 
+              placeholder="Confirm Password" 
+              className="w-full pl-12 py-2 bg-gray-100" 
+              value={conPassword}
+              type={showConPassword ? 'text' : 'password'} // Toggle between text and password type
+              style={{ paddingLeft: '35px', paddingRight: '40px'}}
+              onChange={(e) => setConPassword(e.target.value)}   
+            />
+
+            {/* Toggle button for password visibility */}
+            <FontAwesomeIcon
+              icon={showConPassword ? faEyeSlash : faEye}
+              style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
+              onClick={toggleConfirmPasswordVisibility}
             />
 
           </div>
