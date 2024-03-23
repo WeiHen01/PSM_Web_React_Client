@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
     const navigate = useNavigate()
 
-    const gotToNewPage=()=>{
-        navigate("/Login");
+    const Register=()=>{
+        navigate("/Register");
     }
 
     return (
@@ -26,13 +26,17 @@ const Header = () => {
                         <li>
                             <a href="/" className="hover:text-orange-500 duration-300">Home</a>
                         </li>
+
+                        <li>
+                            <a href="/Login" className="hover:text-orange-500 duration-300">Login</a>
+                        </li>
                         
                     </ul>
                     <button className = "px-6 py-2 rounded-full font-bold border-2 border-orange-400 hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
                         type="button" 
-                        onClick={() => gotToNewPage()}
+                        onClick={() => Register()}
                     >
-                        Login
+                        Get Started
                     </button>
                     
                 </div>
