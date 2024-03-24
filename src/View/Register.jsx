@@ -99,6 +99,58 @@ const Register = () => {
     setShowConPassword(!showConPassword);
   };// State to track active role
   
+  const handleDoctorSignUp = async () => {
+    if(password === conPassword){
+      try {
+        const response = await axios.post('http://localhost:8080/api/doctor/register', {
+          DoctorEmail: email,
+          DoctorPassword: password,
+        });
+        console.log(response.data);
+        
+        // Handle success as needed (e.g., show success message, redirect, etc.)
+        if(response.status === 200){
+          window.alert("Successfully registered as doctor!");
+  
+          // Redirect to another route upon successful login
+          navigate('/Login'); // Change '/dashboard' to your desired route
+        }
+      } catch (error) {
+        console.error(error);
+        setErrorMsg('Error registering as a doctor. Please try again.');
+      }
+    }
+    else {
+      setErrorMsg('Different password between original and confirmation password');
+    }
+  };
+
+  const handleAdminSignUp = async () => {
+    if(password === conPassword){
+      try {
+        const response = await axios.post('http://localhost:8080/api/admin/register', {
+          AdminEmail: email,
+          AdminPassword: password,
+        });
+        console.log(response.data);
+        
+        // Handle success as needed (e.g., show success message, redirect, etc.)
+        if(response.status === 200){
+          window.alert("Successfully registered as admin!");
+  
+          // Redirect to another route upon successful login
+          navigate('/Login'); // Change '/dashboard' to your desired route
+        }
+  
+      } catch (error) {
+        console.error(error);
+        setErrorMsg('Error registering as an admin. Please try again.');
+      }
+    }
+    else {
+      setErrorMsg('Different password between original and confirmation password');
+    }
+  };
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
@@ -137,9 +189,8 @@ const Register = () => {
         {/** Display active at here */}
         <p className='text-white text-sm'>You choose to sign up as: <strong>{activeRole}</strong></p>
 
-        <form>
-          {/** The login form */}
-            <div style={{ marginTop: '3vh', color: 'black', marginBottom: '5px', paddingBottom: '10px'}} className = "bg-white px-2 py-2 rounded-md text-base">
+        {/** The login form */}
+        <div style={{ marginTop: '3vh', color: 'black', marginBottom: '5px', paddingBottom: '10px'}} className = "bg-white px-2 py-2 rounded-md text-base">
               
               <p className='font-semibold'>User Email</p>
               
@@ -149,17 +200,17 @@ const Register = () => {
                   icon={faEnvelope}
                   style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
                 />
-
+    
                 <input 
                   placeholder="Email" 
                   className="w-full pl-12 pr-2 py-2 bg-gray-100" 
                   style={{ paddingLeft: '35px' }}
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} required
-                   
+                    
                 />
               </div>
-
+    
               <p className='mt-3 font-semibold'>Password</p>
               
               <div style={{ position: 'relative' }}>
@@ -177,16 +228,16 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}  
                   required  
                 />
-
+    
                 {/* Toggle button for password visibility */}
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye}
                   style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
                   onClick={togglePasswordVisibility}
                 />
-
+    
               </div>
-
+    
               <p className='mt-3 font-semibold'>Confirm Password</p>
               
               <div style={{ position: 'relative' }}>
@@ -204,38 +255,38 @@ const Register = () => {
                   onChange={(e) => setConPassword(e.target.value)}  
                   required 
                 />
-
+    
                 {/* Toggle button for password visibility */}
                 <FontAwesomeIcon
                   icon={showConPassword ? faEyeSlash : faEye}
                   style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
                   onClick={toggleConfirmPasswordVisibility}
                 />
-
+    
               </div>
             
               <div className = "mt-2">
                 <button 
                   className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-                  type = "submit"
+                  onClick= {activeRole === 'Doctor' ? handleDoctorSignUp : handleAdminSignUp}
                 >
                   Register
                 </button>
               </div>
-
+    
               {/* Error message */}
               {errorMsg && <div style={{ color: 'red' }}>{errorMsg}</div>}
-
+    
               <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
                 <p className='text-sm'>Already have an account? </p>
                 <a href="/Login" className='text-sm'><b>Login now!</b></a> {/* Removed unnecessary styles */}
               </div>
-
+    
               
-
+    
             </div>
-            {/** The login form ends*/}
-        </form>
+          {/** The login form ends*/}
+        
         
       </div>
 
