@@ -103,6 +103,7 @@ const Register = () => {
     if(password === conPassword){
       try {
         const response = await axios.post('http://localhost:8080/api/doctor/register', {
+          DoctorName: 'new-doctor',
           DoctorEmail: email,
           DoctorPassword: password,
         });
@@ -129,6 +130,7 @@ const Register = () => {
     if(password === conPassword){
       try {
         const response = await axios.post('http://localhost:8080/api/admin/register', {
+          AdminName: 'new-admin',
           AdminEmail: email,
           AdminPassword: password,
         });
