@@ -3,7 +3,7 @@ import Trademark from "../../../images/Trademark_color.png";
 
 const SidebarContext = createContext();
 
-const DoctorSidebar = ({children}) => {
+const DoctorSidebar = ({children, doctorID, doctorName}) => {
     const [expanded] = useState(true);
 
     return (
@@ -30,9 +30,8 @@ const DoctorSidebar = ({children}) => {
 export default DoctorSidebar;
 
 // Generate the sidebar menu items
-export function DoctorSidebarItem({icon, text, active, alert, url, onClick}){
+export function DoctorSidebarItem({icon, text, active, alert, url, onClick, doctorID, doctorName}){
     const { expanded } = useContext(SidebarContext);
-    
     return(
         // checking the state if the item active then change the css property of that item
         <li 

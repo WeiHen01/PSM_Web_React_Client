@@ -25,8 +25,8 @@ const DoctorLayout = ({children, doctorID, doctorName}) => {
                 {/* Sidebar */}
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
-                    <DoctorSidebar>
-                        <DoctorSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
+                    <DoctorSidebar doctorID={doctorID} doctorName={doctorName}>
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
                         <DoctorSidebarItem icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
