@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import Trademark from "../../../images/Trademark_color.png";
+import { useNavigate } from "react-router-dom";
 
 const SidebarContext = createContext();
 
@@ -32,14 +33,30 @@ const AdminSidebar = ({children}) => {
 export default AdminSidebar;
 
 // Generate the sidebar menu items
-export function AdminSidebarItem({icon, text, active, alert, url}){
+export function AdminSidebarItem({icon, text, active, alert, url, logout, adminID, adminName}){
     const { expanded } = useContext(SidebarContext);
+
+    const navigate = useNavigate();
+    
+    const handleLink = () => {
+        if(logout === "/Login"){
+            const confirmed = window.confirm("Are you sure you want to logout?");
+            if(confirmed){
+                window.alert("You have been logged out!");
+                navigate("/Login");
+            } 
+        }
+        else {
+            navigate(url, { state: { adminID, adminName } });
+        }
+    }
+
     
     return(
         // checking the state if the item active then change the css property of that item
         <li 
             className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:text-pink-400"}`}
-
+            onClick={handleLink}
         >
 
             <a href={url} className='flex items-center gap-3.5 my-1'>

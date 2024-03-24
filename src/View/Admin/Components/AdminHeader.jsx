@@ -2,14 +2,26 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
-import {Bell, UserCircle2} from 'lucide-react';
+import {Bell, LogOut, Settings, UserCircle2} from 'lucide-react';
 
-const AdminHeader = ({ username, notificationCount, children }) => {
+const AdminHeader = ({ adminId, adminName, notificationCount, children }) => {
 
     const navigate = useNavigate();
 
+    const Home=()=>{
+        navigate("/Admin/AdminHome", { state: { adminId, adminName } });
+    }
+
     const Profile=()=>{
-        navigate("/Doctor/DoctorProfile");
+        navigate("/Admin/AdminProfile", { state: { adminId, adminName } });
+    }
+
+    const Logout=()=>{
+        const confirmed = window.confirm("Are you sure you want to logout?");
+        if(confirmed){
+            window.alert("You have been logged out!");
+            navigate("/Login");
+        }
     }
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,9 +51,7 @@ const AdminHeader = ({ username, notificationCount, children }) => {
             <div className="flex items-center gap-5">
                 {children}
                 <div className="logo">
-                    <a href="/Admin/AdminHome">
-                        <img src={Trademark} alt="Logo" className="w-32 my-2 cursor-pointer" />
-                    </a>
+                    <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
                 </div>
             </div>
             <div className="flex items-center gap-5">
@@ -65,9 +75,8 @@ const AdminHeader = ({ username, notificationCount, children }) => {
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
                         
                         <div className='flex flex-col items-start'>
-                            <p className = "flex font-special text-sm font-semibold">Username</p>
-                            <span>{username}</span> {/* Display username */}
-
+                            <p className = "flex font-special text-sm font-semibold"><span>{adminName}</span> {/* Display username */}</p>
+                            
                             <p className = "font-special text-xs">Admin</p>
                         </div>
                     </button>
@@ -78,11 +87,11 @@ const AdminHeader = ({ username, notificationCount, children }) => {
                             <button onClick={Profile} className= "flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 <UserCircle2/>Profile
                             </button>
-                            <button onClick={null} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
-                                Settings
+                            <button onClick={null} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                                <Settings/>Settings
                             </button>
-                            <button onClick={navigate("/Login")} className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
-                                Logout
+                            <button onClick={Logout} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
+                                <LogOut/>Logout
                             </button>
                         </div>
                     )}

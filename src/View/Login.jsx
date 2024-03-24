@@ -144,6 +144,13 @@ const Login = () => {
 
       if(response.status === 200){
         window.alert("Successfully logged in as admin!");
+
+        const { admin } = response.data; // Assuming the response contains the doctor object
+        const adminID = admin.AdminID; // Extract DoctorID from the doctor object
+        const adminName = admin.AdminName;
+
+        // Redirect to another route upon successful login
+        navigate('/Admin/AdminHome', { state: { adminID, adminName } }); // Change '/dashboard' to your desired route
       }
 
     } catch (err) {

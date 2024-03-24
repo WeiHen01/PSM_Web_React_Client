@@ -1,21 +1,11 @@
 import React, {useState} from "react";
 import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
-import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book, UserCog2} from 'lucide-react';
-import { useNavigate } from "react-router-dom";
+import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
+
 
 const DoctorLayout = ({children, doctorID, doctorName}) => {
     const [expanded, setExpanded] = useState(false);
-
-    const navigate = useNavigate();
-
-    const Logout=()=>{
-        const confirmed = window.confirm("Are you sure you want to logout?");
-        if(confirmed){
-            window.alert("You have been logged out!");
-            navigate("/Login");
-        }
-    }
 
     return (
         <div className = "flex flex-col">
@@ -25,21 +15,18 @@ const DoctorLayout = ({children, doctorID, doctorName}) => {
                 {/* Sidebar */}
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
-                    <DoctorSidebar doctorID={doctorID} doctorName={doctorName}>
+                    <DoctorSidebar>
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
-                        <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
-                        <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
-                        <DoctorSidebarItem icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
-                        <DoctorSidebarItem icon={<UserCog2 size={20} />} text="Admin Page" url="/Admin/AdminHome"/>
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
                         <hr className="my-4"></hr>
 
                         <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
-                        <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" onClick={Logout}/>
+                        <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />
                     </DoctorSidebar>
                 </div>
 
-                
-            
 
                 {/* Content Area */}
                 

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import {Bell, LogOut, Settings, UserCircle2} from 'lucide-react';
 
 const DoctorHeader = ({ doctorName, doctorID, notificationCount, children }) => {
