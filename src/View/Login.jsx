@@ -20,6 +20,7 @@ const Tab = styled.button`
   outline: 0;
   transition: all 0.3s ease; /* Smooth transition for all properties */
   font-size: 20px;
+  font-weight: ${({ active }) => (active ? 'bold' : 'normal')};
 
   &:hover {
     opacity: 0.8; /* Reduce opacity on hover */
