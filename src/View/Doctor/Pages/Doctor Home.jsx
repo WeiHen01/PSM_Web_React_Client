@@ -1,13 +1,18 @@
 import React from 'react';
 import DoctorLayout from '../Components/DoctorLayout';
-import { Thermometer, HeartPulse } from "lucide-react"
+import { Thermometer, HeartPulse } from "lucide-react";
+import { useLocation } from 'react-router-dom';
 
 const DoctorHome = () => {
+
+  // Use useParams to access URL parameters
+  const { state } = useLocation();
+  const { doctorID, doctorName } = state;
 
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
-      <DoctorLayout>
+      <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
       
       <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
         <h1 class="text-xl"><b>Dashboard</b></h1>

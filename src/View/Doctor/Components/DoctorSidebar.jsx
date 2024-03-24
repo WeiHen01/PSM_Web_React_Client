@@ -10,9 +10,7 @@ const DoctorSidebar = ({children}) => {
         <aside className = "h-screen relative ">
             <nav className = "relative w-56 flex flex-col bg-white border-r shadow-sm">
                 <div className = "flex justify-center w-full h-full">
-                    <a href = "/Doctor/DoctorHome">
-                        <img src={Trademark} alt = "/" className="my-2 w-32"/>
-                    </a>
+                    <img src={Trademark} alt = "/" className="my-2 w-32"/>
                 </div>
                 <div className = "bg-gradient-to-r from-purple-dark to-red-deep h-screen">
                     <SidebarContext.Provider value={{ expanded}}>

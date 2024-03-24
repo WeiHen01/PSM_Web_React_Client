@@ -2,18 +2,19 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {Bell, LogOut, Settings, UserCircle2} from 'lucide-react';
 
-const DoctorHeader = ({ username, notificationCount, children }) => {
+const DoctorHeader = ({ doctorName, doctorID, notificationCount, children }) => {
 
     const navigate = useNavigate();
 
     const Home=()=>{
-        navigate("/Doctor/DoctorHome");
+        navigate("/Doctor/DoctorHome", { state: { doctorID, doctorName } });
     }
 
     const Profile=()=>{
-        navigate("/Doctor/DoctorProfile");
+        navigate("/Doctor/DoctorProfile", { state: { doctorID, doctorName } });
     }
 
     const Logout=()=>{
@@ -51,9 +52,7 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
             <div className="flex items-center gap-5">
                 {children}
                 <div className="logo">
-                    <a href="/Doctor/DoctorHome">
-                        <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
-                    </a>
+                    <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
                 </div>
             </div>
             <div className="flex items-center gap-5">
@@ -77,9 +76,9 @@ const DoctorHeader = ({ username, notificationCount, children }) => {
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
                         
                         <div className='flex flex-col items-start'>
-                            <p className = "flex font-special text-sm font-semibold">Username</p>
-                            <span>{username}</span> {/* Display username */}
-
+                            {/* Display username */}
+                            <p className = "flex font-special text-sm font-semibold"><span>{doctorName}</span> </p>
+                        
                             <p className = "font-special text-xs">Doctor</p>
                         </div>
                     </button>

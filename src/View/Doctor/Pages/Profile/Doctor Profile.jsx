@@ -3,13 +3,19 @@ import DoctorLayout from '../../Components/DoctorLayout'
 import '../../Doctor Style.css';
 import Logo from '../../../../images/Logo.png'
 import {Edit} from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const DoctorProfile = () => {
+
+  // Use useParams to access URL parameters
+  const { state } = useLocation();
+  const { doctorID, doctorName } = state;
+
   
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
-      <DoctorLayout>
+      <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
       
       <div className="w-full px-5 pt-3 h-fit overflow-hidden ">
         <h1 class="text-xl"><b>Profile</b></h1>
@@ -26,7 +32,7 @@ const DoctorProfile = () => {
               <img src={Logo} alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" />
             </div>
 
-            <p className = "text-center text-2xl"><strong>Username</strong></p>
+            <p className = "text-center text-2xl"><strong>{doctorName}</strong></p>
             <p className = "text-center text-md">Doctor</p>
 
             <p className = "text-center text-sm mt-6">This is my introduction</p>
@@ -49,7 +55,7 @@ const DoctorProfile = () => {
                 
                 <div>
                   <h1 className = "text-l">Full name</h1>
-                  <p className = "font-semibold">This is me</p>
+                  <p className = "font-semibold">{doctorName}</p>
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>

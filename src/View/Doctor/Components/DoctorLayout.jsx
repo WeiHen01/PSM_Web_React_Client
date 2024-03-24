@@ -4,7 +4,7 @@ import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
 import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book, UserCog2} from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
-const DoctorLayout = ({children}) => {
+const DoctorLayout = ({children, doctorID, doctorName}) => {
     const [expanded, setExpanded] = useState(false);
 
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const DoctorLayout = ({children}) => {
                         <DoctorSidebarItem icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
                         <DoctorSidebarItem icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
-                        <DoctorSidebarItem icon={<Book size={20} />} text="Report" url="/Doctor/DoctorReport"/>
+                        <DoctorSidebarItem icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
                         <DoctorSidebarItem icon={<UserCog2 size={20} />} text="Admin Page" url="/Admin/AdminHome"/>
                         <hr className="my-4"></hr>
 
@@ -46,7 +46,7 @@ const DoctorLayout = ({children}) => {
                 <div className='font-special flex-grow h-screen bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
-                        <DoctorHeader>
+                        <DoctorHeader doctorID = {doctorID} doctorName={doctorName}>
                             <button onClick={() => setExpanded((curr) => !curr)} className="pl-3 hover:text-gray-400">
                                 {expanded ? <ChevronLeft /> : <Menu />}
                             </button>

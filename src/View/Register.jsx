@@ -85,8 +85,10 @@ const Register = () => {
   /** For toggle to show password */
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -95,9 +97,7 @@ const Register = () => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConPassword(!showConPassword);
   };// State to track active role
-
-  const [errorMsg, setErrorMsg] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
@@ -136,9 +136,6 @@ const Register = () => {
         {/** Display active at here */}
         <p className='text-white text-sm'>You choose to sign up as: <strong>{activeRole}</strong></p>
 
-
-        {errorMsg && <div style={{ color: 'red' }}>{errorMsg}</div>}
-        {successMsg && <div style={{ color: 'green' }}>{successMsg}</div>}      
         <form>
           {/** The login form */}
             <div style={{ marginTop: '3vh', color: 'black', marginBottom: '5px', paddingBottom: '10px'}} className = "bg-white px-2 py-2 rounded-md text-base">
@@ -155,7 +152,10 @@ const Register = () => {
                 <input 
                   placeholder="Email" 
                   className="w-full pl-12 pr-2 py-2 bg-gray-100" 
-                  style={{ paddingLeft: '35px' }} 
+                  style={{ paddingLeft: '35px' }}
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} required
+                   
                 />
               </div>
 
@@ -173,7 +173,8 @@ const Register = () => {
                   value={password}
                   type={showPassword ? 'text' : 'password'} // Toggle between text and password type
                   style={{ paddingLeft: '35px', paddingRight: '40px'}}
-                  onChange={(e) => setPassword(e.target.value)}   
+                  onChange={(e) => setPassword(e.target.value)}  
+                  required  
                 />
 
                 {/* Toggle button for password visibility */}
@@ -199,7 +200,8 @@ const Register = () => {
                   value={conPassword}
                   type={showConPassword ? 'text' : 'password'} // Toggle between text and password type
                   style={{ paddingLeft: '35px', paddingRight: '40px'}}
-                  onChange={(e) => setConPassword(e.target.value)}   
+                  onChange={(e) => setConPassword(e.target.value)}  
+                  required 
                 />
 
                 {/* Toggle button for password visibility */}
@@ -214,20 +216,26 @@ const Register = () => {
               <div className = "mt-2">
                 <button 
                   className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-                  onClick={()=>navigate("/Doctor/DoctorHome")}
+                  type = "submit"
                 >
                   Register
                 </button>
               </div>
+
+              {/* Error message */}
+              {errorMsg && <div style={{ color: 'red' }}>{errorMsg}</div>}
 
               <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
                 <p className='text-sm'>Already have an account? </p>
                 <a href="/Login" className='text-sm'><b>Login now!</b></a> {/* Removed unnecessary styles */}
               </div>
 
+              
+
             </div>
             {/** The login form ends*/}
         </form>
+        
       </div>
 
       <div style={{ 
