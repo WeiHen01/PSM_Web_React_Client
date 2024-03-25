@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import DoctorLayout from '../../Components/DoctorLayout'
 import '../../Doctor Style.css';
 import Logo from '../../../../images/Logo.png'
@@ -11,6 +11,30 @@ const DoctorProfile = () => {
   const { state } = useLocation();
   const { doctorID, doctorName } = state;
 
+  const [doctorInfo, setDoctorInfo] = useState(null);
+
+  useEffect(() => {
+    
+    const getDoctorInfo = async () => {
+      
+      try {
+        const response = await fetch(`http://localhost:8080/api/doctor/findDoctor/${doctorID}`);
+        
+        if (!response.ok) {
+          throw new Error('Error retrieving doctor information');
+        }
+        const data = await response.json();
+        setDoctorInfo(data);
+
+      } catch (error) {
+        console.error('Error fetching doctor info:', error);
+        // Handle error state or display error message to the user
+      }
+    };
+
+    getDoctorInfo(); // Call the function when component mounts
+    
+  }, []);
   
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -41,6 +65,7 @@ const DoctorProfile = () => {
 
           <div className="gap-2">
             
+            {/** Card 1 */}
             <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
               <div className ="flex justify-between text-black items-center">
                 <b><h1 className = "text-black text-2xl">Personal Info</h1></b>
@@ -62,7 +87,7 @@ const DoctorProfile = () => {
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {doctorInfo && (<p className = "font-semibold">{doctorInfo.DoctorEmail}</p>)}
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
@@ -85,6 +110,7 @@ const DoctorProfile = () => {
 
             </div>
 
+             {/** Card 2 */}
             <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
               <div className ="flex justify-between text-black items-center">
                 <b><h1 className = "text-black text-2xl">Account</h1></b>

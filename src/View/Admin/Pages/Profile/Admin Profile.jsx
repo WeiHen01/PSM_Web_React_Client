@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import AdminLayout from '../../Components/AdminLayout'
 import '../../Admin Style.css';
 import Logo from '../../../../images/Logo.png'
@@ -11,7 +11,32 @@ const AdminProfile = () => {
   const { state } = useLocation();
   const { adminID, adminName } = state;
 
-  
+  const [adminInfo, setAdminInfo] = useState(null);
+
+  useEffect(() => {
+    
+    const getAdminInfo = async () => {
+      
+      try {
+        const response = await fetch(`http://localhost:8080/api/admin/findAdmin/${adminID}`);
+        
+        if (!response.ok) {
+          throw new Error('Error retrieving doctor information');
+        }
+        const data = await response.json();
+        setAdminInfo(data);
+
+      } catch (error) {
+        console.error('Error fetching doctor info:', error);
+        // Handle error state or display error message to the user
+      }
+    };
+
+    getAdminInfo(); // Call the function when component mounts
+
+  }, []);
+
+
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
@@ -62,14 +87,14 @@ const AdminProfile = () => {
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
                 </div>
 
               </div>
