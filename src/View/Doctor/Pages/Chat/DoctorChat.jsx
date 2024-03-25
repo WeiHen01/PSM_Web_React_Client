@@ -14,6 +14,12 @@ const DoctorChat = () => {
       <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
         <div className="chat-app px-6 py-3">
           <h1 class="text-xl"><b>Doctor Chat</b></h1>
+
+          
+
+
+
+
         </div>
       </DoctorLayout>
     </div>

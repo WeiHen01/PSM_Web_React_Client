@@ -36,7 +36,7 @@ const ForgetPassword = () => {
       
         <div className="text-white hover:text-orange-500 duration-300">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Login")}
             className="flex items-center justify-center gap-2 w-10 h-10 rounded-full focus:outline-none "
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
