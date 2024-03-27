@@ -58,6 +58,8 @@ const AdminProfile = () => {
             <p className = "text-center text-2xl"><strong>{adminName}</strong></p>
             <p className = "text-center text-md">Admin</p>
 
+            {adminInfo && (<p className = "text-center">{adminInfo.AdminEmail}</p>)}
+
             <p className = "text-center text-sm mt-6">This is my introduction</p>
           
           </div>
