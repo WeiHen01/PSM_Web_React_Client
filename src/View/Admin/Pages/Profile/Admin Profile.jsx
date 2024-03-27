@@ -14,27 +14,25 @@ const AdminProfile = () => {
   const [adminInfo, setAdminInfo] = useState(null);
 
   useEffect(() => {
-    
-    const getAdminInfo = async () => {
-      
+
+    const getAdminInfo = async() => {
+
       try {
         const response = await fetch(`http://localhost:8080/api/admin/findAdmin/${adminID}`);
-        
+
         if (!response.ok) {
-          throw new Error('Error retrieving doctor information');
+          throw new Error('Error retrieving admin information');
         }
         const data = await response.json();
         setAdminInfo(data);
-
-      } catch (error) {
-        console.error('Error fetching doctor info:', error);
-        // Handle error state or display error message to the user
       }
-    };
+      catch (error){
+        console.error('Error fetching doctor info:', error);
+      }
+    }
 
-    getAdminInfo(); // Call the function when component mounts
-
-  }, []);
+    getAdminInfo();
+  }, [adminID]);
 
 
   return (
@@ -88,6 +86,7 @@ const AdminProfile = () => {
                 <div>
                   <h1 className = "text-l">Email</h1>
                   {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
+                  
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
@@ -131,14 +130,14 @@ const AdminProfile = () => {
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
                 </div>
 
               </div>

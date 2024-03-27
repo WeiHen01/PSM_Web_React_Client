@@ -32,7 +32,7 @@ const AdminLayout = ({children, adminID, adminName}) => {
                 <div className='font-special flex-grow h-screen bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
-                        <AdminHeader adminId = {adminID} adminName = {adminName}>
+                        <AdminHeader adminID = {adminID} adminName = {adminName}>
                             <button onClick={() => setExpanded((curr) => !curr)} className="pl-3 hover:text-gray-400">
                                 {expanded ? <ChevronLeft /> : <Menu />}
                             </button>

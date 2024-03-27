@@ -4,16 +4,16 @@ import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
 import {Bell, LogOut, Settings, UserCircle2} from 'lucide-react';
 
-const AdminHeader = ({ adminId, adminName, notificationCount, children }) => {
+const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
 
     const navigate = useNavigate();
 
     const Home=()=>{
-        navigate("/Admin/AdminHome", { state: { adminId, adminName } });
+        navigate("/Admin/AdminHome", { state: { adminID, adminName } });
     }
 
     const Profile=()=>{
-        navigate("/Admin/AdminProfile", { state: { adminId, adminName } });
+        navigate("/Admin/AdminProfile", { state: { adminID, adminName } });
     }
 
     const Logout=()=>{

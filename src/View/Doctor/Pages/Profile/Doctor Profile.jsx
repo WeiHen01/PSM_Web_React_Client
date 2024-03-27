@@ -34,7 +34,7 @@ const DoctorProfile = () => {
 
     getDoctorInfo(); // Call the function when component mounts
     
-  }, []);
+  }, [doctorID]);
   
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -94,7 +94,7 @@ const DoctorProfile = () => {
 
                 <div>
                   <h1 className = "text-l">Email</h1>
-                  <p className = "font-semibold">This is me</p>
+                  {doctorInfo && (<p className = "font-semibold">{doctorInfo.DoctorEmail}</p>)}
                 </div>
 
               </div>
