@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import HomePage from "./View/Home Page";
 
 import Login from "./View/Login";
@@ -8,7 +9,14 @@ import ForgetPassword from './View/Forget Password';
 import DoctorApp from "./View/Doctor/DoctorApp";
 import AdminApp from './View/Admin/AdminApp';
 
+import runOneSignal from './OneSignal';
+
 function App() {
+  
+  useEffect(() => {
+    runOneSignal();
+  })
+  
   return (
     <div className="App">
     <Routes>

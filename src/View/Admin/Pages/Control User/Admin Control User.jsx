@@ -27,6 +27,7 @@ const AdminControlUser = () => {
             <h1 class="text-xl"><b>Doctor</b></h1>
           </div>
         </AdminLayout>
+        
     </div>
   )
 }
