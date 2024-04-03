@@ -29,7 +29,7 @@ const AdminLayout = ({children, adminID, adminName}) => {
 
                 {/* Content Area */}
                 
-                <div className='font-special flex-grow h-screen bg-gradient-to-b from-gray-200 to-gray-400'>
+                <div className='font-special flex-grow flex-col min-h-screen h-max bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
                         <AdminHeader adminID = {adminID} adminName = {adminName}>

@@ -59,6 +59,8 @@ const DoctorProfile = () => {
             <p className = "text-center text-2xl"><strong>{doctorName}</strong></p>
             <p className = "text-center text-md">Doctor</p>
 
+            {doctorInfo && (<p className = "text-center font-semibold">{doctorInfo.DoctorEmail}</p>)}
+
             <p className = "text-center text-sm mt-6">This is my introduction</p>
           
           </div>

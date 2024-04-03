@@ -29,7 +29,7 @@ const DoctorLayout = ({children, doctorID, doctorName}) => {
 
                 {/* Content Area */}
                 
-                <div className='font-special flex-grow h-screen bg-gradient-to-b from-gray-200 to-gray-400'>
+                <div className='font-special flex-grow min-h-screen h-max bg-gradient-to-b from-gray-200 to-gray-400'>
                     {/* Header */}
                     <div className="bg-white">
                         <DoctorHeader doctorID = {doctorID} doctorName={doctorName}>
