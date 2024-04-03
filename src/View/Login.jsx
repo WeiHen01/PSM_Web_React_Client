@@ -160,6 +160,17 @@ const Login = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Add your login logic here based on activeRole (Doctor or Admin)
+    if (activeRole === 'Doctor') {
+      handleDoctorLogin(e);
+    } else {
+      handleAdminLogin(e);
+    }
+  };
+
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
       <title>BITU3973 | Login</title>
@@ -202,74 +213,77 @@ const Login = () => {
         <p className='text-white text-sm'>You choose to login as: <strong>{activeRole}</strong></p>
 
         
-        {/** The login form */}
-        <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-md text-base">
-          
-          <p className='font-semibold'>User Email</p>
-          
-          <div style={{ position: 'relative' }}>
+        <form onSubmit={handleSubmit}>
+          {/** The login form */}
+          <div style={{ marginTop: '3vh', color: 'black' }} className = "bg-white px-2 py-2 rounded-md text-base">
             
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
-            />
-
-            <input 
-              placeholder="Email" 
-              className="w-full pl-12 pr-2 py-2 bg-gray-100" 
-              style={{ paddingLeft: '35px' }} 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <p className='mt-3 font-semibold'>Password</p>
-          
-          <div style={{ position: 'relative' }}>
-            <FontAwesomeIcon
-              icon={faLock}
-              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
-            />
+            <p className='font-semibold'>User Email</p>
             
-            <input 
-              placeholder="Password" 
-              className="w-full pl-12 py-2 bg-gray-100" 
-              value={password}
-              type={showPassword ? 'text' : 'password'} // Toggle between text and password type
-              style={{ paddingLeft: '35px', paddingRight: '40px'}}
-              onChange={(e) => setPassword(e.target.value)}   
-            />
+            <div style={{ position: 'relative' }}>
+              
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+              />
 
-            {/* Toggle button for password visibility */}
-            <FontAwesomeIcon
-              icon={showPassword ? faEyeSlash : faEye}
-              style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
-              onClick={togglePasswordVisibility}
-            />
+              <input 
+                placeholder="Email" 
+                className="w-full pl-12 pr-2 py-2 bg-gray-100" 
+                style={{ paddingLeft: '35px' }} 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <p className='mt-3 font-semibold'>Password</p>
+            
+            <div style={{ position: 'relative' }}>
+              <FontAwesomeIcon
+                icon={faLock}
+                style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+              />
+              
+              <input 
+                placeholder="Password" 
+                className="w-full pl-12 py-2 bg-gray-100" 
+                value={password}
+                type={showPassword ? 'text' : 'password'} // Toggle between text and password type
+                style={{ paddingLeft: '35px', paddingRight: '40px'}}
+                onChange={(e) => setPassword(e.target.value)}   
+              />
+
+              {/* Toggle button for password visibility */}
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
+                onClick={togglePasswordVisibility}
+              />
+
+            </div>
+
+            <div className="flex justify-end mt-2"> {/* Flex container with end alignment */}
+              <a href="/ForgetPassword" className='text-sm'>Forget Password?</a> {/* Removed unnecessary styles */}
+            </div>
+          
+            <div className = "mt-2">
+              <button 
+                type = "submit"
+                className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
+                
+              >
+                Login
+              </button>
+              {error && <div style={{ color: 'red' }}>{error}</div>}
+            </div>
+
+            <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
+              <p className='text-sm'>Don't have an account? </p>
+              <a href="/Register" className='text-sm'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
+            </div>
 
           </div>
-
-          <div className="flex justify-end mt-2"> {/* Flex container with end alignment */}
-            <a href="/ForgetPassword" className='text-sm'>Forget Password?</a> {/* Removed unnecessary styles */}
-          </div>
-         
-          <div className = "mt-2">
-            <button 
-              className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
-              onClick= {activeRole === 'Doctor' ? handleDoctorLogin : handleAdminLogin}
-            >
-              Login
-            </button>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-          </div>
-
-          <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
-            <p className='text-sm'>Don't have an account? </p>
-            <a href="/Register" className='text-sm'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
-          </div>
-
-        </div>
-        {/** The login form ends*/}
+          {/** The login form ends*/}
+        </form>
 
         
       </div>
