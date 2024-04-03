@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {HomeIcon, SettingsIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, Users2} from 'lucide-react';
+import {HomeIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, Users2} from 'lucide-react';
 import AdminSidebar, { AdminSidebarItem } from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 
@@ -19,7 +19,6 @@ const AdminLayout = ({children, adminID, adminName}) => {
                         <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser"/>
                         <hr className="my-4"></hr>
 
-                        <AdminSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
                         <AdminSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />
                     </AdminSidebar>
                 </div>
