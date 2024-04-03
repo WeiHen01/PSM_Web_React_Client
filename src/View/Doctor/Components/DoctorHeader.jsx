@@ -88,9 +88,6 @@ const DoctorHeader = ({ doctorName, doctorID, notificationCount, children }) => 
                             <button onClick={Profile} className= "flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 <UserCircle2/>Profile
                             </button>
-                            <button onClick={null} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
-                                <Settings/>Settings
-                            </button>
                             <button onClick={Logout} className="flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 <LogOut/>Logout
                             </button>
