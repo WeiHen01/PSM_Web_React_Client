@@ -109,7 +109,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/doctor/login', { email, password });
+      const response = await axios.post('http://localhost:8000/api/doctor/login', { email, password });
       console.log(response.data); // Handle success, e.g., redirect to dashboard
       setError(null); // Clear any previous errors
 
@@ -139,7 +139,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/admin/login', { email, password });
+      const response = await axios.post('http://localhost:8000/api/admin/login', { email, password });
       console.log(response.data); // Handle success, e.g., redirect to dashboard
       setError(null); // Clear any previous errors
 

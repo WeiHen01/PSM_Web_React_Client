@@ -102,7 +102,7 @@ const Register = () => {
   const handleDoctorSignUp = async () => {
     if(password === conPassword){
       try {
-        const response = await axios.post('http://localhost:8080/api/doctor/register', {
+        const response = await axios.post('http://localhost:8000/api/doctor/register', {
           DoctorName: 'new-doctor',
           DoctorEmail: email,
           DoctorPassword: password,

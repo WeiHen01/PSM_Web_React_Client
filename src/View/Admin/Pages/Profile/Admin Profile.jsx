@@ -18,7 +18,7 @@ const AdminProfile = () => {
     const getAdminInfo = async() => {
 
       try {
-        const response = await fetch(`http://localhost:8080/api/admin/findAdmin/${adminID}`);
+        const response = await fetch(`http://localhost:8000/api/admin/findAdmin/${adminID}`);
 
         if (!response.ok) {
           throw new Error('Error retrieving admin information');
