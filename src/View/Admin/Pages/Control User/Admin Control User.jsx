@@ -22,10 +22,14 @@ const AdminControlUser = () => {
             <h1 class="text-xl"><b>Patient</b></h1>
           </div>
 
+          <hr className='border-black border-solid border-t-8 mt-3 mx-5'/>
+
           {/** Row 3 */}
           <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
             <h1 class="text-xl"><b>Doctor</b></h1>
           </div>
+
+          <hr className='border-black border-solid border-t-8 mt-3 mx-5'/>
         </AdminLayout>
         
     </div>

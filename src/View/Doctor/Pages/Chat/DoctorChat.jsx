@@ -24,49 +24,33 @@ const DoctorChat = () => {
           <div class="mt-4 w-92 h-[75vh] bg-red-50 flex flex-row">
 
             {/** Left-container */}
-            <div className="left h-full bg-[#ffffff] w-[30%] justify-between overflow-y-auto">
+            <div className="left h-full bg-[#ffffff] w-[30%] flex flex-col justify-between">
               
               {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-blue-400 to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-blue-400 to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-blue-400 to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
-                
-              </div>
-
-              {/** Headers */}
-              <div className=" h-16 bg-gradient-to-r from-blue-400 to-red-deep text-white p-2">
+              <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
                 
               </div>
               
-              
+              {/** Scrollable */}
+              <div className='p-3 bg-orange-200 overflow-y-auto'>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+                <p className="font-bold text-lg">{doctorName}</p>
+                <p className="text-sm">Online</p>
+              </div>
 
               
               
@@ -76,11 +60,12 @@ const DoctorChat = () => {
              {/** Right-container */}
             <div className="right h-full w-[70%] flex flex-col justify-between">
               
-              <div className=" h-16 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
+              <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-3">
                 <p className="font-bold text-lg">{doctorName}</p>
                 <p className="text-sm">Online</p>
               </div>
 
+              {/** Chat contents with bubbles */}
               <div className='h-full p-3 bg-orange-200 overflow-y-auto'>
                 <p className="font-bold text-lg">{doctorName}</p>
                 <p className="text-sm">Online</p>

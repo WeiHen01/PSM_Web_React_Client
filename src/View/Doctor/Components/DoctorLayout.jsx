@@ -21,8 +21,7 @@ const DoctorLayout = ({children, doctorID, doctorName}) => {
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
                         <hr className="my-4"></hr>
-
-                        <DoctorSidebarItem icon={<SettingsIcon size={20} />} text="Settings" />
+                        
                         <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />
                     </DoctorSidebar>
                 </div>

@@ -125,7 +125,7 @@ const AdminProfile = () => {
                 
                 <div>
                   <h1 className = "text-l">Full name</h1>
-                  <p className = "font-semibold">This is me</p>
+                  <p className = "font-semibold">{adminName}</p>
                 </div>
 
                 <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
