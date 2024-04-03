@@ -11,7 +11,7 @@ const AdminLayout = ({children, adminID, adminName}) => {
             {/* Main content and sidebar */}
             <div className="flex h-screen">
                 {/* Sidebar */}
-                <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
+                <div className={`overflow-hidden  transition-all ${expanded ? "w-56" : "w-0"} bg-gradient-to-r from-purple-dark to-red-deep border-r shadow-sm `}>
                     
                     <AdminSidebar>
                         <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" />

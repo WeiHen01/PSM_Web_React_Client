@@ -8,15 +8,15 @@ const AdminSidebar = ({children}) => {
     const [expanded] = useState(true);
 
     return (
-        <aside className = "h-screen relative ">
+        <aside className = "h-full relative ">
             <nav className = "relative w-56 flex flex-col bg-white border-r shadow-sm">
                 <div className = "flex justify-center w-full h-full">
                     <a href = "/Admin/AdminHome">
                         <img src={Trademark} alt = "/" className="my-2 w-32"/>
                     </a>
                 </div>
-                <div className = "bg-gradient-to-r from-purple-dark to-red-deep h-screen">
-                    <SidebarContext.Provider value={{ expanded}}>
+                <div className = " flex-grow overflow-y-auto bg-gradient-to-r from-purple-dark to-red-deep">
+                    <SidebarContext.Provider value={{expanded}}>
 
                         {/** Render sidebar items  */}
                         <ul className = ' text-white py-6 bg-gradient-to-r from-purple-dark to-red-deep h-auto'>
