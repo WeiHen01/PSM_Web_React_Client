@@ -41,7 +41,7 @@ export function DoctorSidebarItem({icon, text, active, alert, url, logout, docto
             const confirmed = window.confirm("Are you sure you want to logout?");
             if(confirmed){
                 window.alert("You have been logged out!");
-                navigate("/Login");
+                window.location.replace("/Login");
             } 
         }
         else {

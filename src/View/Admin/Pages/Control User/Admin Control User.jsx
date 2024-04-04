@@ -178,7 +178,7 @@ const AdminControlUser = () => {
           {/** Row 2 */}
           <div class="w-full px-5 pt-3 h-fit overflow-hidden">
             
-            <h1 class="text-xl px-1 py-2"><b>Patient</b></h1>
+            <h1 class="text-xl px-1 py-2"><b>Doctor</b></h1>
             
             <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
                 
@@ -190,7 +190,7 @@ const AdminControlUser = () => {
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
+                        <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                     </div>
                 </div>
 
@@ -199,7 +199,7 @@ const AdminControlUser = () => {
                         <tr>
                             
                             <th scope="col" class="px-6 py-3">
-                                Patient
+                                Doctor
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Last Login
