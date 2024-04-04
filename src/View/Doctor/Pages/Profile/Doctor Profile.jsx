@@ -41,11 +41,12 @@ const DoctorProfile = () => {
       <title>BITU3973 | Doctor Home</title>
       <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
       
-      <div className="w-full px-5 pt-3 h-fit overflow-hidden ">
-        <h1 class="text-xl"><b>Profile</b></h1>
-      </div>
+        <div class="w-full px-5 pt-3 h-fit overflow-hidden text-center">
+          <h1 class="text-xl py-1"><b>Profile</b></h1>
+        </div>
+
       {/* <!-- cards --> */}
-      <div class="w-full px-5 py-4 mx-auto h-fit overflow-hidden ">
+      <div class="w-full px-5 py-2 mx-auto h-fit overflow-hidden ">
         
         {/* <!-- row 1 --> */}
         <div class="flex flex-wrap px-3 -mx-2 gap-3 justify-center">
@@ -112,7 +113,7 @@ const DoctorProfile = () => {
 
             </div>
 
-             {/** Card 2 */}
+            {/** Card 2 */}
             <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
               <div className ="flex justify-between text-black items-center">
                 <b><h1 className = "text-black text-2xl">Account</h1></b>

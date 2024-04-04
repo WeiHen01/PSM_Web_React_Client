@@ -281,7 +281,7 @@ const Register = () => {
     
               <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
                 <p className='text-sm'>Already have an account? </p>
-                <a href="/Login" className='text-sm'><b>Login now!</b></a> {/* Removed unnecessary styles */}
+                <a href="/Login" className='text-sm hover:text-orange-600 duration-300'><b>Login now!</b></a> {/* Removed unnecessary styles */}
               </div>
     
               

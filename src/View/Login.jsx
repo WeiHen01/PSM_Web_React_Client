@@ -262,7 +262,7 @@ const Login = () => {
             </div>
 
             <div className="flex justify-end mt-2"> {/* Flex container with end alignment */}
-              <a href="/ForgetPassword" className='text-sm'>Forget Password?</a> {/* Removed unnecessary styles */}
+              <a href="/ForgetPassword" className='text-sm hover:text-orange-600 duration-300'>Forget Password?</a> {/* Removed unnecessary styles */}
             </div>
           
             <div className = "mt-2">
@@ -278,7 +278,7 @@ const Login = () => {
 
             <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
               <p className='text-sm'>Don't have an account? </p>
-              <a href="/Register" className='text-sm'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
+              <a href="/Register" className='text-sm hover:text-orange-600 duration-300'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
             </div>
 
           </div>
