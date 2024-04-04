@@ -52,7 +52,7 @@ export function DoctorSidebarItem({icon, text, active, alert, url, logout, docto
     return(
         // checking the state if the item active then change the css property of that item
         <li 
-            className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:text-pink-400"}`}
+            className = {`relative flex items-center px-3 py-2 gap-2 cursor-pointer transition-colors group ${active ? "text-orange-400 font-semibold" : "hover:bg-pink-400 hover:text-black"}`}
             onClick={handleLink}
         >
 

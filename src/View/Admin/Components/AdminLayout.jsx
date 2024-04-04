@@ -3,7 +3,7 @@ import {HomeIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, Users2} from '
 import AdminSidebar, { AdminSidebarItem } from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 
-const AdminLayout = ({children, adminID, adminName}) => {
+const AdminLayout = ({children, adminID, adminName, active}) => {
     const [expanded, setExpanded] = useState(false);
     return (
         <div className = "flex flex-col">
@@ -14,9 +14,8 @@ const AdminLayout = ({children, adminID, adminName}) => {
                 <div className={`overflow-hidden  transition-all ${expanded ? "w-56" : "w-0"} bg-gradient-to-r from-purple-dark to-red-deep border-r shadow-sm `}>
                     
                     <AdminSidebar>
-                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" />
-                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Admin/AdminHome" />
-                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser"/>
+                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" active = {active === 'Home' ? 'active' : null}/>
+                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser" active = {active === 'User Activity' ? 'active' : null}/>
                         <hr className="my-4"></hr>
 
                         <AdminSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />

@@ -15,7 +15,7 @@ const DoctorChat = () => {
     <div className=' h-full'>
       
       <title>BITU3973 | Doctor Chat</title>
-      <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
+      <DoctorLayout doctorID={doctorID} doctorName={doctorName} active = {'Chat'}>
         
         <div className="h-fit px-6 py-3">
           

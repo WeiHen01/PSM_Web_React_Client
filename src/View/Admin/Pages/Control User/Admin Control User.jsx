@@ -10,7 +10,7 @@ const AdminControlUser = () => {
   return (
     <div>
         <title>BITU3973 | Admin User Activity Log</title>
-        <AdminLayout adminID={adminID} adminName={adminName}>
+        <AdminLayout adminID={adminID} adminName={adminName} active={"User Activity"}>
           
           {/** Row 1 */}
           <div class="w-full px-5 pt-3 h-fit overflow-hidden">

@@ -35,7 +35,7 @@ const DoctorReport = () => {
   return (
     <div>
       <title>BITU3973 | Doctor Report</title>
-      <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
+      <DoctorLayout doctorID={doctorID} doctorName={doctorName} active = {'Report'}>
         <div class="w-full px-6 pt-3 h-fit overflow-hidden ">
           <h1 class="text-xl pb-2"><b>Report</b></h1>
 

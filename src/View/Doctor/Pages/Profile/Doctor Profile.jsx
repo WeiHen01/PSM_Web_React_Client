@@ -39,7 +39,7 @@ const DoctorProfile = () => {
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
-      <DoctorLayout doctorID={doctorID} doctorName={doctorName}>
+      <DoctorLayout doctorID={doctorID} doctorName={doctorName} active={"Profile"}>
       
         <div class="w-full px-5 pt-3 h-fit overflow-hidden text-center">
           <h1 class="text-xl py-1"><b>Profile</b></h1>

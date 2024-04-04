@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
-import {HomeIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
+import {HomeIcon, UserCircle2, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
 
 
-const DoctorLayout = ({children, doctorID, doctorName}) => {
+const DoctorLayout = ({children, doctorID, doctorName, active}) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -16,10 +16,10 @@ const DoctorLayout = ({children, doctorID, doctorName}) => {
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
                     <DoctorSidebar>
-                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" />
-                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<LayoutDashboard size={20} />} text="Dashboard" url="/Doctor/DoctorHome" />
-                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" />
-                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" />
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" active = {active === 'Home' ? 'active' : null}/>
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<UserCircle2 size={20} />} text="Profile" url="/Doctor/DoctorProfile" active = {active === 'Profile' ? 'active' : null}/>
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" active = {active === 'Chat' ? 'active' : null}/>
+                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" active = {active === 'Report' ? 'active' : null}/>
                         <hr className="my-4"></hr>
                         
                         <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />
