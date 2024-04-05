@@ -15,7 +15,9 @@ const AdminLayout = ({children, adminID, adminName, active}) => {
                     
                     <AdminSidebar>
                         <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" active = {active === 'Home' ? 'active' : null}/>
+                        <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<Users2 size={20} />} text="Profile" url="/Admin/AdminProfile" active = {active === 'Profile' ? 'active' : null}/>
                         <AdminSidebarItem adminID={adminID} adminName={adminName} icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser" active = {active === 'User Activity' ? 'active' : null}/>
+
                         <hr className="my-4"></hr>
 
                         <AdminSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />

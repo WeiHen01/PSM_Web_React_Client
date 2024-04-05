@@ -3,6 +3,8 @@ import AdminLayout from '../../Components/AdminLayout'
 import '../../Admin Style.css';
 import Logo from '../../../../images/Logo.png'
 import {Edit} from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 
 const AdminProfile = () => {
@@ -12,6 +14,27 @@ const AdminProfile = () => {
   const { adminID, adminName } = state;
 
   const [adminInfo, setAdminInfo] = useState(null);
+
+  /** For toggle to show password */
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConPassword, setShowConPassword] = useState(false);
+
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [conPassword, setConPassword] = useState('');
+
+  const toggleOldPasswordVisibility = () => {
+    setShowOldPassword(!showOldPassword);
+  };// State to track active role
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
+  };// State to track active role
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConPassword(!showConPassword);
+  };// State to track active role
 
   useEffect(() => {
 
@@ -38,7 +61,7 @@ const AdminProfile = () => {
   return (
     <div className = "overflow-hidden" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
-      <AdminLayout adminID={adminID} adminName={adminName}>
+      <AdminLayout adminID={adminID} adminName={adminName} active={"Profile"}>
       
       <div className="w-full px-5 pt-3 h-fit overflow-hidden ">
         <h1 class="text-xl"><b>Profile</b></h1>

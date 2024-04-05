@@ -129,7 +129,7 @@ const Register = () => {
   const handleAdminSignUp = async () => {
     if(password === conPassword){
       try {
-        const response = await axios.post('http://localhost:8080/api/admin/register', {
+        const response = await axios.post('http://localhost:8000/api/admin/register', {
           AdminName: 'new-admin',
           AdminEmail: email,
           AdminPassword: password,
