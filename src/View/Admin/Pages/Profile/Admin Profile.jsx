@@ -3,8 +3,6 @@ import AdminLayout from '../../Components/AdminLayout'
 import '../../Admin Style.css';
 import Logo from '../../../../images/Logo.png'
 import {Edit} from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 
 const AdminProfile = () => {
@@ -72,7 +70,7 @@ const AdminProfile = () => {
         {/* <!-- row 1 --> */}
         <div class="flex flex-wrap px-3 -mx-2 gap-3 justify-center">
           
-          <div className = "claymorphism-card-03 w-full items-center gap-3">
+          <div className = "claymorphism-card-03 w-full items-center gap-3 h-96">
             
             <div className = "flex justify-center w-full">
               <img src={Logo} alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" />
@@ -123,52 +121,14 @@ const AdminProfile = () => {
 
               </div>
 
-              <div className =" mt-7 flex justify-between text-black items-center">
-                <b><h1 className = "text-black text-2xl">Bio</h1></b>
-                <button>
-                  <Edit />
-                </button>
-              </div>
-
-              <hr className="border-1 border-black my-2"></hr>
 
             </div>
 
-            <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
+            {/** Card 2 */}
+            <div className=" mt-4 claymorphism-card-02 w-full h-60 items-center gap-3 text-black">
               
+
               <div className ="flex justify-between text-black items-center">
-                <b><h1 className = "text-black text-2xl">Account</h1></b>
-                <button>
-                  <Edit />
-                </button>
-              </div>
-
-              <hr className="border-1 border-black my-2"></hr>
-
-              <div className ="flex justify-between mr-10 text-black">
-                
-                <div>
-                  <h1 className = "text-l">Full name</h1>
-                  <p className = "font-semibold">{adminName}</p>
-                </div>
-
-                <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
-
-                <div>
-                  <h1 className = "text-l">Email</h1>
-                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
-                </div>
-
-                <div style={{ borderLeft: '1px solid black', height: '50px' }}></div>
-
-                <div>
-                  <h1 className = "text-l">Email</h1>
-                  {adminInfo && (<p className = "font-semibold">{adminInfo.AdminEmail}</p>)}
-                </div>
-
-              </div>
-
-              <div className =" mt-7 flex justify-between text-black items-center">
                 <b><h1 className = "text-black text-2xl">Bio</h1></b>
                 <button>
                   <Edit />

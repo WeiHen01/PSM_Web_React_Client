@@ -1,7 +1,6 @@
 import React from 'react'
 import DoctorLayout from '../../Components/DoctorLayout';
 import { useLocation } from 'react-router-dom';
-import './DoctorChat.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -103,7 +102,7 @@ const DoctorChat = () => {
 
                   {/* Button beside the input */}
                   <button
-                    className="ml-2 px-4 py-2 bg-orange-400 text-white rounded-md"
+                    className="ml-2 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
                     onClick={() => {
                       // Handle button click
                     }}

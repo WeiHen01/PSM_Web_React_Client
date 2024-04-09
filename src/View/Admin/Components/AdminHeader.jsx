@@ -32,10 +32,38 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const handleMouseHover = () => {
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseHoverOff = () => {
+        setIsDropdownOpen(false);
+    };
+
+    const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+
+    const dropdownRefNotify = useRef(null);
+
+    const toggleNotifyDropdown = () => {
+        setIsNotifyOpen(!isNotifyOpen);
+    };
+
+    const handleMouseEnter = () => {
+        setIsNotifyOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsNotifyOpen(false);
+    };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsDropdownOpen(false);
+            }
+
+            if (dropdownRefNotify.current && !dropdownRefNotify.current.contains(event.target)) {
+                setIsNotifyOpen(false);
             }
         };
 
@@ -57,13 +85,30 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
             <div className="flex items-center gap-5">
                 
                 {/* Notification section */}
-                <div className="cursor-pointer" onClick={null}>
-                    <button className="flex gap-2 hover:text-gray-200 cursor-pointer">
+                <div className="cursor-pointer" onClick={null} ref={dropdownRefNotify}>
+                    <button 
+                       className="flex gap-2 hover:text-gray-200 cursor-pointer"
+                       onClick={toggleNotifyDropdown}
+                    >
                         <Bell />
                         {notificationCount > 0 && (
                             <span className="bg-red-500 rounded-full px-2 py-1 text-white text-xs">{notificationCount}</span>
                         )}
                     </button>
+
+                    {/* Dropdown menu */}
+                    {isNotifyOpen && (
+                        <div
+                        id="dropdownHover"
+                        className="absolute mt-1 mr-5 px-2 right-1 w-96 bg-white divide-y overflow-x-hidden divide-gray-100 rounded-lg shadow dark:bg-gray-700"
+                        >
+                            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                                <li>
+                                    <a href="#" className="block my-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
 
                 {/* User profile section */}
@@ -83,7 +128,7 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
 
                     {/* Dropdown menu */}
                     {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 text-sm w-40 bg-white rounded-lg shadow-lg z-10 opacity-100 transition-opacity duration-300">
+                        <div className="absolute right-1 top-4 mt-2 text-sm w-40 bg-white rounded-lg shadow-lg z-10 opacity-100 transition-opacity duration-300">
                             <button onClick={Profile} className= "flex block items-center gap-3 px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left">
                                 <UserCircle2/>Profile
                             </button>
