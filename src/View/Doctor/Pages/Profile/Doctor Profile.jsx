@@ -210,6 +210,11 @@ const DoctorProfile = () => {
         }
         const data = await response.json();
         setDoctorInfo(data);
+
+        setName(data["DoctorName"]);
+        setUsername(data["DoctorUsername"]);
+        setEmail(data["DoctorEmail"]);
+        setContact(data["DoctorContact"]);
         setSpecialty(data["DoctorSpecialize"]);
 
       } catch (error) {
@@ -560,8 +565,7 @@ const DoctorProfile = () => {
               
               {doctorInfo && (<p className = "text-center text-2xl"><strong>{doctorInfo.DoctorName}</strong></p>)}
               <p className = "text-center text-md">Doctor</p>
-
-              <p className = "text-center text-sm mt-6">This is my introduction</p>
+              
             
             </div>
 
@@ -575,8 +579,6 @@ const DoctorProfile = () => {
                     <button onClick={updateProfile} className="hover:bg-gray-400 mr-2 p-2 hover:p-2 rounded-lg" title="Edit Profile">
                       <Edit />
                     </button>
-
-                    
 
                     <button onClick={updatePassword} className="hover:bg-gray-400 ml-2 p-2 hover:p-2 rounded-lg" title="Edit Password">
                       <Lock />
