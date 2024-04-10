@@ -32,14 +32,6 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleMouseHover = () => {
-        setIsDropdownOpen(true);
-    };
-
-    const handleMouseHoverOff = () => {
-        setIsDropdownOpen(false);
-    };
-
     const [isNotifyOpen, setIsNotifyOpen] = useState(false);
 
     const dropdownRefNotify = useRef(null);
@@ -47,15 +39,7 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
     const toggleNotifyDropdown = () => {
         setIsNotifyOpen(!isNotifyOpen);
     };
-
-    const handleMouseEnter = () => {
-        setIsNotifyOpen(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsNotifyOpen(false);
-    };
-
+    
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

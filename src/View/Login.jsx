@@ -121,10 +121,9 @@ const Login = () => {
 
         const { doctor } = response.data; // Assuming the response contains the doctor object
         const doctorID = doctor.DoctorID; // Extract DoctorID from the doctor object
-        const doctorName = doctor.DoctorName;
 
         // Redirect to another route upon successful login
-        navigate('/Doctor/DoctorHome', { state: { doctorID, doctorName } }); // Change '/dashboard' to your desired route
+        navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
       }
 
     } catch (err) {

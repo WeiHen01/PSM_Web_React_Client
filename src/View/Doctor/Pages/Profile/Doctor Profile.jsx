@@ -6,39 +6,55 @@ import { Edit, Lock} from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const DoctorProfile = () => {
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
+  /** Navigation */
+  const navigate = useNavigate();
   const { doctorID, doctorName } = state;
 
   const [doctorInfo, setDoctorInfo] = useState(null);
 
+  /**
+   * Toggle Update Modal
+   */
   const [updateProfileModal, setProfileModalOpen] = useState(false);
-
   const updateProfile = () => {
     setProfileModalOpen(!updateProfileModal);
   };
 
   const [updatePasswordModal, setUpdatePasswordModalOpen] = useState(false);
-
   const updatePassword = () => {
     setUpdatePasswordModalOpen(!updatePasswordModal);
   };
 
   const [updateSpecialtyModal, setUpdateSpecialtyModalOpen] = useState(false);
-
   const updateSpecialty = () => {
     setUpdateSpecialtyModalOpen(!updateSpecialtyModal);
   };
 
+  /**
+   * Input field handler
+   */
+  // 1. Update Profile
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [contact, setContact] = useState('');
+
+  /**
+   * 2. Update Password
+   */
   /** For toggle to show password */
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
 
+  /** Input for password */
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
@@ -55,13 +71,132 @@ const DoctorProfile = () => {
     setShowConPassword(!showConPassword);
   };// State to track active role
 
-  // State to manage the value of the textarea
-  const [textareaValue, setTextareaValue] = useState('');
 
+
+  /**
+   * 3. Update Specialty
+   */
+  // State to manage the value of the textarea
+  const [specialty, setSpecialty] = useState('');
   // Handler function to update the textarea value
-  const handleTextareaChange = (event) => {
-    setTextareaValue(event.target.value);
+  const handleSpecialty = (event) => {
+    setSpecialty(event.target.value);
   };
+
+
+
+  const updateProfileInfo = async (e) => {
+    e.preventDefault();
+
+    if(name === null && username === null && email === null && contact === null ||
+      name === "" && username === "" && email === "" && contact === ""
+    ){
+      window.alert("Empty Input!!");
+    }
+    else{
+      var doctor_name, doctor_username, doctor_email, doctor_contact;
+
+      if(name){
+        doctor_name = name;
+      }
+  
+      if(username){
+        doctor_username = username;
+      }
+  
+      if(email){
+        doctor_email = email;
+      }
+  
+      if(contact){
+        doctor_contact = contact;
+      }
+  
+      try {
+        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+          DoctorID: doctorID,
+          DoctorName: doctor_name,
+          DoctorUsername: doctor_username,
+          DoctorEmail: doctor_email,
+          DoctorContact: doctor_contact,
+        });
+  
+        console.log(response.data); // Assuming the response returns a success message
+  
+        if(response.status === 200){
+          window.alert("Update Profile Info successfully!");
+          updateProfile();
+          window.location.reload(); // Refresh the page
+        }
+        else {
+          window.alert("Update Profile Info failed!");
+          updateProfile();
+          window.location.reload(); // Refresh the page
+        }
+  
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        // Handle error state or display error message to the user
+      }
+    }
+  };
+
+  const updateProfilePassword = async (e) => {
+    e.preventDefault();
+
+    var doctor_password;
+
+    if(oldPassword === null || newPassword === null || conPassword === null
+       || conPassword !== newPassword || oldPassword !== doctorInfo.DoctorPassword
+    ){
+      window.alert("Update specialty failed!");
+      updatePassword();
+      window.location.reload(); // Refresh the page
+    }
+    else {
+      doctor_password = newPassword;
+
+      try {
+        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+            DoctorPassword: newPassword
+        });
+        console.log(response.data); // Assuming the response returns a success message
+        window.alert("Update password successful!");
+        updatePassword();
+        window.location.reload(); // Refresh the page
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        // Handle error state or display error message to the user
+      }
+    }
+
+   
+  };
+
+  const updateProfileSpecialty = async (e) => {
+    e.preventDefault();
+
+    if(specialty === null){
+      window.alert("Empty specialty");
+    }
+    else {
+      try {
+        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+          DoctorSpecialize: specialty
+        });
+        console.log(response.data); // Assuming the response returns a success message
+        window.alert("Update specialty successful!");
+        updateSpecialty();
+        window.location.reload(); // Refresh the page
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        // Handle error state or display error message to the user
+      }
+    }
+
+    
+  };
+
 
   useEffect(() => {
     
@@ -75,6 +210,7 @@ const DoctorProfile = () => {
         }
         const data = await response.json();
         setDoctorInfo(data);
+        setSpecialty(data["DoctorSpecialize"]);
 
       } catch (error) {
         console.error('Error fetching doctor info:', error);
@@ -85,7 +221,12 @@ const DoctorProfile = () => {
     getDoctorInfo(); // Call the function when component mounts
     
   }, [doctorID]);
-  
+
+
+
+
+
+
   return (
     <div className = "overflow-y-auto" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
@@ -128,7 +269,7 @@ const DoctorProfile = () => {
                 </div>
                 <div className="p-4">
                   {/* Modal content (form) */}
-                  <form className="space-y-4" action="#">
+                  <form className="space-y-4" onSubmit={updateProfileInfo}>
                     {/* Form inputs */}
                     {/* Your email input */}
                     <div style={{ position: 'relative' }}>
@@ -137,8 +278,8 @@ const DoctorProfile = () => {
                       </label>
                       <input
                         type="text"
-                        name="Old password"
-                        id="Old password"
+                        value={name} // ...force the input's value to match the state variable...
+                        onChange={e => setName(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="Name"
                       />
@@ -150,8 +291,8 @@ const DoctorProfile = () => {
                       </label>
                       <input
                         type="text"
-                        name="New password"
-                        id="New password"
+                        value={username} // ...force the input's value to match the state variable...
+                        onChange={e => setUsername(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="Username"
                       />
@@ -165,8 +306,8 @@ const DoctorProfile = () => {
                       </label>
                       <input
                         type='text'
-                        name="password"
-                        id="password"
+                        value={email} // ...force the input's value to match the state variable...
+                        onChange={e => setEmail(e.target.value)}
                         placeholder="Email"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         
@@ -180,8 +321,8 @@ const DoctorProfile = () => {
                       </label>
                       <input
                         type='text'
-                        name="password"
-                        id="password"
+                        value={contact} // ...force the input's value to match the state variable...
+                        onChange={e => setContact(e.target.value)}
                         placeholder="Contact"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         
@@ -236,7 +377,7 @@ const DoctorProfile = () => {
                 </div>
                 <div className="p-4">
                   {/* Modal content (form) */}
-                  <form className="space-y-4" action="#">
+                  <form className="space-y-4" onSubmit={updateProfilePassword} action='POST'>
                     {/* Form inputs */}
                     {/* Your email input */}
                     <div style={{ position: 'relative' }}>
@@ -329,7 +470,7 @@ const DoctorProfile = () => {
         )}
 
         {/** Update Profile Modal */}
-        {updateSpecialtyModal && (
+        {updateSpecialtyModal && doctorInfo && (
           <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
             <div className="relative p-4 w-full max-w-md">
               <div className="relative bg-white rounded-lg shadow">
@@ -361,7 +502,7 @@ const DoctorProfile = () => {
                 </div>
                 <div className="p-4">
                   {/* Modal content (form) */}
-                  <form className="space-y-4" action="#">
+                  <form className="space-y-4" onSubmit={updateProfileSpecialty} action='POST'>
                     {/* Form inputs */}
                     {/* Your email input */}
                     <div style={{ position: 'relative' }}>
@@ -372,8 +513,8 @@ const DoctorProfile = () => {
                         type="text"
                         name="Old password"
                         id="Old password"
-                        value={textareaValue}
-                        onChange={handleTextareaChange}
+                        value={specialty}
+                        onChange={handleSpecialty}
                         rows={8} // Adjust the number of rows as needed
                         cols={100} // Adjust the number of columns as needed  
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -382,7 +523,7 @@ const DoctorProfile = () => {
                       />
                       {/* Displaying the maxlength counter */}
                       <p className=" text-end">
-                        {textareaValue.length}/{1000}
+                        {specialty.length}/{1000}
                       </p>
                     </div>
 
@@ -416,7 +557,8 @@ const DoctorProfile = () => {
                 <img src={Logo} alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" />
               </div>
 
-              <p className = "text-center text-2xl"><strong>{doctorName}</strong></p>
+              
+              {doctorInfo && (<p className = "text-center text-2xl"><strong>{doctorInfo.DoctorName}</strong></p>)}
               <p className = "text-center text-md">Doctor</p>
 
               <p className = "text-center text-sm mt-6">This is my introduction</p>
@@ -489,7 +631,7 @@ const DoctorProfile = () => {
                 <hr className="border-1 border-black my-2"></hr>
 
                 <div className="text-black">
-                  {doctorInfo && (<p className = "font-semibold">{doctorInfo.DoctorSpecialty}</p>)}
+                  {doctorInfo && (<p className = "font-semibold">{doctorInfo.DoctorSpecialize}</p>)}
                 </div>
 
               </div>

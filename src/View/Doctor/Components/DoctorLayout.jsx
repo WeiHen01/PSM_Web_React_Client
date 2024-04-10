@@ -16,7 +16,7 @@ const DoctorLayout = ({children, doctorID, doctorName, active}) => {
                 <div className={`overflow-hidden transition-all ${expanded ? "w-56" : "w-0"} bg-white border-r shadow-sm`}>
                     
                     <DoctorSidebar>
-                        <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" active = {active === 'Home' ? 'active' : null}/>
+                        <DoctorSidebarItem doctorID={doctorID} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" active = {active === 'Home' ? 'active' : null}/>
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<UserCircle2 size={20} />} text="Profile" url="/Doctor/DoctorProfile" active = {active === 'Profile' ? 'active' : null}/>
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" active = {active === 'Chat' ? 'active' : null}/>
                         <DoctorSidebarItem doctorID={doctorID} doctorName={doctorName} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" active = {active === 'Report' ? 'active' : null}/>
