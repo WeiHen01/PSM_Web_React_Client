@@ -112,7 +112,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/api/doctor/login', { email, password });
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/login`, { email, password });
       console.log(response.data); // Handle success, e.g., redirect to dashboard
       setError(null); // Clear any previous errors
 
@@ -141,7 +141,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/api/admin/login', { email, password });
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/login`, { email, password });
       console.log(response.data); // Handle success, e.g., redirect to dashboard
       setError(null); // Clear any previous errors
 
@@ -175,6 +175,8 @@ const Login = () => {
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
       <title>BITU3973 | Login</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"></link>
       
       {/** Back button */}
       <div style={{ 

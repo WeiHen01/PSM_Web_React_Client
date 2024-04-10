@@ -102,7 +102,7 @@ const Register = () => {
   const handleDoctorSignUp = async () => {
     if(password === conPassword){
       try {
-        const response = await axios.post('http://localhost:8000/api/doctor/register', {
+        const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
           DoctorName: 'new-doctor',
           DoctorEmail: email,
           DoctorPassword: password,
@@ -129,7 +129,7 @@ const Register = () => {
   const handleAdminSignUp = async () => {
     if(password === conPassword){
       try {
-        const response = await axios.post('http://localhost:8000/api/admin/register', {
+        const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
           AdminName: 'new-admin',
           AdminEmail: email,
           AdminPassword: password,
@@ -157,6 +157,8 @@ const Register = () => {
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
       <title>BITU3973 | Register</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"></link>
       
       <div style={{ 
           width: '50%',

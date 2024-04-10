@@ -17,7 +17,7 @@ const DoctorChat = () => {
     const getDoctorInfo = async () => {
       
       try {
-        const response = await fetch(`http://localhost:8000/api/doctor/findDoctor/${doctorID}`);
+        const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findDoctor/${doctorID}`);
         
         if (!response.ok) {
           throw new Error('Error retrieving doctor information');

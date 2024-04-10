@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {HomeIcon, LayoutDashboard, ChevronLeft, Menu, LogOutIcon, Users2} from 'lucide-react';
+import {HomeIcon, ChevronLeft, Menu, LogOutIcon, Users2} from 'lucide-react';
 import AdminSidebar, { AdminSidebarItem } from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 

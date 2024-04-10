@@ -68,8 +68,8 @@ const AdminProfile = () => {
   const updateProfileInfo = async (e) => {
     e.preventDefault();
 
-    if(name === null && username === null && email === null && contact === null ||
-      name === "" && username === "" && email === "" && contact === ""
+    if((name === null && username === null && email === null && contact === null) ||
+      (name === "" && username === "" && email === "" && contact === "")
     ){
       window.alert("Empty Input!!");
     }
@@ -93,7 +93,7 @@ const AdminProfile = () => {
       }
   
       try {
-        const response = await axios.put(`http://localhost:8000/api/admin/update/id/${adminID}`, {
+        const response = await axios.put(`http://${window.location.hostname}:8000/api/admin/update/id/${adminID}`, {
           AdminName: admin_name,
           AdminUsername: admin_username,
           AdminEmail: admin_email,
@@ -123,8 +123,6 @@ const AdminProfile = () => {
   const updateProfilePassword = async (e) => {
     e.preventDefault();
 
-    var admin_password;
-
     if(oldPassword === null || newPassword === null || conPassword === null
        || conPassword !== newPassword || oldPassword !== adminInfo.AdminPassword
     ){
@@ -133,10 +131,9 @@ const AdminProfile = () => {
       window.location.reload(); // Refresh the page
     }
     else {
-      admin_password = newPassword;
 
       try {
-        const response = await axios.put(`http://localhost:8000/api/admin/update/id/${adminID}`, {
+        const response = await axios.put(`http://${window.location.hostname}:8000/api/admin/update/id/${adminID}`, {
             AdminPassword: newPassword
         });
         console.log(response.data); // Assuming the response returns a success message
@@ -157,7 +154,7 @@ const AdminProfile = () => {
     const getAdminInfo = async() => {
 
       try {
-        const response = await fetch(`http://localhost:8000/api/admin/findAdmin/${adminID}`);
+        const response = await fetch(`http://${window.location.hostname}:8000/api/admin/findAdmin/${adminID}`);
 
         if (!response.ok) {
           throw new Error('Error retrieving admin information');
@@ -401,7 +398,7 @@ const AdminProfile = () => {
                     </div>
                     {/* Remember me checkbox and Lost Password link */}
                     <div className="flex justify-end">
-                      <a href="#" className="text-sm text-orange-600 hover:underline">
+                      <a href="/Admin/AdminProfile" className="text-sm text-orange-600 hover:underline">
                         Lost Password?
                       </a>
                     </div>

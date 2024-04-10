@@ -86,8 +86,8 @@ const DoctorProfile = () => {
   const updateProfileInfo = async (e) => {
     e.preventDefault();
 
-    if(name === null && username === null && email === null && contact === null ||
-      name === "" && username === "" && email === "" && contact === ""
+    if((name === null && username === null && email === null && contact === null) ||
+      (name === "" && username === "" && email === "" && contact === "")
     ){
       window.alert("Empty Input!!");
     }
@@ -111,7 +111,7 @@ const DoctorProfile = () => {
       }
   
       try {
-        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+        const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
           DoctorID: doctorID,
           DoctorName: doctor_name,
           DoctorUsername: doctor_username,
@@ -142,8 +142,6 @@ const DoctorProfile = () => {
   const updateProfilePassword = async (e) => {
     e.preventDefault();
 
-    var doctor_password;
-
     if(oldPassword === null || newPassword === null || conPassword === null
        || conPassword !== newPassword || oldPassword !== doctorInfo.DoctorPassword
     ){
@@ -152,10 +150,9 @@ const DoctorProfile = () => {
       window.location.reload(); // Refresh the page
     }
     else {
-      doctor_password = newPassword;
 
       try {
-        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+        const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
             DoctorPassword: newPassword
         });
         console.log(response.data); // Assuming the response returns a success message
@@ -179,7 +176,7 @@ const DoctorProfile = () => {
     }
     else {
       try {
-        const response = await axios.put(`http://localhost:8000/api/doctor/update/id/${doctorID}`, {
+        const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
           DoctorSpecialize: specialty
         });
         console.log(response.data); // Assuming the response returns a success message
@@ -201,7 +198,7 @@ const DoctorProfile = () => {
     const getDoctorInfo = async () => {
       
       try {
-        const response = await fetch(`http://localhost:8000/api/doctor/findDoctor/${doctorID}`);
+        const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findDoctor/${doctorID}`);
         
         if (!response.ok) {
           throw new Error('Error retrieving doctor information');
@@ -453,7 +450,7 @@ const DoctorProfile = () => {
                     </div>
                     {/* Remember me checkbox and Lost Password link */}
                     <div className="flex justify-end">
-                      <a href="#" className="text-sm text-orange-600 hover:underline">
+                      <a href="/Doctor/DoctorProfile" className="text-sm text-orange-600 hover:underline">
                         Lost Password?
                       </a>
                     </div>

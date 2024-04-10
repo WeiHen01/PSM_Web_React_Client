@@ -58,7 +58,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
         const getAdminInfo = async () => {
       
             try {
-                const response = await fetch(`http://localhost:8000/api/admin/findAdmin/${adminID}`);
+                const response = await fetch(`http://${window.location.hostname}:8000/api/admin/findAdmin/${adminID}`);
                 
                 if (!response.ok) {
                     throw new Error('Error retrieving admin information');
@@ -78,10 +78,11 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, []);
+    }, [adminID]);
   
     return (
         <div className="flex items-center justify-between px-2">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"></link>
             <div className="flex items-center gap-5">
                 {children}
                 <div className="logo">
@@ -110,7 +111,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
                         >
                             <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
                                 <li>
-                                    <a href="#" className="block my-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                    <p className="block my-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</p>
                                 </li>
                             </ul>
                         </div>
