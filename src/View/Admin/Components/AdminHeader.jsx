@@ -4,16 +4,18 @@ import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
 import {Bell, LogOut, UserCircle2} from 'lucide-react';
 
-const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
+const AdminHeader = ({ adminID, notificationCount, children }) => {
 
     const navigate = useNavigate();
 
+    const [adminInfo, setAdminInfo] = useState(null);
+
     const Home=()=>{
-        navigate("/Admin/AdminHome", { state: { adminID, adminName } });
+        navigate("/Admin/AdminHome", { state: { adminID } });
     }
 
     const Profile=()=>{
-        navigate("/Admin/AdminProfile", { state: { adminID, adminName } });
+        navigate("/Admin/AdminProfile", { state: { adminID } });
     }
 
     const Logout=()=>{
@@ -52,6 +54,26 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
         };
 
         document.addEventListener('click', handleClickOutside);
+
+        const getAdminInfo = async () => {
+      
+            try {
+                const response = await fetch(`http://localhost:8000/api/admin/findAdmin/${adminID}`);
+                
+                if (!response.ok) {
+                    throw new Error('Error retrieving admin information');
+                }
+                const data = await response.json();
+                setAdminInfo(data);
+        
+            } catch (error) {
+                console.error('Error fetching admin info:', error);
+                // Handle error state or display error message to the user
+            }
+            
+        };
+
+        getAdminInfo();
 
         return () => {
             document.removeEventListener('click', handleClickOutside);
@@ -104,8 +126,9 @@ const AdminHeader = ({ adminID, adminName, notificationCount, children }) => {
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
                         
                         <div className='flex flex-col items-start'>
-                            <p className = "flex font-special text-sm font-semibold"><span>{adminName}</span> {/* Display username */}</p>
-                            
+                            {/* Display username */}
+                            {adminInfo && (<p className = "flex font-special text-sm font-semibold"><span>{adminInfo.AdminName}</span> </p>)}
+                        
                             <p className = "font-special text-xs">Admin</p>
                         </div>
                     </button>

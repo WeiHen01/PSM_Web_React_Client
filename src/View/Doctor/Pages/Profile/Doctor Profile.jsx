@@ -6,16 +6,14 @@ import { Edit, Lock} from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const DoctorProfile = () => {
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
-  /** Navigation */
-  const navigate = useNavigate();
-  const { doctorID, doctorName } = state;
+  const { doctorID } = state;
 
   const [doctorInfo, setDoctorInfo] = useState(null);
 
@@ -235,7 +233,7 @@ const DoctorProfile = () => {
   return (
     <div className = "overflow-y-auto" style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
-      <DoctorLayout doctorID={doctorID} doctorName={doctorName} active={"Profile"}>
+      <DoctorLayout doctorID={doctorID} active={"Profile"}>
       
         <div class="w-full px-5 pt-3 h-fit overflow-hidden text-center">
           <h1 class="text-xl py-1"><b>Profile</b></h1>

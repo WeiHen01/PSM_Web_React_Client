@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import DoctorLayout from '../../Components/DoctorLayout';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,13 +8,38 @@ const DoctorChat = () => {
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
-  const { doctorID, doctorName } = state;
+  const { doctorID } = state;
+
+  const [doctorInfo, setDoctorInfo] = useState(null);
+
+  useEffect(() => {
+    
+    const getDoctorInfo = async () => {
+      
+      try {
+        const response = await fetch(`http://localhost:8000/api/doctor/findDoctor/${doctorID}`);
+        
+        if (!response.ok) {
+          throw new Error('Error retrieving doctor information');
+        }
+        const data = await response.json();
+        setDoctorInfo(data);
+
+      } catch (error) {
+        console.error('Error fetching doctor info:', error);
+        // Handle error state or display error message to the user
+      }
+    };
+
+    getDoctorInfo(); // Call the function when component mounts
+    
+  }, [doctorID]);
 
   return (
     <div className=' h-full'>
       
       <title>BITU3973 | Doctor Chat</title>
-      <DoctorLayout doctorID={doctorID} doctorName={doctorName} active = {'Chat'}>
+      <DoctorLayout doctorID={doctorID} active = {'Chat'}>
         
         <div className="h-fit px-6 py-3">
           
@@ -32,23 +57,23 @@ const DoctorChat = () => {
               
               {/** Scrollable */}
               <div className='p-3 bg-orange-200 overflow-y-auto'>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
+                
               </div>
 
               
@@ -60,26 +85,17 @@ const DoctorChat = () => {
             <div className="right h-full w-[70%] flex flex-col justify-between">
               
               <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-3">
-                <p className="font-bold text-lg">{doctorName}</p>
+              {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
               </div>
 
               {/** Chat contents with bubbles */}
               <div className='h-full p-3 bg-orange-200 overflow-y-auto'>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
-                <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
-                <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
-                <p className="text-sm">Online</p>
-                <p className="font-bold text-lg">{doctorName}</p>
-                <p className="text-sm">Online</p>
-
-                <p className="font-bold text-lg">{doctorName}</p>
+                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
                 <p className="text-sm">Online</p>
               </div>
 
