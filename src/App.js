@@ -30,7 +30,7 @@ function App() {
       {/** Navigate to Doctor Level through DoctorApp.js */}
       <Route path = "/Doctor/*" element={<DoctorApp/>}/>
 
-      {/** Navigate to Doctor Level through DoctorApp.js */}
+      {/** Navigate to Admin Level through AdminApp.js */}
       <Route path = "/Admin/*" element={<AdminApp />}/>
       
     </Routes>
