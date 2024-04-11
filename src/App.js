@@ -18,7 +18,6 @@ function App() {
     runOneSignal();
   })
 
-  
   return (
     <div className="App">
     <Routes>
