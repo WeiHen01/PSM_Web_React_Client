@@ -1,3 +1,4 @@
+
 {
   "name": "client",
   "version": "0.1.0",
@@ -23,6 +24,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "env-cmd": "^10.1.0",
     "lucide-react": "^0.357.0",
     "pdfjs-dist": "^3.4.120",
     "react": "^18.2.0",
@@ -36,7 +38,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=9999 BROWSER=edge && react-scripts start",
+    
+    "start": "set PORT=9999 && start msedge http://localhost:9999 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
