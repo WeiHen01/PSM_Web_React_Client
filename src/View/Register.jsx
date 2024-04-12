@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import bgRegister from '../images/Register.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from 'axios';
+import { useGoogleLogin } from '@react-oauth/google';
+import { FaGoogle } from 'react-icons/fa';
 
 const Tab = styled.button`
   width: 50%;
@@ -154,6 +156,44 @@ const Register = () => {
     }
   };
 
+  /**
+   * Google Authentication
+   */
+  const [userInfo, setUserInfo] = useState([]);
+  const [profileInfo, setProfileInfo] = useState([]);
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: (response) => {
+      setUserInfo(response);
+      console.log(`Log in successfully`);
+    },
+    onError: (error) => console.log(`Login Failed: ${error}`, )
+  });
+  
+  useEffect (() => {
+    if (userInfo) {
+      axios
+        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userInfo.access_token}`, {
+            headers: {
+                Authorization: `Bearer ${userInfo.access_token}`,
+                Accept: 'application/json'
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            setProfileInfo(response.data);
+            setEmail(response.data["email"]);
+        })
+        .catch((error) => console.log(error));
+        
+    }
+    
+  }, [userInfo, activeRole])
+
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
       <title>BITU3973 | Register</title>
@@ -284,6 +324,16 @@ const Register = () => {
               <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
                 <p className='text-sm'>Already have an account? </p>
                 <a href="/Login" className='text-sm hover:text-orange-600 duration-300'><b>Login now!</b></a> {/* Removed unnecessary styles */}
+              </div>
+
+              {/** Google Login Button */}
+              <div className="flex justify-evenly mt-2 items-center gap-1"> {/* Flex container with end alignment */}
+                
+                <button type="button" onClick={GoogleLogin} className="flex items-center border-rose-400 border-2 p-3 rounded-md font-medium hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300">
+                  <FaGoogle size={30}  className='pr-2' />
+                  <p className=' font-semibold'>Login with Google</p>
+                </button>
+                
               </div>
     
               

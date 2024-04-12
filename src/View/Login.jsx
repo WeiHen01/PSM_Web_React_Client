@@ -2,15 +2,17 @@
  * Login.jsx: General Login Page
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import bgSignIn from "../images/Login.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from 'axios';
 
 import OneSignal from 'react-onesignal';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Tab = styled.button`
   width: 50%;
@@ -177,6 +179,112 @@ const Login = () => {
     }
   };
 
+
+
+  /**
+   * Google Authentication
+   */
+  const [userInfo, setUserInfo] = useState([]);
+  const [profileInfo, setProfileInfo] = useState([]);
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  const handleDoctorGoogleLogin = async (googleemail) => {
+    
+    try {
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/loginGoogle/${googleemail}`, { });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as doctor!");
+
+        const { doctor } = response.data; // Assuming the response contains the doctor object
+        const doctorID = doctor.DoctorID; // Extract DoctorID from the doctor object
+
+        OneSignal.login("D-" + doctorID);
+
+        // Redirect to another route upon successful login
+        navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
+
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
+
+  };
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  const handleAdminGoogleLogin = async (googleemail) => {
+    
+    try {
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/loginGoogle/${googleemail}`, { });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as admin!");
+
+        const { admin } = response.data; // Assuming the response contains the doctor object
+        const adminID = admin.AdminID; // Extract AdminID from the doctor object
+
+        OneSignal.login("Ad-" + adminID);
+
+        // Redirect to another route upon successful login
+        navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route
+
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
+
+  };
+  
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: (response) => {
+      setUserInfo(response);
+      console.log(`Log in successfully`);
+    },
+    onError: (error) => console.log(`Login Failed: ${error}`, )
+  });
+  
+  useEffect (() => {
+    if (userInfo) {
+      axios
+        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userInfo.access_token}`, {
+            headers: {
+                Authorization: `Bearer ${userInfo.access_token}`,
+                Accept: 'application/json'
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            setProfileInfo(response.data);
+            setEmail(response.data["email"]);
+            if(activeRole === "Doctor"){
+              handleDoctorGoogleLogin(email);
+            }
+            if(activeRole === "Admin"){
+              handleAdminGoogleLogin(email);
+            }
+        })
+        .catch((error) => console.log(error));
+        
+    }
+    
+  }, [userInfo, activeRole, email])
+
+  
+
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
       <title>BITU3973 | Login</title>
@@ -276,7 +384,7 @@ const Login = () => {
             <div className = "mt-2">
               <button 
                 type = "submit"
-                className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300"
+                className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300 text-lg"
                 
               >
                 Login
@@ -289,8 +397,28 @@ const Login = () => {
               <a href="/Register" className='text-sm hover:text-orange-600 duration-300'><b>Sign Up now!</b></a> {/* Removed unnecessary styles */}
             </div>
 
+            <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
+              <p className=' text-base'>OR LOGIN WITH</p>
+            </div>
+
+            {/** Google Login Button */}
+            <div className="flex justify-evenly mt-2 items-center gap-1"> {/* Flex container with end alignment */}
+              
+              <button type="button" onClick={GoogleLogin} className="flex items-center border-rose-400 border-2 p-3 rounded-md font-medium hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300">
+                <FaGoogle size={30}  className='pr-2' />
+                <p className=' font-semibold'>Login with Google</p>
+              </button>
+              
+            </div>
+
+
+
           </div>
           {/** The login form ends*/}
+
+          
+
+
         </form>
 
         
