@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from 'axios';
 
+import OneSignal from 'react-onesignal';
 
 const Tab = styled.button`
   width: 50%;
@@ -122,6 +123,8 @@ const Login = () => {
         const { doctor } = response.data; // Assuming the response contains the doctor object
         const doctorID = doctor.DoctorID; // Extract DoctorID from the doctor object
 
+        OneSignal.login("D-" + doctorID);
+
         // Redirect to another route upon successful login
         navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
       }
@@ -149,7 +152,9 @@ const Login = () => {
         window.alert("Successfully logged in as admin!");
 
         const { admin } = response.data; // Assuming the response contains the doctor object
-        const adminID = admin.AdminID; // Extract DoctorID from the doctor object
+        const adminID = admin.AdminID; // Extract AdminID from the doctor object
+
+        OneSignal.login("Ad-" + adminID);
 
         // Redirect to another route upon successful login
         navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route

@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import { useNavigate } from "react-router-dom";
 
+import OneSignal from 'react-onesignal';
+
 const SidebarContext = createContext();
 
 const DoctorSidebar = ({children, doctorID, doctorName}) => {
@@ -41,6 +43,7 @@ export function DoctorSidebarItem({icon, text, active, alert, url, logout, docto
             const confirmed = window.confirm("Are you sure you want to logout?");
             if(confirmed){
                 window.alert("You have been logged out!");
+                OneSignal.logout();
                 window.location.replace("/Login");
             } 
         }
