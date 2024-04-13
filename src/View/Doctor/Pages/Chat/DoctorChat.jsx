@@ -11,6 +11,7 @@ const DoctorChat = () => {
   const { doctorID } = state;
 
   const [doctorInfo, setDoctorInfo] = useState(null);
+  const [patientInfo, setAllPatients] = useState([]);
 
   useEffect(() => {
     
@@ -31,9 +32,51 @@ const DoctorChat = () => {
       }
     };
 
+    const getAllPatients = async () => {
+      
+      try {
+        const response = await fetch(`http://${window.location.hostname}:8000/api/patient`);
+        
+        if (!response.ok) {
+          throw new Error('Error retrieving all patients information');
+        }
+        const data = await response.json();
+        setAllPatients(data);
+
+      } catch (error) {
+        console.error('Error fetching all patients info:', error);
+        // Handle error state or display error message to the user
+      }
+    };
+
     getDoctorInfo(); // Call the function when component mounts
+    getAllPatients();
     
-  }, [doctorID]);
+  }, [doctorID, patientInfo]);
+
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
+
+  // Function to handle click on a patient item
+  const handlePatientClick = (patientID) => {
+    setSelectedPatient(patientID);
+    fetchChatHistory(patientID);
+  };
+
+  // Function to fetch chat history between the selected patient and the doctor
+  const fetchChatHistory = async (patientID) => {
+    try {
+      const response = await fetch(`http://${window.location.hostname}:8000/api/patient/findChatBetween/${patientID}/${doctorID}`);
+      if (!response.ok) {
+        throw new Error('Error retrieving chat history');
+      }
+      const data = await response.json();
+      setChatHistory(data);
+    } catch (error) {
+      console.error('Error fetching chat history:', error);
+      // Handle error state or display error message to the user
+    }
+  };
 
   return (
     <div className=' h-full'>
@@ -48,33 +91,24 @@ const DoctorChat = () => {
           <div class="mt-4 w-92 h-[75vh] bg-red-50 flex flex-row">
 
             {/** Left-container */}
-            <div className="left h-full bg-[#ffffff] w-[30%] flex flex-col justify-between">
+            <div className="left h-full bg-orange-200 w-[30%] flex flex-col">
               
               {/** Headers */}
-              <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-2">
-                
+              <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white">
+                {doctorInfo && (<p className="font-bold text-lg">{doctorInfo.DoctorName}</p>)}
               </div>
               
               {/** Scrollable */}
-              <div className='p-3 bg-orange-200 overflow-y-auto'>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
+              {patientInfo.map(patient => (
+              <div className='p-3 bg-orange-200 min-h-max overflow-y-auto'>
+                
+                  <div key={patient.PatientID} onClick={() => handlePatientClick(patient.PatientID)}> 
+                    <p className="font-bold text-lg">{patient.PatientName}</p>
+                    <p className="text-sm">{patient.PatientEmail}</p>
+                  </div>
                 
               </div>
+              ))}
 
               
               
@@ -85,18 +119,18 @@ const DoctorChat = () => {
             <div className="right h-full w-[70%] flex flex-col justify-between">
               
               <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-3">
-              {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
+                
               </div>
 
               {/** Chat contents with bubbles */}
               <div className='h-full p-3 bg-orange-200 overflow-y-auto'>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
-                {doctorInfo && ( <p className="font-bold text-lg"><span>{doctorInfo.DoctorName}</span> </p>)}
-                <p className="text-sm">Online</p>
+                {selectedPatient && chatHistory.map(chat => (
+                  <div key={chat._id}>
+                    <p>{chat.ChatMessage}</p>
+                    <p>{chat.ChatDateTime}</p>
+                  </div>
+                ))}
+                
               </div>
 
 
@@ -111,7 +145,7 @@ const DoctorChat = () => {
                   />
 
                   <input 
-                    placeholder="Email" 
+                    placeholder="Message" 
                     className="w-full pl-14 pr-2 py-2 bg-gray-100 text-black" 
                     style={{ paddingLeft: '35px', width: '100%' }} 
                   />
