@@ -11,9 +11,7 @@ import AdminApp from './View/Admin/AdminApp';
 
 import runOneSignal from './OneSignal';
 
-
 function App() {
-  
   useEffect(() => {
     runOneSignal();
   })

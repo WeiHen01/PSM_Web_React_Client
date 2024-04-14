@@ -14,7 +14,6 @@ const DoctorChat = () => {
   const [doctorInfo, setDoctorInfo] = useState(null);
   const [patients, setAllPatients] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
-  const [selectedPatient, setSelected] = useState(null);
   const [patientInfo, setPatient] = useState([]);
 
   useEffect(() => {
@@ -72,6 +71,8 @@ const DoctorChat = () => {
 
   }
 
+  
+
   const getPatientInfo = async (patientID) => {
       
     try {
@@ -88,7 +89,92 @@ const DoctorChat = () => {
     }
   };
 
+  // Function to send notification
+const sendNotification = async (title, message, users) => {
+  const _appId = 'ae3fc8cd-0f1e-4568-a8cc-7172abe05ae3';
+  const _apiKey = 'MGMwYzdmZTAtMjYwMC00YzhlLTgzYjUtNDdkMmRjNjU3NTMy';
+  try {
+    // Send a notification using OneSignal API
+    const response = await axios.post('https://onesignal.com/api/v1/notifications', {
+      app_id: _appId,
+      include_external_user_ids: [users],
+      contents: { en: message },
+      headings: { en: title },
+      // Additional notification options can be added here
+    }, {
+      headers: {
+        'Authorization': `Basic ${_apiKey}`,
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    });
+
+    console.log('Notification sent successfully');
+  } catch (error) {
+    console.error('Error sending notification:', error);
+  }
+};
+
   
+  const [message, setMessage] = useState('');
+
+  const sendMessage = async () => {
+    try {
+      // Check if the message is not empty
+      if (message.trim() === '') {
+        return;
+      }
+  
+      // Make a POST request to the backend API endpoint
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/chat/createChat`, {
+        ChatMessage: message,
+        PatientID: 'D-' + doctorID,
+        ReceiverID: 'P-' + selectedPatient,
+        ChatDateTime: new Date(),
+        ChatMessageStatus: 'Unseen',
+        // Add any other necessary fields here
+      });
+  
+      // Check if the request was successful
+      if (response.status === 200) {
+
+        // Clear the message input field after sending the message
+        setMessage('');
+        
+        // Update the chat history to include the sent message
+        const newChat = {
+          ChatMessage: message,
+          PatientID: 'D-' + doctorID,
+          ReceiverID: 'P-' + selectedPatient,
+          ChatDateTime: new Date(),
+          ChatMessageStatus: 'Unseen',
+        };
+  
+        setChatHistory(prevState => ({
+          ...prevState,
+          [selectedPatient]: prevState[selectedPatient] ? [...prevState[selectedPatient], newChat] : [newChat],
+        }));
+  
+        // Scroll to the bottom of the chat container
+        scrollToBottom();
+
+       
+
+        var users = "P-" + patientInfo.PatientID;
+        
+        console.log(doctorInfo.DoctorName + ", " + message + ", " + users);
+
+        sendNotification(doctorInfo.DoctorName, message, users);
+
+      } else {
+        // Handle error if the request was not successful
+        console.error('Error sending message:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  }
+
+  const [selectedPatient, setSelected] = useState(null);
 
   // Function to fetch chat history between the selected patient and the doctor
   const fetchChatHistory = async (patientID) => {
@@ -100,7 +186,7 @@ const DoctorChat = () => {
 
       setChatHistory(prevState => ({
         ...prevState,
-        [patientID]: data
+        [patientID]: data 
       }));
 
     } catch (error) {
@@ -122,7 +208,7 @@ const DoctorChat = () => {
     scrollToBottom();
   }, [selectedPatient, chatHistory]);
 
-  
+ 
 
   return (
     <div className=' h-full'>
@@ -144,7 +230,7 @@ const DoctorChat = () => {
               {patients.map(patient => (
               <div className={`
                     p-3 bg-orange-200 min-h-max overflow-y-auto 
-                    ${selectedPatient === patient.PatientID ? 'bg-[#FF4081]' : 'hover:bg-blue-600'}
+                    ${selectedPatient === patient.PatientID ?  ' bg-pink-500' : 'hover:bg-blue-600'}
                   `}
                    key={patient.PatientID} >
                 
@@ -219,15 +305,18 @@ const DoctorChat = () => {
 
                   <input 
                     placeholder="Message" 
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}  
                     className="w-full pl-14 pr-2 py-2 bg-gray-100 text-black" 
                     style={{ paddingLeft: '35px', width: '100%' }} 
                   />
 
-                  {/* Button beside the input */}
+                  {/* sEND BUTTON */}
                   <button
                     className="ml-2 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
                     onClick={() => {
                       // Handle button click
+                      sendMessage()
                     }}
                   >
                     <FontAwesomeIcon icon={faPaperPlane} />
