@@ -252,6 +252,9 @@ const Login = () => {
 
   };
   
+  /**
+   * Google Login using OAuth2
+   */
   const GoogleLogin = useGoogleLogin({
     onSuccess: (response) => {
       setUserInfo(response);
@@ -286,7 +289,6 @@ const Login = () => {
     
   }, [userInfo, activeRole, email])
 
-  
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">

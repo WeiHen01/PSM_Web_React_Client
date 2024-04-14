@@ -89,7 +89,9 @@ const DoctorChat = () => {
     }
   };
 
-  // Function to send notification
+  /**
+   * Send Notification via OneSignal
+   */
   const sendNotification = async (title, message, users) => {
     const _appId = 'ae3fc8cd-0f1e-4568-a8cc-7172abe05ae3';
     const _apiKey = 'MGMwYzdmZTAtMjYwMC00YzhlLTgzYjUtNDdkMmRjNjU3NTMy';
@@ -160,12 +162,13 @@ const DoctorChat = () => {
         // Scroll to the bottom of the chat container
         scrollToBottom();
 
-       
-
         var users = "P-" + patientInfo.PatientID;
 
         console.log(doctorInfo.DoctorName + ", " + message + ", " + users);
 
+        /**
+         * Function call to send notification through OneSignal
+         */
         sendNotification(doctorInfo.DoctorName, message, users);
 
       } else {
