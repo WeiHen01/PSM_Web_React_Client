@@ -90,29 +90,29 @@ const DoctorChat = () => {
   };
 
   // Function to send notification
-const sendNotification = async (title, message, users) => {
-  const _appId = 'ae3fc8cd-0f1e-4568-a8cc-7172abe05ae3';
-  const _apiKey = 'MGMwYzdmZTAtMjYwMC00YzhlLTgzYjUtNDdkMmRjNjU3NTMy';
-  try {
-    // Send a notification using OneSignal API
-    const response = await axios.post('https://onesignal.com/api/v1/notifications', {
-      app_id: _appId,
-      include_external_user_ids: [users],
-      contents: { en: message },
-      headings: { en: title },
-      // Additional notification options can be added here
-    }, {
-      headers: {
-        'Authorization': `Basic ${_apiKey}`,
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    });
+  const sendNotification = async (title, message, users) => {
+    const _appId = 'ae3fc8cd-0f1e-4568-a8cc-7172abe05ae3';
+    const _apiKey = 'MGMwYzdmZTAtMjYwMC00YzhlLTgzYjUtNDdkMmRjNjU3NTMy';
+    try {
+      // Send a notification using OneSignal API
+      const response = await axios.post('https://onesignal.com/api/v1/notifications', {
+        app_id: _appId,
+        include_external_user_ids: [users],
+        contents: { en: message },
+        headings: { en: title },
+        // Additional notification options can be added here
+      }, {
+        headers: {
+          'Authorization': `Basic ${_apiKey}`,
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      });
 
-    console.log('Notification sent successfully');
-  } catch (error) {
-    console.error('Error sending notification:', error);
-  }
-};
+      console.log('Notification sent successfully');
+    } catch (error) {
+      console.error('Error sending notification:', error);
+    }
+  };
 
   
   const [message, setMessage] = useState('');
@@ -153,6 +153,9 @@ const sendNotification = async (title, message, users) => {
           ...prevState,
           [selectedPatient]: prevState[selectedPatient] ? [...prevState[selectedPatient], newChat] : [newChat],
         }));
+
+        // After sending the message, update the chat history
+        await fetchChatHistory(selectedPatient);
   
         // Scroll to the bottom of the chat container
         scrollToBottom();
@@ -160,7 +163,7 @@ const sendNotification = async (title, message, users) => {
        
 
         var users = "P-" + patientInfo.PatientID;
-        
+
         console.log(doctorInfo.DoctorName + ", " + message + ", " + users);
 
         sendNotification(doctorInfo.DoctorName, message, users);
@@ -268,9 +271,12 @@ const sendNotification = async (title, message, users) => {
                       key={chat.ChatID}
                       className={
                         chat.PatientID === `P-${patientInfo.PatientID}`
-                          ? "text-left mb-4 p-2 mr-96 bg-[#ff8ab1] rounded-md hover:translate-x-6 duration-300"
-                          : "text-left mb-4 p-2 ml-96 bg-white rounded-md hover:-translate-x-6 duration-300"
+                          ? "text-left mb-4 p-2 mr-auto w-96 bg-[#ff8ab1] rounded-md hover:translate-x-6 duration-300"
+                          : "text-left mb-4 p-2 ml-auto w-96 overflow-x-auto bg-white rounded-md hover:-translate-x-6 duration-300"
                       }
+                      style={{wordWrap: 'break-word', maxWidth: '60ch'}}
+                     
+                      
                     >
                       {
                         chat.PatientID === `P-${patientInfo.PatientID}`
