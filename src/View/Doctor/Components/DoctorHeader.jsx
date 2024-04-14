@@ -4,7 +4,7 @@ import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
 import {Bell, LogOut, UserCircle2} from 'lucide-react';
 
-import OneSignal from 'react-onesignal';
+import Onesignal from 'react-onesignal';
 
 const DoctorHeader = ({doctorID, notificationCount, children }) => {
 
@@ -23,8 +23,9 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
     const Logout=()=>{
         const confirmed = window.confirm("Are you sure you want to logout?");
         if(confirmed){
+            //OneSignal.removeExternalUserId();
+            Onesignal.logout();
             window.alert("You have been logged out!");
-            OneSignal.logout();
             window.location.replace("/Login");
         }
     }

@@ -42,8 +42,9 @@ export function DoctorSidebarItem({icon, text, active, alert, url, logout, docto
         if(logout === "/Login"){
             const confirmed = window.confirm("Are you sure you want to logout?");
             if(confirmed){
-                window.alert("You have been logged out!");
+                //OneSignal.removeExternalUserId();
                 OneSignal.logout();
+                window.alert("You have been logged out!");
                 window.location.replace("/Login");
             } 
         }

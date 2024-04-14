@@ -156,7 +156,10 @@ const Login = () => {
         const { admin } = response.data; // Assuming the response contains the doctor object
         const adminID = admin.AdminID; // Extract AdminID from the doctor object
 
-        OneSignal.login("Ad-" + adminID);
+        OneSignal.setExternalUserId("Ad-" + adminID);
+
+
+        //OneSignal.login();
 
         // Redirect to another route upon successful login
         navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route
