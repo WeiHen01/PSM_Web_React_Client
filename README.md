@@ -1,7 +1,36 @@
-# Description
+# PSM_Web_React_Client
 
-This repository contains all the client level services. 
+This repository contains all the web application including front-end (User Interface and Behaviour to interact with server side using Rest API Endpoint). For server/backend side, please refer 'PSM_Web_React_Server' in Github
 
+## Web Application: EpiHealth
+
+Developed by NG WEI HEN for BITU3973 & BITU3983 FINAL YEAR PROJECT during Semester 2 and 3 Year 2023/2024
+
+### Technology Stack
+
+Front-end Language: React.js
+
+Architecture: Client-server
+
+Web Server: Node js
+
+Back-end Language: Express.js (Please refer 'PSM_Web_React_Server' in Github)
+
+Database: MongoDB
+
+
+
+
+
+
+
+
+
+
+
+
+
+# React App Tutorial
 
 # Getting Started with Create React App
 
