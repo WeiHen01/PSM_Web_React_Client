@@ -122,7 +122,7 @@ const DoctorProfile = () => {
         console.log(response.data); // Assuming the response returns a success message
   
         if(response.status === 200){
-          window.alert("Update Profile Info successfully!");
+          window.alert("Update Successful","Update Profile Info successfully!");
           updateProfile();
           window.location.reload(); // Refresh the page
         }

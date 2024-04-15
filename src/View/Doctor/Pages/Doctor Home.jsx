@@ -25,10 +25,10 @@ const DoctorHome = () => {
           <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className="font-semibold">Recent Temperature</p>
+                <p className="font-semibold">Recent Record</p>
               </div>
               <div className="claymorphism-card-content">
-                <p>Record °C</p>
+                <p>Temperature (°C)</p>
               </div>
             </div>
             <Thermometer size={50}/>
@@ -37,10 +37,10 @@ const DoctorHome = () => {
           <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className='font-semibold'>Recent Pulse</p>
+                <p className='font-semibold'>Recent Record</p>
               </div>
               <div className="claymorphism-card-content">
-                <p>Record bpm</p>
+                <p>Pulse (bpm)</p>
               </div>
             </div>
             <HeartPulse size={50} />

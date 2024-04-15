@@ -32,17 +32,17 @@ const DoctorSidebar = ({children, doctorID, doctorName}) => {
 
 export default DoctorSidebar;
 
+
 // Generate the sidebar menu items
 export function DoctorSidebarItem({icon, text, active, alert, url, logout, doctorID, doctorName}){
     const { expanded } = useContext(SidebarContext);
 
     const navigate = useNavigate();
-    
+
     const handleLink = () => {
         if(logout === "/Login"){
             const confirmed = window.confirm("Are you sure you want to logout?");
             if(confirmed){
-                //OneSignal.removeExternalUserId();
                 OneSignal.logout();
                 window.alert("You have been logged out!");
                 window.location.replace("/Login");
