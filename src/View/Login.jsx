@@ -2,7 +2,7 @@
  * Login.jsx: General Login Page
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import bgSignIn from "../images/Login.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -194,7 +194,7 @@ const Login = () => {
    * 
    * @param {*} e 
    */
-  const handleDoctorGoogleLogin = async (googleemail) => {
+  const handleDoctorGoogleLogin = useCallback(async (googleemail) => {
     
     try {
       const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/loginGoogle/${googleemail}`, { });
@@ -219,13 +219,13 @@ const Login = () => {
       setError(err.response.data.error); // Handle error, e.g., display error message
     }
 
-  };
+  }, [navigate]);
 
   /**
    * 
    * @param {*} e 
    */
-  const handleAdminGoogleLogin = async (googleemail) => {
+  const handleAdminGoogleLogin = useCallback(async (googleemail) => {
     
     try {
       const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/loginGoogle/${googleemail}`, { });
@@ -250,7 +250,7 @@ const Login = () => {
       setError(err.response.data.error); // Handle error, e.g., display error message
     }
 
-  };
+  }, [navigate]);
   
   /**
    * Google Login using OAuth2
@@ -275,6 +275,7 @@ const Login = () => {
         .then((response) => {
             console.log(response);
             setProfileInfo(response.data);
+            console.log(profileInfo);
             setEmail(response.data["email"]);
             if(activeRole === "Doctor"){
               handleDoctorGoogleLogin(email);
@@ -286,8 +287,10 @@ const Login = () => {
         .catch((error) => console.log(error));
         
     }
+
     
-  }, [userInfo, activeRole, email])
+    
+  }, [userInfo, activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin])
 
 
   return (

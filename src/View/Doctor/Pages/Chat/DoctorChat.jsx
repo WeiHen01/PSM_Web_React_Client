@@ -109,7 +109,7 @@ const DoctorChat = () => {
           'Content-Type': 'application/json; charset=utf-8'
         }
       });
-
+      console.log(response);
       console.log('Notification sent successfully');
     } catch (error) {
       console.error('Error sending notification:', error);
