@@ -168,10 +168,10 @@ const Login = () => {
         const { admin } = response.data; // Assuming the response contains the doctor object
         const adminID = admin.AdminID; // Extract AdminID from the doctor object
 
-        OneSignal.setExternalUserId("Ad-" + adminID);
+        //OneSignal.setExternalUserId("Ad-" + adminID);
 
 
-        //OneSignal.login();
+        OneSignal.login("Ad-" + adminID);
 
         // Redirect to another route upon successful login
         navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route
@@ -226,8 +226,7 @@ const Login = () => {
             LastLoginDateTime: new Date(),
           });
           console.log(response.data); // Assuming the response returns a success message
-          window.alert("Update specialty successful!");
-          window.location.reload(); // Refresh the page
+          window.alert("Update specialty successful!");// Refresh the page
         } catch (error) {
           console.error('Error updating profile:', error);
           // Handle error state or display error message to the user
