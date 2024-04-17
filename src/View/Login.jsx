@@ -133,7 +133,6 @@ const Login = () => {
           });
           console.log(response.data); // Assuming the response returns a success message
           window.alert("Update specialty successful!");
-          updateSpecialty();
           window.location.reload(); // Refresh the page
         } catch (error) {
           console.error('Error updating profile:', error);
@@ -228,7 +227,6 @@ const Login = () => {
           });
           console.log(response.data); // Assuming the response returns a success message
           window.alert("Update specialty successful!");
-          updateSpecialty();
           window.location.reload(); // Refresh the page
         } catch (error) {
           console.error('Error updating profile:', error);
