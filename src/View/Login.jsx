@@ -127,6 +127,19 @@ const Login = () => {
 
         OneSignal.login("D-" + doctorID);
 
+        try {
+          const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+            LastLoginDateTime: new Date(),
+          });
+          console.log(response.data); // Assuming the response returns a success message
+          window.alert("Update specialty successful!");
+          updateSpecialty();
+          window.location.reload(); // Refresh the page
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          // Handle error state or display error message to the user
+        }
+
         // Redirect to another route upon successful login
         navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
       }
@@ -209,9 +222,23 @@ const Login = () => {
 
         OneSignal.login("D-" + doctorID);
 
+        try {
+          const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+            LastLoginDateTime: new Date(),
+          });
+          console.log(response.data); // Assuming the response returns a success message
+          window.alert("Update specialty successful!");
+          updateSpecialty();
+          window.location.reload(); // Refresh the page
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          // Handle error state or display error message to the user
+        }
+
         // Redirect to another route upon successful login
         navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
 
+        
       }
 
     } catch (err) {
@@ -291,6 +318,8 @@ const Login = () => {
     
     
   }, [userInfo, activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin])
+
+  
 
 
   return (

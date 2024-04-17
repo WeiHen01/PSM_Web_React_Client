@@ -522,9 +522,11 @@ const DoctorProfile = () => {
                         maxLength={1000}
                       />
                       {/* Displaying the maxlength counter */}
-                      <p className=" text-end">
-                        {specialty.length}/{1000}
-                      </p>
+                       
+                         <p className=" text-end">
+                          {(specialty === '') ? 0 : specialty.length}/{1000}
+                        </p>
+                      
                     </div>
 
                     
