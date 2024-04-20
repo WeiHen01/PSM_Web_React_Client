@@ -1,11 +1,76 @@
-import React from 'react'
+import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
+
+import axios from 'axios';
 
 const AdminControlUser = () => {
   // Use useParams to access URL parameters
   const { state } = useLocation();
   const { adminID, adminName } = state;
+
+  /**
+   * Function to retrieve list of patients
+   */
+  // State to store the list of doctors
+  const [patients, setPatients] = useState([]);
+  // Function to fetch list of doctors
+  const fetchPatients = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/patient`); // Adjust the API endpoint as per your backend routes
+      setPatients(response.data);
+      console.log(`Patient list: ${patients}`);
+    } catch (error) {
+      console.error('Error fetching patients:', error);
+    }
+  };
+
+  // State to store the list of doctors
+  const [doctors, setDoctors] = useState([]);
+  // Function to fetch list of doctors
+  const fetchDoctors = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/doctor`); // Adjust the API endpoint as per your backend routes
+      setDoctors(response.data);
+      console.log(`Doctor list: ${doctors}`);
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
+  };
+
+  const [searchPatientQuery, setSearchPatientQuery] = useState('');
+  const [searchDoctorQuery, setSearchDoctorQuery] = useState('');
+  const [filteredPatients, setFilteredPatients] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+
+  
+
+  // Fetch doctors on component mount
+  useEffect(() => {
+    fetchPatients();
+    fetchDoctors();
+  });
+
+  useEffect(() => {
+    setFilteredPatients(
+      patients.filter(patient =>
+        patient.PatientName.toLowerCase().includes(searchPatientQuery.toLowerCase())
+      )
+    );
+  }, [searchPatientQuery, patients]);
+
+  useEffect(() => {
+    setFilteredDoctors(
+      doctors.filter(doctor =>
+        doctor.DoctorName.toLowerCase().includes(searchDoctorQuery.toLowerCase())
+      )
+    );
+  }, [searchDoctorQuery, doctors]);
+
+
+  /**
+   * Function to retrieve list of doctors
+   */
 
   return (
     <div>
@@ -32,7 +97,7 @@ const AdminControlUser = () => {
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
+                        <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
                     </div>
                 </div>
 
@@ -50,123 +115,34 @@ const AdminControlUser = () => {
                                 Last Update
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Status
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop
-                            </td>
-                            <td class="px-6 py-4">
-                                $2999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        {/* Map through the doctors array and render each doctor */}
+                        {/* {patients.map((patient, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.PatientName}</td>
+                            <td className="px-6 py-4">{new Date(patient.LastLoginDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">{new Date(patient.LastUpdateDateTime).toLocaleString()}</td>    
+                            <td className="px-6 py-4">
+                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Microsoft Surface Pro
-                            </th>
-                            <td class="px-6 py-4">
-                                White
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            <td class="px-6 py-4">
-                                $1999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        ))} */}
+                        {filteredPatients.map((patient, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.PatientName}</td>
+                            <td className="px-6 py-4">{new Date(patient.LastLoginDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">{new Date(patient.LastUpdateDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">
+                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Magic Mouse 2
-                            </th>
-                            <td class="px-6 py-4">
-                                Black
-                            </td>
-                            <td class="px-6 py-4">
-                                Accessories
-                            </td>
-                            <td class="px-6 py-4">
-                                $99
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple Watch
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                Accessories
-                            </td>
-                            <td class="px-6 py-4">
-                                $179
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                iPad
-                            </th>
-                            <td class="px-6 py-4">
-                                Gold
-                            </td>
-                            <td class="px-6 py-4">
-                                Tablet
-                            </td>
-                            <td class="px-6 py-4">
-                                $699
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple iMac 27"
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                PC Desktop
-                            </td>
-                            <td class="px-6 py-4">
-                                $3999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
+                        ))}
                     </tbody>
+                    
                 </table>
 
             </div>
@@ -190,7 +166,7 @@ const AdminControlUser = () => {
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
+                        <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                     </div>
                 </div>
 
@@ -207,123 +183,34 @@ const AdminControlUser = () => {
                             <th scope="col" class="px-6 py-3">
                                 Last Update
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Status
-                            </th>
+                           
                             <th scope="col" class="px-6 py-3">
                                 Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop
-                            </td>
-                            <td class="px-6 py-4">
-                                $2999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        {/* Map through the doctors array and render each doctor */}
+                        {/* {doctors.map((doctor, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{doctor.DoctorName}</td>
+                            <td className="px-6 py-4">{new Date(doctor.LastLoginDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">{new Date(doctor.LastUpdateDateTime).toLocaleString()}</td>    
+                            <td className="px-6 py-4">
+                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Microsoft Surface Pro
-                            </th>
-                            <td class="px-6 py-4">
-                                White
-                            </td>
-                            <td class="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            <td class="px-6 py-4">
-                                $1999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        ))} */}
+                        {filteredDoctors.map((doctor, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{doctor.DoctorName}</td>
+                            <td className="px-6 py-4">{new Date(doctor.LastLoginDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">{new Date(doctor.LastUpdateDateTime).toLocaleString()}</td>
+                            <td className="px-6 py-4">
+                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Magic Mouse 2
-                            </th>
-                            <td class="px-6 py-4">
-                                Black
-                            </td>
-                            <td class="px-6 py-4">
-                                Accessories
-                            </td>
-                            <td class="px-6 py-4">
-                                $99
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple Watch
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                Accessories
-                            </td>
-                            <td class="px-6 py-4">
-                                $179
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                iPad
-                            </th>
-                            <td class="px-6 py-4">
-                                Gold
-                            </td>
-                            <td class="px-6 py-4">
-                                Tablet
-                            </td>
-                            <td class="px-6 py-4">
-                                $699
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple iMac 27"
-                            </th>
-                            <td class="px-6 py-4">
-                                Silver
-                            </td>
-                            <td class="px-6 py-4">
-                                PC Desktop
-                            </td>
-                            <td class="px-6 py-4">
-                                $3999
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
+                        ))}
                     </tbody>
                 </table>
 

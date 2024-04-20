@@ -131,9 +131,7 @@ const Login = () => {
           const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
             LastLoginDateTime: new Date(),
           });
-          console.log(response.data); // Assuming the response returns a success message
-          window.alert("Update specialty successful!");
-          window.location.reload(); // Refresh the page
+          console.log(response.data); // Refresh the page
         } catch (error) {
           console.error('Error updating profile:', error);
           // Handle error state or display error message to the user
@@ -225,8 +223,7 @@ const Login = () => {
           const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
             LastLoginDateTime: new Date(),
           });
-          console.log(response.data); // Assuming the response returns a success message
-          window.alert("Update specialty successful!");// Refresh the page
+          console.log(response.status);
         } catch (error) {
           console.error('Error updating profile:', error);
           // Handle error state or display error message to the user
@@ -418,8 +415,7 @@ const Login = () => {
             <div className = "mt-2">
               <button 
                 type = "submit"
-                className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300 text-lg"
-                
+                className = "font-bold w-full border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-md focus:outline-none hover:bg-gradient-to-r from-purple-dark to-red-deep hover:text-white duration-300 text-lg" 
               >
                 Login
               </button>
