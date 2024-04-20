@@ -1,7 +1,7 @@
 import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
-import { FaEdit, FaUser, FaStethoscope } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
 
 import axios from 'axios';
 
@@ -68,6 +68,18 @@ const AdminControlUser = () => {
     );
   }, [searchDoctorQuery, doctors]);
 
+  const calculateTimeDifference = (dateTime) => {
+    const currentTime = new Date();
+    const previousTime = new Date(dateTime);
+    const difference = Math.abs(currentTime - previousTime);
+    const minutes = Math.floor(difference / 60000);
+    if (minutes < 60) {
+      return `${minutes} minutes ago`;
+    } else {
+      return previousTime.toLocaleString();
+    }
+  };
+
 
   /**
    * Function to retrieve list of doctors
@@ -79,7 +91,7 @@ const AdminControlUser = () => {
         <AdminLayout adminID={adminID} adminName={adminName} active={"User Activity"}>
           
           {/** Row 1 */}
-          <div class="w-full px-6 pt-3 h-fit overflow-hidden">
+          <div class="w-full px-6 pt-3 pb-3 h-fit overflow-hidden">
             <h1 class="text-xl"><b>User Activity Log</b></h1>
           </div>
 
@@ -88,7 +100,7 @@ const AdminControlUser = () => {
             
             <h1 class=" text-lg px-1 py-2"><b>Patient</b></h1>
             
-            <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
+            <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
                 
                 <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                     <label label for="table-search" class="sr-only">Search</label>
@@ -124,12 +136,14 @@ const AdminControlUser = () => {
                         
                         {filteredPatients.map((patient, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.PatientName}</td>
-                            <td className="px-6 py-4">{new Date(patient.LastLoginDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">{new Date(patient.LastUpdateDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4 flex">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                                <p className="font-bold">{patient.PatientName}</p>
+                                <p>{patient.PatientEmail}</p>
+                            </td>
+                            <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
+                            <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
+                            <td className="px-6 py-4">
                                 <FaEdit size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
-                                <FaUser size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                             </td>
                         </tr>
                         ))}
@@ -148,7 +162,7 @@ const AdminControlUser = () => {
             
             <h1 class="text-lg px-1 py-2"><b>Doctor</b></h1>
             
-            <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
+            <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
                 
                 <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                     <label label for="table-search" class="sr-only">Search</label>
@@ -182,25 +196,17 @@ const AdminControlUser = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Map through the doctors array and render each doctor */}
-                        {/* {doctors.map((doctor, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{doctor.DoctorName}</td>
-                            <td className="px-6 py-4">{new Date(doctor.LastLoginDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">{new Date(doctor.LastUpdateDateTime).toLocaleString()}</td>    
-                            <td className="px-6 py-4">
-                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        ))} */}
+                        
                         {filteredDoctors.map((doctor, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{doctor.DoctorName}</td>
-                            <td className="px-6 py-4">{new Date(doctor.LastLoginDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">{new Date(doctor.LastUpdateDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4 flex">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <p className="font-bold">{doctor.DoctorName}</p>
+                                <p>{doctor.DoctorEmail}</p>
+                            </td>
+                            <td className="px-6 py-4">{calculateTimeDifference(doctor.LastLoginDateTime)}</td>
+                            <td className="px-6 py-4">{calculateTimeDifference(doctor.LastUpdateDateTime)}</td>
+                            <td className="px-6 py-4 text-center">
                                 <FaEdit size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
-                                <FaStethoscope size={30}  className='p-2 hover:bg-slate-500 hover:rounded-md' />
                             </td>
                         </tr>
                         ))}

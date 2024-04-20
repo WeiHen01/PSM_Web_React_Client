@@ -129,6 +129,15 @@ const DoctorProfile = () => {
         else {
           window.alert("Update Profile Info failed!");
           updateProfile();
+          try {
+            const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+              LastUpdateDateTime: new Date(),
+            });
+            console.log(response.status);
+          } catch (error) {
+            console.error('Error updating profile:', error);
+            // Handle error state or display error message to the user
+          }
           window.location.reload(); // Refresh the page
         }
   
@@ -158,6 +167,15 @@ const DoctorProfile = () => {
         console.log(response.data); // Assuming the response returns a success message
         window.alert("Update password successful!");
         updatePassword();
+        try {
+          const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+            LastUpdateDateTime: new Date(),
+          });
+          console.log(response.status);
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          // Handle error state or display error message to the user
+        }
         window.location.reload(); // Refresh the page
       } catch (error) {
         console.error('Error updating profile:', error);
@@ -182,6 +200,15 @@ const DoctorProfile = () => {
         console.log(response.data); // Assuming the response returns a success message
         window.alert("Update specialty successful!");
         updateSpecialty();
+        try {
+          const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+            LastUpdateDateTime: new Date(),
+          });
+          console.log(response.status);
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          // Handle error state or display error message to the user
+        }
         window.location.reload(); // Refresh the page
       } catch (error) {
         console.error('Error updating profile:', error);
@@ -523,9 +550,11 @@ const DoctorProfile = () => {
                       />
                       {/* Displaying the maxlength counter */}
                        
-                         <p className=" text-end">
-                          {(specialty === '') ? 0 : specialty.length}/{1000}
-                        </p>
+                        
+                        {/* <p className=" text-end">
+                          {specialty.trim().length}/{1000}
+                        </p> */}
+                        
                       
                     </div>
 
