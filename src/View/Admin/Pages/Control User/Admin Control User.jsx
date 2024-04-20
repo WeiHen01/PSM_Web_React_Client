@@ -1,6 +1,7 @@
 import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
+import { FaEdit, FaUser, FaStethoscope } from 'react-icons/fa';
 
 import axios from 'axios';
 
@@ -120,24 +121,15 @@ const AdminControlUser = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Map through the doctors array and render each doctor */}
-                        {/* {patients.map((patient, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.PatientName}</td>
-                            <td className="px-6 py-4">{new Date(patient.LastLoginDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">{new Date(patient.LastUpdateDateTime).toLocaleString()}</td>    
-                            <td className="px-6 py-4">
-                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        ))} */}
+                        
                         {filteredPatients.map((patient, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{patient.PatientName}</td>
                             <td className="px-6 py-4">{new Date(patient.LastLoginDateTime).toLocaleString()}</td>
                             <td className="px-6 py-4">{new Date(patient.LastUpdateDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">
-                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <td className="px-6 py-4 flex">
+                                <FaEdit size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                <FaUser size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                             </td>
                         </tr>
                         ))}
@@ -206,8 +198,9 @@ const AdminControlUser = () => {
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{doctor.DoctorName}</td>
                             <td className="px-6 py-4">{new Date(doctor.LastLoginDateTime).toLocaleString()}</td>
                             <td className="px-6 py-4">{new Date(doctor.LastUpdateDateTime).toLocaleString()}</td>
-                            <td className="px-6 py-4">
-                            <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <td className="px-6 py-4 flex">
+                                <FaEdit size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                <FaStethoscope size={30}  className='p-2 hover:bg-slate-500 hover:rounded-md' />
                             </td>
                         </tr>
                         ))}
