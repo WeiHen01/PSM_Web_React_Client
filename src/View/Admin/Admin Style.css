@@ -38,6 +38,16 @@
     transition: transform 0.2s ease-in-out;
     color: white
   }
+
+  .claymorphism-card-04 {
+    width: 55vw;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: linear-gradient(#dddddd, #808080);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.5);
+    transition: transform 0.2s ease-in-out;
+    color: white
+  }
   
   .claymorphism-card:hover {
     transform: translateY(4px);
@@ -52,6 +62,10 @@
   }
 
   .claymorphism-card-03:hover {
+    transform: translateY(4px);
+  }
+
+  .claymorphism-card-04:hover {
     transform: translateY(4px);
   }
   

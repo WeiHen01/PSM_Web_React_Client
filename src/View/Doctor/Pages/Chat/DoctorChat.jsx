@@ -214,7 +214,33 @@ const DoctorChat = () => {
     scrollToBottom();
   }, [selectedPatient, chatHistory]);
 
- 
+  // Function to format message timestamp
+  const formatMessageDate = (timestamp) => {
+    const today = new Date();
+    const messageDate = new Date(timestamp);
+    const diffTime = Math.abs(today - messageDate);
+    console.log("Different: " + diffTime);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+
+    if (diffDays === 0) {
+      // Message sent today
+      const minutesAgo = Math.floor(diffTime / (1000 * 60));
+      return `${minutesAgo} minutes ago`;
+    }else if (diffDays === 0 && diffHours > 6 && diffHours < 24) {
+      // Message sent yesterday
+      return `${timestamp}`;
+    }else if (diffDays === 0 && diffHours > 1 && diffHours < 6) {
+      // Message sent yesterday
+      return `${diffHours} hours ago`;
+    } else if (diffDays === 1) {
+      // Message sent yesterday
+      return 'Yesterday';
+    } else {
+      // Message sent on a previous date
+      return messageDate.toLocaleDateString();
+    }
+  };
 
   return (
     <div className=' h-full'>
@@ -289,7 +315,7 @@ const DoctorChat = () => {
                         : <p><strong>You</strong></p>
                       }
                       <p>{chat.ChatMessage}</p>
-                      <p className="text-right">{new Date(chat.ChatDateTime).toLocaleDateString()} {new Date(chat.ChatDateTime).toLocaleTimeString()}</p>
+                      <p className="text-right">{formatMessageDate(chat.ChatDateTime)} {new Date(chat.ChatDateTime).toLocaleTimeString()}</p>
                     </div>
                   ))
                 )

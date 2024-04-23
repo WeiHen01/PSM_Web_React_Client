@@ -418,9 +418,6 @@ const AdminProfile = () => {
         )}
 
 
-
-
-
       {/* <!-- cards --> */}
       <div class="w-full px-5 py-4 mx-auto h-fit overflow-hidden ">
         
@@ -439,9 +436,7 @@ const AdminProfile = () => {
           
           </div>
 
-          <div className="gap-2">
-            
-            <div className=" claymorphism-card-02 w-full items-center gap-3 text-black">
+          <div className=" claymorphism-card-04 w-full items-center gap-3 text-black">
               <div className ="flex justify-between text-black items-center">
                 <b><h1 className = "text-black text-2xl">Personal Info</h1></b>
                 <div className = "flex"> 
@@ -485,9 +480,6 @@ const AdminProfile = () => {
 
             </div>
 
-            
-
-          </div>
 
           
 
