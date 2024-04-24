@@ -6,7 +6,7 @@ import DoctorProfile from './Pages/Profile/Doctor Profile';
 
 function DoctorApp() {
   return (
-    <div className="DoctorApp">
+  <div className="DoctorApp">
     <Routes>
       <Route path ="/DoctorHome" element={<DoctorHome />} />
       <Route path ="/DoctorProfile" element={<DoctorProfile />} />
@@ -14,7 +14,7 @@ function DoctorApp() {
       <Route path ="/DoctorReport" element={<DoctorReport />} />
     </Routes>
         
-    </div>
+  </div>
   );
 }
 

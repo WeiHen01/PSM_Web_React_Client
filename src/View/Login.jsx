@@ -313,8 +313,11 @@ const Login = () => {
     
   }, [userInfo, activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin])
 
-  
-
+  // Inside the handleForgetPasswordClick function or any event handler where you want to navigate to ForgetPassword
+  const handleForgetPasswordClick = () => {
+    // Navigate to ForgetPassword and pass activeRole as part of the state object
+    navigate('/ForgetPassword', { state: { activeRole } });
+  };
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center">
@@ -409,7 +412,7 @@ const Login = () => {
             </div>
 
             <div className="flex justify-end mt-2"> {/* Flex container with end alignment */}
-              <a href="/ForgetPassword" className='text-sm hover:text-orange-600 duration-300'>Forget Password?</a> {/* Removed unnecessary styles */}
+              <a href="/ForgetPassword" onClick={handleForgetPasswordClick} className='text-sm hover:text-orange-600 duration-300'>Forget Password?</a> {/* Removed unnecessary styles */}
             </div>
           
             <div className = "mt-2">

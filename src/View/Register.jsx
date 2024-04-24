@@ -102,58 +102,74 @@ const Register = () => {
   };// State to track active role
   
   const handleDoctorSignUp = async () => {
-    if(password === conPassword){
-      try {
-        const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
-          DoctorName: 'new-doctor',
-          DoctorEmail: email,
-          DoctorPassword: password,
-        });
-        console.log(response.data);
+
+    const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findDoctorByEmail/${email}`);
         
-        // Handle success as needed (e.g., show success message, redirect, etc.)
-        if(response.status === 200){
-          window.alert("Successfully registered as doctor!");
-  
-          // Redirect to another route upon successful login
-          navigate('/Login'); // Change '/dashboard' to your desired route
-        }
-      } catch (error) {
-        console.error(error);
-        setErrorMsg('Error registering as a doctor. Please try again.');
-      }
+    if (response.ok) {
+      window.alert("Sorry! This email has been registered!");
     }
     else {
-      setErrorMsg('Different password between original and confirmation password');
+      if(password === conPassword){
+        try {
+          const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
+            DoctorName: 'new-doctor',
+            DoctorEmail: email,
+            DoctorPassword: password,
+          });
+          console.log(response.data);
+          
+          // Handle success as needed (e.g., show success message, redirect, etc.)
+          if(response.status === 200){
+            window.alert("Successfully registered as doctor!");
+    
+            // Redirect to another route upon successful login
+            navigate('/Login'); // Change '/dashboard' to your desired route
+          }
+        } catch (error) {
+          console.error(error);
+          setErrorMsg('Error registering as a doctor. Please try again.');
+        }
+      }
+      else {
+        setErrorMsg('Different password between original and confirmation password');
+      }
     }
   };
 
   const handleAdminSignUp = async () => {
-    if(password === conPassword){
-      try {
-        const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
-          AdminName: 'new-admin',
-          AdminEmail: email,
-          AdminPassword: password,
-        });
-        console.log(response.data);
+    const response = await fetch(`http://${window.location.hostname}:8000/api/admin/findAdminByEmail/${email}`);
         
-        // Handle success as needed (e.g., show success message, redirect, etc.)
-        if(response.status === 200){
-          window.alert("Successfully registered as admin!");
-  
-          // Redirect to another route upon successful login
-          navigate('/Login'); // Change '/dashboard' to your desired route
-        }
-  
-      } catch (error) {
-        console.error(error);
-        setErrorMsg('Error registering as an admin. Please try again.');
-      }
+    if (response.ok) {
+      window.alert("Sorry! This email has been registered!");
     }
     else {
-      setErrorMsg('Different password between original and confirmation password');
+      if(password === conPassword){
+        try {
+          const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
+            AdminName: 'new-admin',
+            AdminEmail: email,
+            AdminPassword: password,
+          });
+          console.log(response.data);
+          
+          // Handle success as needed (e.g., show success message, redirect, etc.)
+          if(response.status === 200){
+            window.alert("Successfully registered as admin!");
+    
+            // Redirect to another route upon successful login
+            navigate('/Login'); // Change '/dashboard' to your desired route
+          }
+    
+        } catch (error) {
+          console.error(error);
+          setErrorMsg('Error registering as an admin. Please try again.');
+        }
+      }
+      else {
+        setErrorMsg('Different password between original and confirmation password');
+      }
     }
+   
   };
 
   /**
@@ -186,13 +202,14 @@ const Register = () => {
         .then((response) => {
             console.log(response);
             setProfileInfo(response.data);
+            console.log(profileInfo);
             setEmail(response.data["email"]);
         })
         .catch((error) => console.log(error));
         
     }
     
-  }, [userInfo, activeRole])
+  }, [userInfo, activeRole, profileInfo])
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">

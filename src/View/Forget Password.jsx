@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import bgForgetPassword from "../images/Reset_password.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faEnvelope, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ForgetPassword = () => {
+
+  // Use useParams to access URL parameters
+  const { state } = useLocation();
+  const { activeRole } = state;
+
+  console.log(activeRole);
 
   const bodyStyle = {
     background: 'linear-gradient(to right, #301847, #C10214)', // Set your desired background color here // Ensure the gradient covers the entire viewport height
@@ -21,6 +27,67 @@ const ForgetPassword = () => {
 
   /** Navigation */
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+
+  const findDoctorAccount = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    console.log(email);
+
+    try {
+      // Add your login logic here based on activeRole (Doctor or Admin)
+      const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findDoctorByEmail/${email}`);
+     
+      if (response.ok) {
+        window.alert("Account found!");
+        const data = await response.json();
+        const doctorID = data["DoctorID"]; // Extract AdminID from the doctor object
+        const username = data["DoctorName"]
+        const id = doctorID;
+        // Redirect to another route upon successful login
+        navigate('/ResetPassword', { state: { id, activeRole, username } }); // Change '/dashboard' to your desired route
+  
+      }
+      else {
+        window.alert("Account not found!");
+      }
+
+    } catch (error) {
+      console.error('Error fetching doctor info:', error);
+      // Handle error state or display error message to the user
+    }
+  };
+
+  const findAdminAccount = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Add your login logic here based on activeRole (Doctor or Admin)
+    const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findAdminByEmail/${email}`);
+        
+    if (response.ok) {
+      window.alert("Account admin found!");
+      const { admin } = response.data; // Assuming the response contains the doctor object
+      const adminID = admin.AdminID; // Extract AdminID from the doctor object
+      const id = adminID;
+
+      // Redirect to another route upon successful login
+      navigate('/ResetPassword', { state: { id, activeRole } }); // Change '/dashboard' to your desired route
+
+    }
+    
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Add your login logic here based on activeRole (Doctor or Admin)
+    if (activeRole === 'Doctor') {
+      findDoctorAccount(e);
+    } else {
+      findAdminAccount(e);
+    }
+  };
+
 
   return (
     <div style = {bodyStyle} className ="grid grid-cols-2 px-4 items-center h-screen">
@@ -55,33 +122,37 @@ const ForgetPassword = () => {
 
         <br></br>
 
-        <div style={{ position: 'relative' }} className = "flex py-2 rounded-md text-base">
-          
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
-          />
+        <form onSubmit={handleSubmit}>
+          <div style={{ position: 'relative' }} className = "flex py-2 rounded-md text-base">
+            
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+            />
 
-          <input 
-            placeholder="Email" 
-            className="w-full pl-15 pr-2 py-2 bg-gray-100 text-black rounded-md" 
-            style={{ paddingLeft: '35px' }} 
-          />
+            <input 
+              placeholder="Email" 
+              className="w-full pl-15 pr-2 py-2 bg-gray-100 text-black rounded-md" 
+              style={{ paddingLeft: '35px' }} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          {/* Button beside the input */}
-          <button
-            className="ml-2 px-4 py-2 bg-orange-400 text-white rounded-md"
-            onClick={() => {
-              // Handle button click
-            }}
-          >
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </button>
-          {/* End of button */}
+            {/* Button beside the input */}
+            <button
+              className="ml-2 px-4 py-2 bg-orange-400 text-white rounded-md"
+              type = "submit"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </button>
+            {/* End of button */}
 
-        </div>
+          </div>
+        </form>
       
       </div>
+
+      
 
     </div>
       
