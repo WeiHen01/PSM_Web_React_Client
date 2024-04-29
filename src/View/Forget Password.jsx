@@ -62,16 +62,17 @@ const ForgetPassword = () => {
     e.preventDefault(); // Prevent default form submission behavior
 
     // Add your login logic here based on activeRole (Doctor or Admin)
-    const response = await fetch(`http://${window.location.hostname}:8000/api/doctor/findAdminByEmail/${email}`);
+    const response = await fetch(`http://${window.location.hostname}:8000/api/admin/findAdminByEmail/${email}`);
         
     if (response.ok) {
       window.alert("Account admin found!");
-      const { admin } = response.data; // Assuming the response contains the doctor object
-      const adminID = admin.AdminID; // Extract AdminID from the doctor object
+      const data = await response.json();
+      const adminID = data["AdminID"]; // Extract AdminID from the doctor object
+      const username = data["AdminName"];
       const id = adminID;
 
       // Redirect to another route upon successful login
-      navigate('/ResetPassword', { state: { id, activeRole } }); // Change '/dashboard' to your desired route
+      navigate('/ResetPassword', { state: { id, activeRole, username } }); // Change '/dashboard' to your desired route
 
     }
     
