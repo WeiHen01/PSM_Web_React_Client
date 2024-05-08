@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import DoctorLayout from '../../Components/DoctorLayout'
 import '../../Doctor Style.css';
 import Logo from '../../../../images/Logo.png'
-import { Edit, Lock} from 'lucide-react';
+import { Edit, Lock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,6 +35,11 @@ const DoctorProfile = () => {
     setUpdateSpecialtyModalOpen(!updateSpecialtyModal);
   };
 
+  const [updateProfilePhotoModal, setUpdatePhoto] = useState(false);
+  const updateProfileImage = () => {
+    setUpdatePhoto(!updateProfilePhotoModal);
+  };
+
   /**
    * Input field handler
    */
@@ -43,6 +48,27 @@ const DoctorProfile = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [contact, setContact] = useState('');
+
+  const [file, setFile] = useState();
+  const handleUpload = (e) => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append('DoctorPhoto', file); // Make sure to use the same field name as expected by the server
+
+    axios.put(`http://${window.location.hostname}:8000/api/doctor/updatePhoto/${doctorID}`, formData)
+    .then(res => {
+      console.log(`Status: ${res.data}`);
+      window.alert("Update profile image successful");
+      window.location.reload(); // Refresh the page
+      // Handle success, maybe update UI or show a success message
+    })
+    .catch(err => {
+      console.error(err);
+      window.alert("Update profile image successful");
+      window.location.reload(); // Refresh the page
+      // Handle error, show error message or retry logic
+    });
+  }
 
   /**
    * 2. Update Password
@@ -219,7 +245,7 @@ const DoctorProfile = () => {
     
   };
 
-
+  const [profileImage, setProfileImageURL] = useState(''); // Define profileImageURL state
   useEffect(() => {
     
     const getDoctorInfo = async () => {
@@ -238,6 +264,14 @@ const DoctorProfile = () => {
         setEmail(data["DoctorEmail"]);
         setContact(data["DoctorContact"]);
         setSpecialty(data["DoctorSpecialize"]);
+
+        // Fetch doctor's profile image
+        const imageResponse = await fetch(`http://${window.location.hostname}:8000/api/doctor/profileImage/${doctorID}`);
+        if (!imageResponse.ok) {
+          throw new Error('Error retrieving doctor profile image');
+        }
+        const imageData = await imageResponse.blob();
+        setProfileImageURL(URL.createObjectURL(imageData));
 
       } catch (error) {
         console.error('Error fetching doctor info:', error);
@@ -371,7 +405,7 @@ const DoctorProfile = () => {
           </div>
         )}
 
-
+        {/**Update password model */}
         {updatePasswordModal && (
           <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
             <div className="relative p-4 w-full max-w-md">
@@ -575,7 +609,59 @@ const DoctorProfile = () => {
           </div>
         )}
 
+        {/** Update Profile Modal */}
+        {updateProfilePhotoModal && (
+          <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+            <div className="relative p-4 w-full max-w-md">
+              <div className="relative bg-white rounded-lg shadow">
+                <div className="flex items-center justify-between p-4 border-b rounded-t">
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    Update Profile Image
+                  </h3>
+                  <button
+                    onClick={updateProfileImage}
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <div className="p-4">
+                  {/* Modal content (form) */}
+                  <form className="space-y-4" onSubmit={handleUpload}>
+                    
+                    <input type = "file" name = "DoctorPhoto" accept=".png, .jpeg, .jpg" onChange = {e => setFile(e.target.files[0])}/>
 
+                    {/* Submit button */}
+                    <button
+                      type="submit"
+                      className="mt-3 w-full text-white hover:bg-gradient-to-r from-purple-dark to-red-deep bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                    >
+                      Update Image
+                    </button>
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/** Real body content */}
         {/* <!-- cards --> */}
         <div class="w-full px-5 py-2 mx-auto h-fit overflow-hidden ">
           
@@ -585,12 +671,23 @@ const DoctorProfile = () => {
             <div className = "claymorphism-card-03 w-full items-center gap-3 h-96">
               
               <div className = "flex justify-center w-full">
-                <img src={Logo} alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" />
+              {profileImage ? (
+                <img src={profileImage} onClick={updateProfileImage} title='Update Profile Image' alt="Profile" className="p-2 w-28 h-28 rounded-full bg-white cursor-pointer" />
+                ) : (
+                <img src={Logo} onClick={updateProfileImage} title='Update Profile Image' alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" />
+                )}
+                {/* <img src={Logo} onClick={updateProfileImage} title='Update Profile Image' alt="Profile" className="p-2 w-28 h-28 rounded-full  bg-white cursor-pointer" /> */}
               </div>
+
+              
 
               
               {doctorInfo && (<p className = "text-center text-2xl"><strong>{doctorInfo.DoctorName}</strong></p>)}
               <p className = "text-center text-md">Doctor</p>
+
+              <br></br>
+
+              
               
             
             </div>

@@ -46,6 +46,8 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
         setIsNotifyOpen(!isNotifyOpen);
     };
 
+    const [profileImage, setProfileImageURL] = useState(''); // Define profileImageURL state
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -70,6 +72,14 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
                 }
                 const data = await response.json();
                 setDoctorInfo(data);
+
+                // Fetch doctor's profile image
+                const imageResponse = await fetch(`http://${window.location.hostname}:8000/api/doctor/profileImage/${doctorID}`);
+                if (!imageResponse.ok) {
+                throw new Error('Error retrieving doctor profile image');
+                }
+                const imageData = await imageResponse.blob();
+                setProfileImageURL(URL.createObjectURL(imageData));
         
             } catch (error) {
                 console.error('Error fetching doctor info:', error);
@@ -91,6 +101,7 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
             <div className="flex items-center gap-5">
                 {children}
                 <div className="logo">
+                    
                     <img src={Trademark} onClick={Home} alt="Logo" className="w-32 my-2 cursor-pointer" />
                 </div>
             </div>
@@ -128,7 +139,12 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
                         className="flex gap-2 hover:text-gray-200 cursor-pointer items-center"
                         onClick={toggleDropdown}
                     >
+                        {profileImage ? (
+                        <img src={profileImage} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
+                        ) : (
                         <img src={Logo} alt="Profile" className="w-8 h-8 rounded-full cursor-pointer" />
+                        )}
+                        
                         
                         <div className='flex flex-col items-start'>
                             {/* Display username */}
