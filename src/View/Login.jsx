@@ -89,6 +89,7 @@ const Login = () => {
 
   const shadowStyle = {
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)', // Horizontal offset, Vertical offset, Blur radius, Color
+    fontWeight: 'bold',
   };
   
   /** Navigation */
@@ -281,7 +282,7 @@ const Login = () => {
       setUserInfo(response);
       console.log(`Log in successfully`);
     },
-    onError: (error) => console.log(`Login Failed: ${error}`, )
+    onError: (error) => console.log(`Login Failed: ${error}`, ),
   });
   
   useEffect (() => {
@@ -347,7 +348,7 @@ const Login = () => {
       </div>
 
       <div style = {{fontFamily: 'Poppins', width: '50%',}} className = "px-8">
-        <h1 className="text-6xl"><strong style={shadowStyle}>Login</strong></h1>
+        <h1 className="text-6xl" style={shadowStyle}>Login</h1>
 
         <div style = {{marginTop: '3vh'}}></div>
 
@@ -431,7 +432,7 @@ const Login = () => {
             </div>
 
             <div className="flex justify-center mt-2 items-center gap-1"> {/* Flex container with end alignment */}
-              <p className=' text-base'>OR LOGIN WITH</p>
+              <p className=' text-base ' style ={{fontWeight: '550'}}>OR LOGIN WITH</p>
             </div>
 
             {/** Google Login Button */}
