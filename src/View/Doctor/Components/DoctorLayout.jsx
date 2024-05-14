@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import DoctorHeader from "./DoctorHeader";
 import DoctorSidebar, {DoctorSidebarItem} from "./DoctorSidebar";
-import {HomeIcon, UserCircle2, ChevronLeft, Menu, LogOutIcon, MessageSquare, Book} from 'lucide-react';
+import {HomeIcon, UserCircle2, ChevronLeft, Menu, LogOutIcon, MessageSquare} from 'lucide-react';
 
 
 const DoctorLayout = ({children, doctorID, active}) => {
@@ -19,7 +19,6 @@ const DoctorLayout = ({children, doctorID, active}) => {
                         <DoctorSidebarItem doctorID={doctorID} icon={<HomeIcon size={20} />} text="Home" url="/Doctor/DoctorHome" active = {active === 'Home' ? 'active' : null}/>
                         <DoctorSidebarItem doctorID={doctorID} icon={<UserCircle2 size={20} />} text="Profile" url="/Doctor/DoctorProfile" active = {active === 'Profile' ? 'active' : null}/>
                         <DoctorSidebarItem doctorID={doctorID} icon={<MessageSquare size={20} />} text="Chat" url="/Doctor/DoctorChat" active = {active === 'Chat' ? 'active' : null}/>
-                        <DoctorSidebarItem doctorID={doctorID} icon={<Book size={20} />} text="Report"  url="/Doctor/DoctorReport" active = {active === 'Report' ? 'active' : null}/>
                         <hr className="my-4"></hr>
                         
                         <DoctorSidebarItem icon={<LogOutIcon size={20} />} text="Log out" logout="/Login" />

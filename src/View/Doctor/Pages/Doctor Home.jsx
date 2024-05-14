@@ -1,8 +1,7 @@
 import React, {useEffect ,useState}  from 'react';
 import DoctorLayout from '../Components/DoctorLayout';
-import { Thermometer, HeartPulse, User } from "lucide-react";
+import { Thermometer, HeartPulse, User, UserSquare, Users2 } from "lucide-react";
 import { useLocation } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa';
 
 import axios from 'axios';
 
@@ -53,6 +52,14 @@ const DoctorHome = () => {
     }
   };
 
+  /**
+   * Toggle Update Modal
+   */
+  const [viewNewPatientsModal, setViewPatientGraph] = useState(false);
+  const openViewPatientsGraph = () => {
+    setViewPatientGraph(!viewNewPatientsModal);
+  };
+
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
@@ -66,6 +73,47 @@ const DoctorHome = () => {
       <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
         <h1 class="text-xl"><b>Dashboard</b></h1>
       </div>
+
+      {/** Update Profile Modal */}
+      {viewNewPatientsModal && (
+            <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+              <div className="relative p-4 w-full max-w-md">
+                <div className="relative bg-white rounded-lg shadow">
+                  <div className="flex items-center justify-between p-4 border-b rounded-t">
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      Patients registered by this month 
+                    </h3>
+                    <button
+                      onClick={openViewPatientsGraph}
+                      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                    >
+                      <svg
+                        className="w-3 h-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                      <span className="sr-only">Close modal</span>
+                    </button>
+                  </div>
+                  <div className="p-4">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+
       {/* <!-- cards --> */}
       <div class="w-full px-5 py-6 mx-auto h-fit overflow-hidden items-stretch ">
         
@@ -74,25 +122,38 @@ const DoctorHome = () => {
           <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className="font-semibold">Recent Record</p>
+                <p className="font-semibold">Highest Record Today</p>
               </div>
               <div className="claymorphism-card-content">
-                <p className="text-sm">Temperature (°C)</p>
+                <p className="text-sm">Temperature (°C) Today</p>
               </div>
             </div>
             <Thermometer size={50}/>
           </div>
 
-          <div className="claymorphism-card flex items-center justify-between w-72">
+          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
             <div>
               <div className="claymorphism-card-header">
-                <p className='font-semibold'>Recent Record</p>
+                <p className='font-semibold'>Highest Record Today</p>
               </div>
               <div className="claymorphism-card-content">
-              <p className="text-sm">Pulse (bpm)</p>
+              <p className="text-sm">Pulse (bpm) Today</p>
               </div>
             </div>
             <HeartPulse size={50} />
+
+          </div>
+
+          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewPatientsGraph}>
+            <div>
+              <div className="claymorphism-card-header">
+                <p className='font-semibold'>Numbers</p>
+              </div>
+              <div className="claymorphism-card-content">
+              <p className="text-sm">New Patients Today</p>
+              </div>
+            </div>
+            <User size={50} />
 
           </div>
 
@@ -105,7 +166,7 @@ const DoctorHome = () => {
               <p className="text-sm">Total Patients</p>
               </div>
             </div>
-            <User size={50} />
+            <Users2 size={50} />
 
           </div>
 
@@ -176,7 +237,7 @@ const DoctorHome = () => {
                             <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
                             <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
                             <td className="px-6 py-4">
-                                <FaEdit size={30}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                <UserSquare size={40}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                             </td>
                         </tr>
                         ))}
@@ -192,14 +253,17 @@ const DoctorHome = () => {
                 <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                     
                     <div class="relative mt-1">
-                      <p className='text-white'>Today Average Record</p>
+                      <b className='text-white'>Today Patient Average Record</b>
                     </div>
-
               
                 </div>
 
-                <div>
-                        
+                <div class="p-3">
+                  <h1 class="text-xl"><b>Temperature</b></h1>     
+                </div>
+
+                <div class="p-3">
+                  <h1 class="text-xl"><b>Pulse</b></h1>     
                 </div>
     
                 

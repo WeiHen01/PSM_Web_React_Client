@@ -11,7 +11,7 @@ const DoctorSidebar = ({children, doctorID, doctorName}) => {
 
     return (
         <aside className = "h-screen relative ">
-            <nav className = "relative w-56 flex flex-col bg-white border-r shadow-sm">
+            <nav className = "relative w-60 flex flex-col bg-white border-r shadow-sm">
                 <div className = "flex justify-center w-full h-full">
                     <img src={Trademark} alt = "/" className="my-2 w-32"/>
                 </div>
