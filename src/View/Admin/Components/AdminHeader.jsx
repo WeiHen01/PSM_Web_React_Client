@@ -13,7 +13,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
     const [adminInfo, setAdminInfo] = useState(null);
 
     const Home=()=>{
-        navigate("/Admin/AdminHome", { state: { adminID } });
+        navigate("/Admin/AdminCtrlUser", { state: { adminID } });
     }
 
     const Profile=()=>{

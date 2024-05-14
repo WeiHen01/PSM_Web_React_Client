@@ -173,7 +173,7 @@ const Login = () => {
         OneSignal.login("Ad-" + adminID);
 
         // Redirect to another route upon successful login
-        navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route
+        navigate('/Admin/AdminCtrlUser', { state: { adminID } }); // Change '/dashboard' to your desired route
       }
 
     } catch (err) {
@@ -263,7 +263,7 @@ const Login = () => {
         OneSignal.login("Ad-" + adminID);
 
         // Redirect to another route upon successful login
-        navigate('/Admin/AdminHome', { state: { adminID } }); // Change '/dashboard' to your desired route
+        navigate('/Admin/AdminCtrlUser', { state: { adminID } }); // Change '/dashboard' to your desired route
 
       }
 

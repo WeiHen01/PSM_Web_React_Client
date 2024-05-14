@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {HomeIcon, ChevronLeft, Menu, LogOutIcon, User, Users2} from 'lucide-react';
+import {HomeIcon, ChevronLeft, Menu, LogOutIcon, User} from 'lucide-react';
 import AdminSidebar, { AdminSidebarItem } from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 
@@ -14,9 +14,8 @@ const AdminLayout = ({children, adminID, active}) => {
                 <div className={`overflow-hidden  transition-all ${expanded ? "w-56" : "w-0"} bg-gradient-to-r from-purple-dark to-red-deep border-r shadow-sm `}>
                     
                     <AdminSidebar>
-                        <AdminSidebarItem adminID={adminID} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminHome" active = {active === 'Home' ? 'active' : null}/>
+                        <AdminSidebarItem adminID={adminID} icon={<HomeIcon size={20} />} text="Home" url="/Admin/AdminCtrlUser" active = {active === 'Home' ? 'active' : null}/>
                         <AdminSidebarItem adminID={adminID} icon={<User size={20} />} text="Profile" url="/Admin/AdminProfile" active = {active === 'Profile' ? 'active' : null}/>
-                        <AdminSidebarItem adminID={adminID} icon={<Users2 size={20} />} text="User Activity Log" url="/Admin/AdminCtrlUser" active = {active === 'User Activity' ? 'active' : null}/>
 
                         <hr className="my-4"></hr>
 
@@ -25,8 +24,6 @@ const AdminLayout = ({children, adminID, active}) => {
                 </div>
 
                 
-            
-
                 {/* Content Area */}
                 
                 <div className='font-special flex-grow flex-col min-h-screen h-max bg-gradient-to-b from-gray-200 to-gray-400'>
