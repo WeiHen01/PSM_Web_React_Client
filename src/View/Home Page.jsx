@@ -19,8 +19,8 @@ const HomePage = () => {
                 Welcome to EpiHealth Monitoring System!
             </Marquee>
             <div style = {{fontFamily: 'Poppins, sans-serif'}} className="bg-gradient-to-r from-purple-dark to-red-deep min-h-max h-max ">
-                <div className="grid grid-cols-2 grid-rows-1 items-center ">
-                    <img src={Health} className="px-5 h-96" alt="welcome" />
+                <div className="grid grid-cols-2 items-center ">
+                    <img src={Health} className="px-3 w-[570px]" alt="welcome" />
                     <div className="grid grid-cols-1">
                         <p className="font-special text-white">Have you ever thought about your health?</p>
                         <p className="font-special text-white">Get started now!</p>

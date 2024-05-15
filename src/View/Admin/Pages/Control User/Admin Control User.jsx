@@ -2,7 +2,7 @@ import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
 import { FaUser, FaBell } from 'react-icons/fa';
-import { User, Stethoscope, Users2Icon } from "lucide-react";
+import { User, Stethoscope, Users2Icon, User2Icon } from "lucide-react";
 
 import axios from 'axios';
 
@@ -112,7 +112,7 @@ const AdminControlUser = () => {
           {/** Update Profile Modal */}
           {viewGraphModal && (
             <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-              <div className="relative p-4 w-full max-w-md">
+              <div className="relative p-4 w-full max-w-full">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
                     <h3 className="text-xl font-semibold text-gray-900">
@@ -151,7 +151,7 @@ const AdminControlUser = () => {
           {/** Update Profile Modal */}
           {viewDoctorGraphModal && (
             <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-              <div className="relative p-4 w-full max-w-md">
+              <div className="relative p-4 w-full max-w-full">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
                     <h3 className="text-xl font-semibold text-gray-900">
@@ -229,6 +229,18 @@ const AdminControlUser = () => {
                   <Users2Icon size={50}/>
                 </div>
 
+                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={null}>
+                  <div>
+                    <div className="claymorphism-card-header">
+                      <p className="font-semibold">Total Users</p>
+                    </div>
+                    <div className="claymorphism-card-content">
+                      <p className="text-sm">Inactive users for 7 days and above</p>
+                    </div>
+                  </div>
+                  <User2Icon size={50}/>
+                </div>
+
               </div>
 
               <div class="flex flex-wrap px-3 -mx-2 gap-4">
@@ -247,7 +259,7 @@ const AdminControlUser = () => {
 
                                 
                             </div>
-                            <h1 class="text-white p-3">Total: </h1>
+                            <h1 class="text-white p-3">Total Patients: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -300,7 +312,7 @@ const AdminControlUser = () => {
                                 </div>
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
-                            <h1 class="text-white p-3">Total: </h1>
+                            <h1 class="text-white p-3">Total Doctors: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -362,7 +374,7 @@ const AdminControlUser = () => {
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
 
-                            <h1 class="text-white py-2">Total: </h1>
+                            <h1 class="text-white pt-3">Total Users: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
