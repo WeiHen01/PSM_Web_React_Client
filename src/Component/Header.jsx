@@ -16,7 +16,7 @@ const Header = () => {
                 {/** The Logo here */}
                 <div>
                     <a href = "/">
-                        <img src = {Trademark.Trademarks} alt = "Logo" style={{ width: '13vw', }} />
+                        <img src = {Trademark.Trademarks} alt = "Logo" style={{ width: '11vw', }} />
                     </a>
                 </div>
                 

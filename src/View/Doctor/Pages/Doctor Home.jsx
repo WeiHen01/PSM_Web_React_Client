@@ -1,9 +1,121 @@
 import React, {useEffect ,useState}  from 'react';
 import DoctorLayout from '../Components/DoctorLayout';
-import { Thermometer, HeartPulse, User, UserSquare, Users2 } from "lucide-react";
+import { Thermometer, HeartPulse, User, UserSquare, Users2, Users } from "lucide-react";
 import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
+
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Typography,
+} from "@material-tailwind/react";
+import Chart from "react-apexcharts";
+
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
+
+
+
+const chartConfig = {
+  type: "line",
+  height: 240,
+  series: [
+    {
+      name: "Number of patients",
+      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
+    },
+  ],
+  options: {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+    },
+    title: {
+      show: "",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ["#020617"],
+    stroke: {
+      lineCap: "round",
+      curve: "smooth",
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+    },
+    grid: {
+      show: true,
+      borderColor: "#dddddd",
+      strokeDashArray: 5,
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        top: 5,
+        right: 20,
+      },
+    },
+    fill: {
+      opacity: 0.8,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+  },
+};
+
+
 
 const DoctorHome = () => {
 
@@ -60,6 +172,22 @@ const DoctorHome = () => {
     setViewPatientGraph(!viewNewPatientsModal);
   };
 
+  /**
+   * Toggle Update Modal
+   */
+  const [viewTempModel, setViewTempGraph] = useState(false);
+  const openViewTemp = () => {
+    setViewTempGraph(!viewTempModel);
+  };
+
+  /**
+   * Toggle Update Modal
+   */
+  const [viewPulseModel, setViewPulseGraph] = useState(false);
+  const openViewPulse = () => {
+    setViewPulseGraph(!viewPulseModel);
+  };
+
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
@@ -76,42 +204,327 @@ const DoctorHome = () => {
 
       {/** Update Profile Modal */}
       {viewNewPatientsModal && (
-            <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-              <div className="relative p-4 w-full max-w-md">
-                <div className="relative bg-white rounded-lg shadow">
-                  <div className="flex items-center justify-between p-4 border-b rounded-t">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Patients registered by this month 
-                    </h3>
-                    <button
-                      onClick={openViewPatientsGraph}
-                      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                    >
-                      <svg
-                        className="w-3 h-3"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 14 14"
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Details
+                </h3>
+                <button
+                  onClick={openViewPatientsGraph}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Patients Registered
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
                       >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                        />
-                      </svg>
-                      <span className="sr-only">Close modal</span>
-                    </button>
-                  </div>
-                  <div className="p-4">
-                    
-                  </div>
-                </div>
+                        Numbers of patients registered
+                      </Typography>
+                    </div>
+                    <div>
+                      <Menu>
+                        <MenuHandler>
+                          <Button>View by Year</Button>
+                        </MenuHandler>
+                        <MenuList>
+                          <MenuItem>Menu Item 1</MenuItem>
+                          <MenuItem>Menu Item 2</MenuItem>
+                          <MenuItem>Menu Item 3</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...chartConfig} />
+                  </CardBody>
+                </Card>
+
               </div>
             </div>
-          )}
+          </div>
+        </div>
+      )}
+
+      {/** Update Profile Modal */}
+      {viewNewPatientsModal && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Details
+                </h3>
+                <button
+                  onClick={openViewPatientsGraph}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
+                      <User className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Patients Registered
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Numbers of patients registered
+                      </Typography>
+                    </div>
+                    <div>
+                      <Menu>
+                        <MenuHandler>
+                          <Button>View by Year</Button>
+                        </MenuHandler>
+                        <MenuList>
+                          <MenuItem>Menu Item 1</MenuItem>
+                          <MenuItem>Menu Item 2</MenuItem>
+                          <MenuItem>Menu Item 3</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...chartConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewTempModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Details
+                </h3>
+                <button
+                  onClick={openViewTemp}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Temperature
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of temperature recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      <Menu>
+                        <MenuHandler>
+                          <Button>View by Year</Button>
+                        </MenuHandler>
+                        <MenuList>
+                          <MenuItem>Menu Item 1</MenuItem>
+                          <MenuItem>Menu Item 2</MenuItem>
+                          <MenuItem>Menu Item 3</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...chartConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewPulseModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Details
+                </h3>
+                <button
+                  onClick={openViewPulse}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Pulse
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of pulse recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      <Menu>
+                        <MenuHandler>
+                          <Button>View by Year</Button>
+                        </MenuHandler>
+                        <MenuList>
+                          <MenuItem>Menu Item 1</MenuItem>
+                          <MenuItem>Menu Item 2</MenuItem>
+                          <MenuItem>Menu Item 3</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...chartConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
 
 
       {/* <!-- cards --> */}
@@ -119,7 +532,7 @@ const DoctorHome = () => {
         
         {/* <!-- row 1 --> */}
         <div class="flex flex-wrap px-3 -mx-2 gap-4">
-          <div className="claymorphism-card flex items-center justify-between w-72">
+          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewTemp}>
             <div>
               <div className="claymorphism-card-header">
                 <p className="font-semibold">Highest Record Today</p>
@@ -131,7 +544,7 @@ const DoctorHome = () => {
             <Thermometer size={50}/>
           </div>
 
-          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
+          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewPulse}>
             <div>
               <div className="claymorphism-card-header">
                 <p className='font-semibold'>Highest Record Today</p>
@@ -175,19 +588,14 @@ const DoctorHome = () => {
         </div>
 
 
-        {/** <!-- row 2 --> */}
-        <div class= "flex flex-wrap -mx-3 group justify-between">
-          
-          
-
-        </div>
+        
 
 
       </div>
 
 
       <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
-        <h1 class="text-xl"><b>Patients</b></h1>
+        <h1 class="text-xl"><b>Patients List</b></h1>
       </div>
 
       {/* <!-- cards --> */}

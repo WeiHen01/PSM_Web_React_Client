@@ -15,10 +15,10 @@ const HomePage = () => {
         <MainLayout>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"></link>
             <title>BITU3973 | EpiHealth Monitoring System</title>
-            <Marquee speed={100} className=" font-special text-sm py-1" style={{ backgroundColor: '#FF7F50'}}>
+            <Marquee speed={100} className=" font-special text-sm py-1" style={{ backgroundColor: '#FF4081'}}>
                 Welcome to EpiHealth Monitoring System!
             </Marquee>
-            <div style = {{fontFamily: 'Poppins, sans-serif'}} className="bg-gradient-to-r from-purple-dark to-red-deep h-auto ">
+            <div style = {{fontFamily: 'Poppins, sans-serif'}} className="bg-gradient-to-r from-purple-dark to-red-deep min-h-max h-max ">
                 <div className="grid grid-cols-2 grid-rows-1 items-center ">
                     <img src={Health} className="px-5 h-96" alt="welcome" />
                     <div className="grid grid-cols-1">

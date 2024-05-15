@@ -2,7 +2,7 @@ import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
 import { FaUser, FaBell } from 'react-icons/fa';
-import { User, Stethoscope } from "lucide-react";
+import { User, Stethoscope, Users2Icon } from "lucide-react";
 
 import axios from 'axios';
 
@@ -217,13 +217,25 @@ const AdminControlUser = () => {
                   <Stethoscope size={50}/>
                 </div>
 
+                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={null}>
+                  <div>
+                    <div className="claymorphism-card-header">
+                      <p className="font-semibold">Numbers</p>
+                    </div>
+                    <div className="claymorphism-card-content">
+                      <p className="text-sm">Inactive users for 7 days and above</p>
+                    </div>
+                  </div>
+                  <Users2Icon size={50}/>
+                </div>
+
               </div>
 
               <div class="flex flex-wrap px-3 -mx-2 gap-4">
                   <div>
                       <h1 class=" text-lg px-1 py-2"><b>Patient</b></h1>
                       <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
-                        <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                        <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
                             <label label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
                                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -232,7 +244,10 @@ const AdminControlUser = () => {
                                     </svg>
                                 </div>
                                 <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
+
+                                
                             </div>
+                            <h1 class="text-white p-3">Total: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -275,7 +290,7 @@ const AdminControlUser = () => {
 
                       <h1 class=" text-lg px-1 py-2"><b>Doctor</b></h1>
                     <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
-                        <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                        <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
                             <label label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
                                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -285,6 +300,7 @@ const AdminControlUser = () => {
                                 </div>
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
+                            <h1 class="text-white p-3">Total: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -345,6 +361,8 @@ const AdminControlUser = () => {
                                 </div>
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
+
+                            <h1 class="text-white py-2">Total: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
