@@ -23,6 +23,7 @@ import {
 
 
 
+
 const chartConfig = {
   type: "line",
   height: 240,
@@ -43,7 +44,7 @@ const chartConfig = {
       },
     },
     title: {
-      show: "",
+      show: true,
     },
     dataLabels: {
       enabled: false,
@@ -404,6 +405,7 @@ const avgConfig = {
 
 
 const DoctorHome = () => {
+  
 
   /**
    * Function to retrieve list of patients
@@ -479,6 +481,8 @@ const DoctorHome = () => {
   const { state } = useLocation();
   const { doctorID } = state;
 
+  
+
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
@@ -514,18 +518,6 @@ const DoctorHome = () => {
                       >
                         Numbers of patients registered
                       </Typography>
-                    </div>
-                    <div>
-                      <Menu>
-                        <MenuHandler>
-                          <Button>View by Year</Button>
-                        </MenuHandler>
-                        <MenuList>
-                          <MenuItem>Menu Item 1</MenuItem>
-                          <MenuItem>Menu Item 2</MenuItem>
-                          <MenuItem>Menu Item 3</MenuItem>
-                        </MenuList>
-                      </Menu>
                     </div>
                   </CardHeader>
                 <button
@@ -868,7 +860,7 @@ const DoctorHome = () => {
                 </div>
 
                 {/** Modal content */}
-                <Card>
+                <Card className=" bg-gray-200">
                   
                   <CardBody className="px-2 pb-0">
                     <Chart {...avgConfig} />

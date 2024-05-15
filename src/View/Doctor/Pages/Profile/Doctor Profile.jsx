@@ -643,8 +643,12 @@ const DoctorProfile = () => {
                 <div className="p-4">
                   {/* Modal content (form) */}
                   <form className="space-y-4" onSubmit={handleUpload}>
+
+                    <input class="p-1 block w-full text-sm bg-gray-900 rounded-lg border border-gray-300 cursor-pointer text-gray-50" aria-describedby="user_avatar_help" id="user_avatar" type="file" name = "DoctorPhoto" accept=".png, .jpeg, .jpg" onChange = {e => setFile(e.target.files[0])}/>
+                    <div class="mt-1 text-sm text-black" id="user_avatar_help">A profile picture is useful to confirm your are logged into your account</div>
+
                     
-                    <input type = "file" name = "DoctorPhoto" accept=".png, .jpeg, .jpg" onChange = {e => setFile(e.target.files[0])}/>
+                   
 
                     {/* Submit button */}
                     <button
