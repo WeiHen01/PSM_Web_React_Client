@@ -6,6 +6,24 @@ import { User, Stethoscope, Users2Icon, User2Icon } from "lucide-react";
 
 import axios from 'axios';
 
+
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Typography,
+} from "@material-tailwind/react";
+import Chart from "react-apexcharts";
+
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
+
+
 const AdminControlUser = () => {
   // Use useParams to access URL parameters
   const { state } = useLocation();
@@ -94,6 +112,197 @@ const AdminControlUser = () => {
     setViewDoctorGraphOpen(!viewDoctorGraphModal);
   };
 
+  
+
+const chartConfig = {
+  type: "line",
+  height: 240,
+  series: [
+    {
+      name: "Male",
+      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
+    },
+    {
+      name: "Female",
+      data: [40, 300, 320, 500, 350, 200, 230, 300, 320, 50, 40,  500],
+    },
+  ],
+  options: {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+    },
+    title: {
+      show: true,
+    },
+    dataLabels: {
+      enabled: false,
+      fontFamily: "inherit",
+    },
+    colors: ["#000dff", "#C10214"],
+    stroke: {
+      lineCap: "round",
+      curve: "smooth",
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+    },
+    grid: {
+      show: true,
+      borderColor: "#dddddd",
+      strokeDashArray: 5,
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        top: 5,
+        right: 20,
+      },
+    },
+    fill: {
+      opacity: 0.8,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+  },
+};
+
+const pulseConfig = {
+  type: "line",
+  height: 240,
+  series: [
+    {
+      name: "Pulse",
+      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
+    },
+  ],
+  options: {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+    },
+    title: {
+      show: "",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ["#C10214"],
+    stroke: {
+      lineCap: "round",
+      curve: "smooth",
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#616161",
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+    },
+    grid: {
+      show: true,
+      borderColor: "#dddddd",
+      strokeDashArray: 5,
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        top: 5,
+        right: 20,
+      },
+    },
+    fill: {
+      opacity: 0.8,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+  },
+};
+
 
   /**
    * Function to retrieve list of doctors
@@ -115,9 +324,28 @@ const AdminControlUser = () => {
               <div className="relative p-4 w-full max-w-full">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Patients registered by this month 
-                    </h3>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <User className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Patients Registered
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Numbers of patients registered recently
+                      </Typography>
+                    </div>
+                  </CardHeader>
                     <button
                       onClick={openGraph}
                       className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
@@ -141,7 +369,14 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-                    
+                    {/** Modal content */}
+                      <Card>
+                        
+                        <CardBody className="px-2 pb-0">
+                          <Chart {...chartConfig} />
+                        </CardBody>
+                      </Card>
+
                   </div>
                 </div>
               </div>
@@ -154,9 +389,28 @@ const AdminControlUser = () => {
               <div className="relative p-4 w-full max-w-full">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Doctors registered by this month 
-                    </h3>
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <Stethoscope className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Doctors Registered
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Numbers of doctors registered recently
+                      </Typography>
+                    </div>
+                  </CardHeader>
                     <button
                       onClick={openDoctorGraph}
                       className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900  rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
@@ -180,7 +434,14 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-                    
+                    {/** Modal content */}
+                    <Card>
+                      
+                      <CardBody className="px-2 pb-0">
+                        <Chart {...chartConfig} />
+                      </CardBody>
+                    </Card>
+
                   </div>
                 </div>
               </div>
@@ -232,10 +493,10 @@ const AdminControlUser = () => {
                 <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={null}>
                   <div>
                     <div className="claymorphism-card-header">
-                      <p className="font-semibold">Total Users</p>
+                      <p className="font-semibold">Total Number</p>
                     </div>
                     <div className="claymorphism-card-content">
-                      <p className="text-sm">Inactive users for 7 days and above</p>
+                      <p className="text-sm">of patients and doctors</p>
                     </div>
                   </div>
                   <User2Icon size={50}/>
