@@ -2,25 +2,12 @@ import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
 import { FaUser, FaBell } from 'react-icons/fa';
-import { User, Stethoscope, Users2Icon, User2Icon } from "lucide-react";
+import { User, Stethoscope, User2Icon, Bell } from "lucide-react";
 
 import axios from 'axios';
-
-
 import {
-  Card,
-  CardBody,
   CardHeader,
-  Typography,
-} from "@material-tailwind/react";
-import Chart from "react-apexcharts";
-
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
+  Typography, Button
 } from "@material-tailwind/react";
 
 
@@ -99,18 +86,7 @@ const AdminControlUser = () => {
     }
   };
 
-  /**
-   * Toggle Update Modal
-   */
-  const [viewGraphModal, setViewGraphOpen] = useState(false);
-  const openGraph = () => {
-    setViewGraphOpen(!viewGraphModal);
-  };
-
-  const [viewDoctorGraphModal, setViewDoctorGraphOpen] = useState(false);
-  const openDoctorGraph = () => {
-    setViewDoctorGraphOpen(!viewDoctorGraphModal);
-  };
+  
 
   const [totalRecords, setTotalRecords] = useState(0);
   const [error, setError] = useState(null);
@@ -143,199 +119,67 @@ const AdminControlUser = () => {
     }
   };
 
-  const chartConfig = {
-    type: "line",
-    height: 240,
-    series: [
-      {
-        name: "Male",
-        data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-      },
-      {
-        name: "Female",
-        data: [40, 300, 320, 500, 350, 200, 230, 300, 320, 50, 40,  500],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: true,
-      },
-      dataLabels: {
-        enabled: false,
-        fontFamily: "inherit",
-      },
-      colors: ["#000dff", "#C10214"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-    },
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [viewPatientProfileModel, setProfileView] = useState(false);
+  const openPatientProfile = (patient) => {
+    setSelectedPatient(patient);
+    setProfileView(true);
   };
 
-  const pulseConfig = {
-    type: "line",
-    height: 240,
-    series: [
-      {
-        name: "Pulse",
-        data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#C10214"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-    },
+  const closePatientProfile = () => {
+    setSelectedPatient(null);
+    setProfileView(false);
   };
+
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [viewDoctorProfileModel, setDoctorProfileView] = useState(false);
+  const openDoctorProfile = (doctor) => {
+    setSelectedDoctor(doctor);
+    setDoctorProfileView(true);
+  };
+
+  const closeDoctorProfile = () => {
+    setSelectedDoctor(null);
+    setDoctorProfileView(false);
+  };
+
 
 
   /**
-   * Function to retrieve list of doctors
+   * Toggle Update Modal
    */
+  const [viewSendNotification, setSendNotificationView] = useState(false);
+  const openSendNotification = () => {
+    setSendNotificationView(!viewSendNotification);
+  };
+
+  /**
+   * Send Notification via OneSignal
+   */
+  const sendNotification = async (title, message, users) => {
+    const _appId = 'ae3fc8cd-0f1e-4568-a8cc-7172abe05ae3';
+    const _apiKey = 'MGMwYzdmZTAtMjYwMC00YzhlLTgzYjUtNDdkMmRjNjU3NTMy';
+    try {
+      // Send a notification using OneSignal API
+      const response = await axios.post('https://onesignal.com/api/v1/notifications', {
+        app_id: _appId,
+        include_external_user_ids: [users],
+        contents: { en: message },
+        headings: { en: title },
+        // Additional notification options can be added here
+      }, {
+        headers: {
+          'Authorization': `Basic ${_apiKey}`,
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      });
+      console.log(response);
+      console.log('Notification sent successfully');
+    } catch (error) {
+      console.error('Error sending notification:', error);
+    }
+  };
+
 
   return (
     <div>
@@ -348,35 +192,38 @@ const AdminControlUser = () => {
           </div>
 
           {/** Update Profile Modal */}
-          {viewGraphModal && (
+          {viewSendNotification && (
             <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-              <div className="relative p-4 w-full max-w-full">
+              <div className="relative p-4 w-1/2 max-w-full">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
                   <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <User className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Patients Registered
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
+                        floated={false}
+                        shadow={false}
+                        color="transparent"
+                        className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                       >
-                        Numbers of patients registered recently
-                      </Typography>
-                    </div>
-                  </CardHeader>
+                        <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                          <Bell className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <Typography variant="h6" color="blue-gray">
+                            Send Notification
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="max-w-sm font-normal"
+                          >
+                            Email
+                          </Typography>
+                        </div>
+                        <div>
+                          
+                        </div>
+                      </CardHeader>
                     <button
-                      onClick={openGraph}
+                      onClick={openSendNotification}
                       className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                     >
                       <svg
@@ -398,13 +245,16 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-                    {/** Modal content */}
-                      <Card>
-                        
-                        <CardBody className="px-2 pb-0">
-                          <Chart {...chartConfig} />
-                        </CardBody>
-                      </Card>
+                    
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      Would you like to notify this user?
+                    </h3>
+                    
+                    
+
+                    <div className="flex justify-center mt-4">
+                      <Button onClick={()=>sendNotification("Are you still okay?", "We notice you have long time not login", "P-1")}>Notify user</Button>
+                    </div>
 
                   </div>
                 </div>
@@ -413,36 +263,39 @@ const AdminControlUser = () => {
           )}
 
           {/** Update Profile Modal */}
-          {viewDoctorGraphModal && (
+          {viewPatientProfileModel && selectedPatient &&  (
             <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-              <div className="relative p-4 w-full max-w-full">
+              <div className="relative p-4 w-6/12 max-h-[80%] overflow-y-auto">
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 border-b rounded-t">
                   <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <Stethoscope className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Doctors Registered
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
+                        floated={false}
+                        shadow={false}
+                        color="transparent"
+                        className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                       >
-                        Numbers of doctors registered recently
-                      </Typography>
-                    </div>
-                  </CardHeader>
+                        <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                          <User className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <Typography variant="h6" color="blue-gray">
+                            {selectedPatient.PatientName}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="max-w-sm font-normal"
+                          >
+                            {selectedPatient.PatientEmail}
+                          </Typography>
+                        </div>
+                        <div>
+                        
+                        </div>
+                      </CardHeader>
                     <button
-                      onClick={openDoctorGraph}
-                      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900  rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                      onClick={closePatientProfile}
+                      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                     >
                       <svg
                         className="w-3 h-3"
@@ -463,13 +316,12 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-                    {/** Modal content */}
-                    <Card>
-                      
-                      <CardBody className="px-2 pb-0">
-                        <Chart {...chartConfig} />
-                      </CardBody>
-                    </Card>
+
+
+            
+        
+
+                    
 
                   </div>
                 </div>
@@ -477,16 +329,79 @@ const AdminControlUser = () => {
             </div>
           )}
 
-          
+          {viewDoctorProfileModel && selectedDoctor &&  (
+            <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+              <div className="relative p-4 w-6/12 max-h-[80%] overflow-y-auto">
+                <div className="relative bg-white rounded-lg shadow">
+                  <div className="flex items-center justify-between p-4 border-b rounded-t">
+                  <CardHeader
+                        floated={false}
+                        shadow={false}
+                        color="transparent"
+                        className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                      >
+                        <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                          <Stethoscope className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <Typography variant="h6" color="blue-gray">
+                            {selectedDoctor.DoctorName}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="max-w-sm font-normal"
+                          >
+                            {selectedDoctor.DoctorEmail}
+                          </Typography>
+                        </div>
+                        <div>
+                        
+                        </div>
+                      </CardHeader>
+                    <button
+                      onClick={closeDoctorProfile}
+                      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                    >
+                      <svg
+                        className="w-3 h-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                      <span className="sr-only">Close modal</span>
+                    </button>
+                  </div>
+                  <div className="p-4">
+
+                    
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+      
+
           {/* <!-- cards --> */}
           <div class="w-full px-5 py-5 mx-auto h-fit overflow-hidden items-stretch ">
             {/* <!-- row 1 --> */}
               <div class="flex flex-wrap px-3 -mx-2 gap-4">
                 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={openGraph}>
+                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" >
                   <div>
                     <div className="claymorphism-card-header">
-                      <p className="font-semibold">Numbers</p>
+                      
+                      <p className='font-semibold text-2xl'>{error ? error : `${totalRecords !== null ? totalRecords : 'Loading...'}`}</p>
                     </div>
                     <div className="claymorphism-card-content">
                       <p className="text-sm">Patients registered today</p>
@@ -495,10 +410,10 @@ const AdminControlUser = () => {
                   <User size={50}/>
                 </div>
 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={openDoctorGraph}>
+                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
                   <div>
                     <div className="claymorphism-card-header">
-                      <p className="font-semibold">Numbers</p>
+                      <p className='font-semibold text-2xl'>{totalDoctorRecords}</p>
                     </div>
                     <div className="claymorphism-card-content">
                       <p className="text-sm">Doctors registered today</p>
@@ -507,22 +422,10 @@ const AdminControlUser = () => {
                   <Stethoscope size={50}/>
                 </div>
 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={null}>
+                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
                   <div>
                     <div className="claymorphism-card-header">
-                      <p className="font-semibold">Numbers</p>
-                    </div>
-                    <div className="claymorphism-card-content">
-                      <p className="text-sm">Inactive users for 7 days and above</p>
-                    </div>
-                  </div>
-                  <Users2Icon size={50}/>
-                </div>
-
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick={null}>
-                  <div>
-                    <div className="claymorphism-card-header">
-                      <p className="font-semibold">Total Number</p>
+                    <p className='font-semibold text-2xl'>{totalRecords + totalDoctorRecords}</p>
                     </div>
                     <div className="claymorphism-card-content">
                       <p className="text-sm">of patients and doctors</p>
@@ -549,7 +452,6 @@ const AdminControlUser = () => {
 
                                 
                             </div>
-                            <h1 class="text-white p-3">Total Patients: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -581,7 +483,7 @@ const AdminControlUser = () => {
                                     <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
                                     <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
                                     <td className="px-6 py-4">
-                                        <FaUser size={30} onClick={null}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                        <FaUser size={30} onClick={() => openPatientProfile(patient)}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                     </td>
                                 </tr>
                                 ))}
@@ -602,7 +504,6 @@ const AdminControlUser = () => {
                                 </div>
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
-                            <h1 class="text-white p-3">Total Doctors: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -635,7 +536,7 @@ const AdminControlUser = () => {
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastLoginDateTime)}</td>
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastUpdateDateTime)}</td>
                                     <td className="px-6 py-4 text-center">
-                                        <FaUser size={30} onClick={null}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                        <FaUser size={30} onClick={() => openDoctorProfile(doctor)}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                     </td>
                                 </tr>
                                 ))}
@@ -652,7 +553,7 @@ const AdminControlUser = () => {
                   
                   <div>
                     <h1 class=" text-lg px-1 py-2"><b>Inactive users</b></h1>
-                    <div class="relative overflow-x-auto h-96 overflow-y-auto shadow-md sm:rounded-lg">
+                    <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
                         <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                             <label label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
@@ -661,10 +562,9 @@ const AdminControlUser = () => {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
+                                <input type="text" id="table-search" value={null} onChange={null} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search users" />
                             </div>
 
-                            <h1 class="text-white pt-3">Total Users: </h1>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -687,12 +587,18 @@ const AdminControlUser = () => {
                                         <p>{calculateTimeDifference(doctor.LastLoginDateTime)}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <FaBell size={30} onClick={null}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                        <FaBell size={30} onClick={openSendNotification}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                     </td>
                                 </tr>
                                 ))}
                             </tbody>
                         </table>
+
+                    </div>
+
+                    <h1 class=" text-lg px-1 py-2"><b>Statistics</b></h1>
+                    <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
+                        
 
                     </div>
 
