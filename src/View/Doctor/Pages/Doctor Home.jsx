@@ -1,7 +1,8 @@
 import React, {useEffect ,useState}  from 'react';
 import DoctorLayout from '../Components/DoctorLayout';
-import { Thermometer, HeartPulse, User, UserSquare, Users2 } from "lucide-react";
+import { Thermometer, HeartPulse, UserSquare, Users2 } from "lucide-react";
 import { useLocation } from 'react-router-dom';
+
 
 import axios from 'axios';
 
@@ -13,394 +14,9 @@ import {
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 
 
-
-
-const chartConfig = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Male",
-      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-    {
-      name: "Female",
-      data: [40, 300, 320, 500, 350, 200, 230, 300, 320, 50, 40,  500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: true,
-    },
-    dataLabels: {
-      enabled: false,
-      fontFamily: "inherit",
-    },
-    colors: ["#000dff", "#C10214"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
-
-const pulseConfig = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Pulse",
-      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#C10214"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
-
-const tempConfig = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Temperature",
-      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#020617"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
-
-
-
-const avgConfig = {
-  type: "bar",
-  height: 240,
-  series: [
-    {
-      name: "Temperature",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-    {
-      name: "Pulse",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#ff6f00", "#ff006a"],
-    plotOptions: {
-      bar: {
-        columnWidth: "40%",
-        borderRadius: 2,
-      },
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
 
 
 
@@ -452,13 +68,7 @@ const DoctorHome = () => {
     }
   };
 
-  /**
-   * Toggle Update Modal
-   */
-  const [viewNewPatientsModal, setViewPatientGraph] = useState(false);
-  const openViewPatientsGraph = () => {
-    setViewPatientGraph(!viewNewPatientsModal);
-  };
+  
 
   /**
    * Toggle Update Modal
@@ -476,13 +86,441 @@ const DoctorHome = () => {
     setViewPulseGraph(!viewPulseModel);
   };
 
+  
+
 
   // Use useParams to access URL parameters
   const { state } = useLocation();
   const { doctorID } = state;
 
+  const [highestTemp, setHighestTemp] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHighestTemp = async () => {
+      try {
+        const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestToday`);
+        if (response.data['Highest Temperature Today']) {
+          setHighestTemp(response.data['Highest Temperature Today'].Temperature);
+        } else {
+          setError(response.data.msg || 'No data available');
+        }
+      } catch (err) {
+        setError('Failed to fetch data');
+      }
+    };
+
+    fetchHighestTemp();
+  }, []);
+
+
+  const [highestPulse, setHighestPulse] = useState(null);
+
+  useEffect(() => {
+    const fetchHighestPulse = async () => {
+      try {
+        const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestToday`);
+        if (response.data['Highest Pulse Today']) {
+          setHighestPulse(response.data['Highest Pulse Today'].PulseRate);
+        } else {
+          setError(response.data.msg || 'No data available');
+        }
+      } catch (err) {
+        setError('Failed to fetch data');
+      }
+    };
+
+    fetchHighestPulse();
+  }, []);
+
+
+
+
+
+  const [highestRecords, setHighestRecords] = useState([]);
+
+  useEffect(() => {
+    fetchTempHighestRecords();
+  }, []);
+
+  const fetchTempHighestRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestRecords`);
+      const sortedRecords = response.data.highestRecords.sort((a, b) => {
+        // Sorting by date in ascending order
+        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
+      });
+      setHighestRecords(sortedRecords);
+    } catch (error) {
+      console.error('Error fetching highest records:', error);
+    }
+  };
+
+  const [highestPulseRecords, setHighestPulseRecords] = useState([]);
+
+  useEffect(() => {
+    fetchPulseHighestRecords();
+  }, []);
+
+  const fetchPulseHighestRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestRecords`);
+      const sortedRecords = response.data.highestRecords.sort((a, b) => {
+        // Sorting by date in ascending order
+        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
+      });
+      setHighestPulseRecords(sortedRecords);
+    } catch (error) {
+      console.error('Error fetching highest records:', error);
+    }
+  };
+
+  const [avgTempData, setAvgTempData] = useState([]);
+  const [avgPulseData, setAvgPulseData] = useState([]);
+
+  useEffect(() => {
+    fetchAverageRecent5Days();
+  }, []);
+
+  const fetchAverageRecent5Days = async () => {
+    try {
+      const tempResponse = await axios.get(`http://${window.location.hostname}:8000/api/temp/averageRecent5Days`);
+      const pulseResponse = await axios.get(`http://${window.location.hostname}:8000/api/pulse/averageRecent5Days`);
+      
+      const tempAvgRecords = tempResponse.data['Average Temperature Recent 5 Days'];
+      const pulseAvgRecords = pulseResponse.data['Average Pulse Rate Recent 5 Days'];
+
+      const tempData = tempAvgRecords.map(record => ({
+        x: record._id,
+        y: record.avgTemp
+      }));
+
+      const pulseData = pulseAvgRecords.map(record => ({
+        x: record._id,
+        y: record.avgPulse
+      }));
+
+      setAvgTempData(tempData);
+      setAvgPulseData(pulseData);
+    } catch (error) {
+      console.error('Error fetching average records:', error);
+    }
+  };
+
+  const avgConfig = {
+    type: "bar",
+    height: 240,
+    series: [
+      {
+        name: "Temperature (°C)",
+        data: avgTempData,
+      },
+      {
+        name: "Pulse (BPM)",
+        data: avgPulseData,
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#ff6f00", "#ff006a"],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },// Adjust categories as needed
+        categories: avgTempData.map(record => record.x),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
+  };
   
 
+  const pulseConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Pulse",
+        data: highestPulseRecords.map(record => record.highestPulse),
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#C10214"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: highestPulseRecords.map(record => record.date),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
+  };
+
+
+  const tempConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Temperature",
+        data: highestRecords.map(record => record.highestTemp),
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#020617"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: highestRecords.map(record => record.date),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
+  };
+
+
+
+
+  const [totalRecords, setTotalRecords] = useState(0);
+
+  useEffect(() => {
+    fetchTotalRecords();
+  }, []);
+
+  const fetchTotalRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/patient/totalRecords`);
+      setTotalRecords(response.data.totalRecords);
+    } catch (error) {
+      setError('Error fetching total records');
+    }
+  };
+
+  /**
+   * Toggle Update Modal
+   */
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [viewPatientProfileModel, setProfileView] = useState(false);
+  const [pulseRecords, setPulseRecords] = useState([]);
+  const [temperatureRecords, setTemperatureRecords] = useState([]);
+
+  const openPatientProfile = (patient) => {
+    setSelectedPatient(patient);
+    fetchRecords(patient.PatientID);
+    setProfileView(true);
+  };
+
+  const closePatientProfile = () => {
+    setSelectedPatient(null);
+    setPulseRecords([]);
+    
+    setTemperatureRecords([]);
+    setProfileView(false);
+  };
+
+  // Function to fetch pulse and temperature records for a patient
+  const fetchRecords = async (patientId) => {
+    try {
+      const [pulseResponse, temperatureResponse] = await Promise.all([
+        fetch(`http://${window.location.hostname}:8000/api/pulse/records/P-${patientId}`),
+        fetch(`http://${window.location.hostname}:8000/api/temp/records/P-${patientId}`)
+      ]);
+
+      if (!pulseResponse.ok) {
+        throw new Error('Failed to fetch pulse records');
+      }
+      const pulseData = await pulseResponse.json();
+      setPulseRecords(pulseData['Pulse Records']);
+
+      if (!temperatureResponse.ok) {
+        throw new Error('Failed to fetch temperature records');
+      }
+      const temperatureData = await temperatureResponse.json();
+      setTemperatureRecords(temperatureData['Temperature Records']);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch pulse and temperature records when selectedPatient changes
+    if (selectedPatient) {
+      fetchRecords(selectedPatient._id);
+    }
+  }, [selectedPatient]);
+
+  
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
       <title>BITU3973 | Doctor Home</title>
@@ -493,9 +531,9 @@ const DoctorHome = () => {
       </div>
 
       {/** Update Profile Modal */}
-      {viewNewPatientsModal && (
+      {viewPatientProfileModel && selectedPatient &&  (
         <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-          <div className="relative p-4 w-full max-w-full">
+          <div className="relative p-4 w-8/12 max-h-[80%] overflow-y-auto">
             <div className="relative bg-white rounded-lg shadow">
               <div className="flex items-center justify-between p-4 border-b rounded-t">
               <CardHeader
@@ -505,23 +543,26 @@ const DoctorHome = () => {
                     className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                   >
                     <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <User className="h-6 w-6" />
+                      <UserSquare className="h-6 w-6" />
                     </div>
                     <div>
                       <Typography variant="h6" color="blue-gray">
-                        Patients Registered
+                        {selectedPatient.PatientName}
                       </Typography>
                       <Typography
                         variant="small"
                         color="gray"
                         className="max-w-sm font-normal"
                       >
-                        Numbers of patients registered
+                        {selectedPatient.PatientEmail}
                       </Typography>
+                    </div>
+                    <div>
+                     
                     </div>
                   </CardHeader>
                 <button
-                  onClick={openViewPatientsGraph}
+                  onClick={closePatientProfile}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                 >
                   <svg
@@ -543,21 +584,94 @@ const DoctorHome = () => {
                 </button>
               </div>
               <div className="p-4">
+
+                <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                  Pulse
+                </label>
                 
-                {/** Modal content */}
-                <Card>
-                  
-                  <CardBody className="px-2 pb-0">
-                    <Chart {...chartConfig} />
-                  </CardBody>
-                </Card>
+                {/* Apply overflow-y:auto to make the table scrollable */}
+                <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
+                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                            <th scope="col" class="px-6 py-3">
+                                Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Pulse
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    {/* Render pulse records */}
+                    {pulseRecords.map((record, index) => (
+                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                          {calculateTimeDifference(record.MeasureDate)}
+                        </td>
+                        <td className="px-6 py-4">{record.PulseRate}</td>
+                      </tr>
+                    ))}
+
+                    
+                    </tbody>
+                    
+                </table>
+
+
+                <div class="py-3"></div>
+
+                <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                  Temperature
+                </label>
+
+                {/* Apply overflow-y:auto to make the table scrollable */}
+                <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
+                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                            <th scope="col" class="px-6 py-3">
+                                Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Temperature
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    {/* Render pulse records */}
+                    {temperatureRecords.map((record, index) => (
+                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                          {calculateTimeDifference(record.MeasureDate)}
+                        </td>
+                        <td className="px-6 py-4">{record.Temperature}</td>
+                      </tr>
+                    ))}
+
+                    
+                    </tbody>
+                    
+                </table>
+
+
+
+                 {/* Wrap the Button in a div for spacing and alignment */}
+                  <div className="flex justify-end mt-4">
+                    <Button onClick={()=>window.print()}>Print</Button>
+                  </div>
+
+                
 
               </div>
             </div>
           </div>
         </div>
       )}
-
       
 
       {/** Update Profile Modal */}
@@ -588,16 +702,7 @@ const DoctorHome = () => {
                       </Typography>
                     </div>
                     <div>
-                      <Menu>
-                        <MenuHandler>
-                          <Button>View by Year</Button>
-                        </MenuHandler>
-                        <MenuList>
-                          <MenuItem>Menu Item 1</MenuItem>
-                          <MenuItem>Menu Item 2</MenuItem>
-                          <MenuItem>Menu Item 3</MenuItem>
-                        </MenuList>
-                      </Menu>
+                      
                     </div>
                   </CardHeader>
                 <button
@@ -667,16 +772,7 @@ const DoctorHome = () => {
                       </Typography>
                     </div>
                     <div>
-                      <Menu>
-                        <MenuHandler>
-                          <Button>View by Year</Button>
-                        </MenuHandler>
-                        <MenuList>
-                          <MenuItem>Menu Item 1</MenuItem>
-                          <MenuItem>Menu Item 2</MenuItem>
-                          <MenuItem>Menu Item 3</MenuItem>
-                        </MenuList>
-                      </Menu>
+                      
                     </div>
                   </CardHeader>
                 <button
@@ -728,10 +824,13 @@ const DoctorHome = () => {
           <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewTemp}>
             <div>
               <div className="claymorphism-card-header">
-                <p className="font-semibold">Highest Record Today</p>
+                <p className="font-semibold text-2xl">
+                  {error ? error : `${highestTemp !== null ? highestTemp : 'Loading...'}`}
+                </p>
               </div>
               <div className="claymorphism-card-content">
-                <p className="text-sm">Temperature (°C) Today</p>
+
+                <p className="text-sm">Highest Temperature (°C) Today</p>
               </div>
             </div>
             <Thermometer size={50}/>
@@ -740,33 +839,24 @@ const DoctorHome = () => {
           <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewPulse}>
             <div>
               <div className="claymorphism-card-header">
-                <p className='font-semibold'>Highest Record Today</p>
+                <p className="font-semibold text-2xl">
+                  {error ? error : `${highestPulse !== null ? highestPulse : 'Loading...'}`}
+                </p>
               </div>
               <div className="claymorphism-card-content">
-              <p className="text-sm">Pulse (bpm) Today</p>
+              <p className="text-sm">Highest Pulse (BPM) Today</p>
               </div>
             </div>
             <HeartPulse size={50} />
 
           </div>
 
-          <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" onClick = {openViewPatientsGraph}>
-            <div>
-              <div className="claymorphism-card-header">
-                <p className='font-semibold'>Numbers</p>
-              </div>
-              <div className="claymorphism-card-content">
-              <p className="text-sm">New Patients Today</p>
-              </div>
-            </div>
-            <User size={50} />
-
-          </div>
+          
 
           <div className="claymorphism-card flex items-center justify-between w-72">
             <div>
               <div className="claymorphism-card-header">
-                <p className='font-semibold'>Numbers</p>
+                <p className='font-semibold text-2xl'>{totalRecords}</p>
               </div>
               <div className="claymorphism-card-content">
               <p className="text-sm">Total Patients</p>
@@ -838,7 +928,7 @@ const DoctorHome = () => {
                             <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
                             <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
                             <td className="px-6 py-4">
-                                <UserSquare size={40}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                <UserSquare size={40}  className='p-2  hover:bg-slate-500 hover:rounded-md' onClick={() => openPatientProfile(patient)}  />
                             </td>
                         </tr>
                         ))}

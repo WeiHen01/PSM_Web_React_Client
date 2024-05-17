@@ -112,196 +112,225 @@ const AdminControlUser = () => {
     setViewDoctorGraphOpen(!viewDoctorGraphModal);
   };
 
-  
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [error, setError] = useState(null);
 
-const chartConfig = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Male",
-      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-    {
-      name: "Female",
-      data: [40, 300, 320, 500, 350, 200, 230, 300, 320, 50, 40,  500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: true,
-    },
-    dataLabels: {
-      enabled: false,
-      fontFamily: "inherit",
-    },
-    colors: ["#000dff", "#C10214"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
 
-const pulseConfig = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Pulse",
-      data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
+  useEffect(() => {
+    fetchTotalRecords();
+  }, []);
+
+  const fetchTotalRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/patient/totalRecords`);
+      setTotalRecords(response.data.totalRecords);
+    } catch (error) {
+      setError('Error fetching total records');
+    }
+  };
+
+  const [totalDoctorRecords, setTotalDoctorRecords] = useState(0);
+  useEffect(() => {
+    fetchTotalDoctorRecords();
+  }, []);
+
+  const fetchTotalDoctorRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/doctor/totalRecords`);
+      setTotalDoctorRecords(response.data.totalRecords);
+    } catch (error) {
+      setError('Error fetching total records');
+    }
+  };
+
+  const chartConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Male",
+        data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
       },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#C10214"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
+      {
+        name: "Female",
+        data: [40, 300, 320, 500, 350, 200, 230, 300, 320, 50, 40,  500],
       },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
         },
       },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
+      title: {
+        show: true,
       },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
+      dataLabels: {
+        enabled: false,
+        fontFamily: "inherit",
+      },
+      colors: ["#000dff", "#C10214"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
       xaxis: {
-        lines: {
-          show: true,
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
         },
       },
-      padding: {
-        top: 5,
-        right: 20,
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
       },
     },
-    fill: {
-      opacity: 0.8,
+  };
+
+  const pulseConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Pulse",
+        data: [40, 300, 320, 50, 40, 300, 320, 500, 350, 200, 230, 500],
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#C10214"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
     },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
+  };
 
 
   /**

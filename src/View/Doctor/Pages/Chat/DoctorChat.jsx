@@ -268,7 +268,6 @@ const DoctorChat = () => {
                 
                   <div className='cursor-pointer' onClick={() => handlePatientSelection(patient.PatientID)}> 
                     <p className="font-bold text-lg">{patient.PatientName}</p>
-                    <p className="text-sm">{patient.PatientEmail}</p>
                   </div>
                 
               </div>
