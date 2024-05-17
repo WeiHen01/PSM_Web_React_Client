@@ -17,9 +17,6 @@ import Chart from "react-apexcharts";
 import { Button } from "@material-tailwind/react";
 
 
-
-
-
 const DoctorHome = () => {
   
 

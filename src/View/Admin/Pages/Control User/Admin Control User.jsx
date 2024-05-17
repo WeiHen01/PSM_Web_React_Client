@@ -6,9 +6,12 @@ import { User, Stethoscope, User2Icon, Bell } from "lucide-react";
 
 import axios from 'axios';
 import {
-  CardHeader,
+  CardHeader, CardBody,
   Typography, Button
 } from "@material-tailwind/react";
+import Chart from "react-apexcharts";
+
+
 
 
 const AdminControlUser = () => {
@@ -180,6 +183,58 @@ const AdminControlUser = () => {
     }
   };
 
+  
+  const chartConfig = {
+    type: "donut",
+    width: 380,
+    height: 380,
+    series: [
+      totalRecords, totalDoctorRecords
+    ],
+    options: {
+      labels: ['Patient', 'Doctor'],
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      plotOptions:{
+        pie:{
+          donut:{
+            size: "25px",
+            labels:{
+                show:true,
+                total:{
+                    show:true,
+                    showAlways:true,
+                    //formatter: () => '343',
+                    fontSize: 25,
+                    fontFamily: 'inherit',
+                    color: '#f90000',
+                }
+            }
+          }
+        }
+
+      },
+
+      fill: {
+        type: 'gradient',
+      },
+      colors: ["#1e88e5", "#d81b60"],
+      legend: {
+        show: true,
+        
+      },
+      
+    },
+  };
 
   return (
     <div>
@@ -598,7 +653,9 @@ const AdminControlUser = () => {
 
                     <h1 class=" text-lg px-1 py-2"><b>Statistics</b></h1>
                     <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
-                        
+                      <CardBody className="mt-4 grid place-items-center px-2">
+                        <Chart {...chartConfig} />
+                      </CardBody>
 
                     </div>
 

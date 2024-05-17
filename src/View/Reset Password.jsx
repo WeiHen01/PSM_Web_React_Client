@@ -134,7 +134,7 @@ const ResetPassword = () => {
               className="w-full pl-12 py-2 bg-gray-100" 
               value={password}
               type={showPassword ? 'text' : 'password'} // Toggle between text and password type
-              style={{ paddingLeft: '35px', paddingRight: '40px', color: 'black',}}
+              style={{ paddingLeft: '40px', paddingRight: '40px', color: 'black', fontSize: '15px'}}
               onChange={(e) => setPassword(e.target.value)}  
               required  
             />
@@ -161,7 +161,7 @@ const ResetPassword = () => {
               className="w-full pl-12 py-2 bg-gray-100" 
               value={conPassword}
               type={showConPassword ? 'text' : 'password'} // Toggle between text and password type
-              style={{ paddingLeft: '35px', paddingRight: '40px', color: 'black',}}
+              style={{ paddingLeft: '40px', paddingRight: '40px', color: 'black', fontSize: '15px'}}
               onChange={(e) => setConPassword(e.target.value)}  
               required 
             />
