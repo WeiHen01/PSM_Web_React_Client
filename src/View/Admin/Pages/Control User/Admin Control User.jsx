@@ -214,7 +214,7 @@ const AdminControlUser = () => {
                     show:true,
                     showAlways:true,
                     //formatter: () => '343',
-                    fontSize: 25,
+                    fontSize: 15,
                     fontFamily: 'inherit',
                     color: '#f90000',
                 }
