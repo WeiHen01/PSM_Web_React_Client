@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
-import {Bell, LogOut, UserCircle2} from 'lucide-react';
+import {LogOut, UserCircle2} from 'lucide-react';
 
 import Onesignal from 'react-onesignal';
 
@@ -38,28 +38,12 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const [isNotifyOpen, setIsNotifyOpen] = useState(false);
 
-    const dropdownRefNotify = useRef(null);
-
-    const toggleNotifyDropdown = () => {
-        setIsNotifyOpen(!isNotifyOpen);
-    };
+    
 
     const [profileImage, setProfileImageURL] = useState(''); // Define profileImageURL state
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-
-            if (dropdownRefNotify.current && !dropdownRefNotify.current.contains(event.target)) {
-                setIsNotifyOpen(false);
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside);
 
         
         const getDoctorInfo = async () => {
@@ -90,9 +74,7 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
 
         getDoctorInfo();
 
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
+        
     });
   
     return (

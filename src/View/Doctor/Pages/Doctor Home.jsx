@@ -92,6 +92,10 @@ const DoctorHome = () => {
 
   const [highestTemp, setHighestTemp] = useState(null);
   const [error, setError] = useState(null);
+  const [error1, setError1] = useState(null);
+
+  const [patientTempInfo, setPatientTempInfo] = useState(null);
+  const [patientPulseInfo, setPatientPulseInfo] = useState(null);
 
   useEffect(() => {
     const fetchHighestTemp = async () => {
@@ -99,17 +103,24 @@ const DoctorHome = () => {
         const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestToday`);
         if (response.data['Highest Temperature Today']) {
           setHighestTemp(response.data['Highest Temperature Today'].Temperature);
+
+          const id = response.data['Highest Temperature Today'].PatientID;
+          const patient = id.split("-");
+          const patientID = patient[1];
+          const type = "Temperature";
+
+          getPatientInfo(patientID, type);
+
         } else {
           setError(response.data.msg || 'No data available');
         }
       } catch (err) {
-        setError('Failed to fetch data');
+        setError('No  temp');
       }
     };
 
     fetchHighestTemp();
   }, []);
-
 
   const [highestPulse, setHighestPulse] = useState(null);
 
@@ -119,11 +130,19 @@ const DoctorHome = () => {
         const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestToday`);
         if (response.data['Highest Pulse Today']) {
           setHighestPulse(response.data['Highest Pulse Today'].PulseRate);
+          const id = response.data['Highest Pulse Today'].PatientID;
+          const patient = id.split("-");
+          const patientID = patient[1];
+          console.log("Patient Split: " + patientID);
+          const type = "Pulse";
+
+          getPatientInfo(patientID, type);
+
         } else {
-          setError(response.data.msg || 'No data available');
+          setError1(response.data.msg || 'No data available');
         }
       } catch (err) {
-        setError('Failed to fetch data');
+        setError1('No Pulse');
       }
     };
 
@@ -132,6 +151,29 @@ const DoctorHome = () => {
 
 
 
+  const getPatientInfo = async (patientID, type) => {
+      
+    try {
+      const response = await fetch(`http://${window.location.hostname}:8000/api/patient/findPatient/${patientID}`);
+      
+      if (!response.ok) {
+        throw new Error('Error retrieving patient information');
+      }
+      const data = await response.json();
+
+      if(type === "Temperature"){
+        setPatientTempInfo(data);
+      }
+
+      if(type === "Pulse"){
+        setPatientPulseInfo(data);
+      }
+
+    } catch (error) {
+      console.error('Error fetching doctor info:', error);
+      // Handle error state or display error message to the user
+    }
+  };
 
 
   const [highestRecords, setHighestRecords] = useState([]);
@@ -260,6 +302,9 @@ const DoctorHome = () => {
             fontSize: "12px",
             fontFamily: "inherit",
             fontWeight: 400,
+          },
+          formatter: function(value) {
+            return value.toFixed(2); // Set to 2 decimal points
           },
         },
       },
@@ -824,6 +869,7 @@ const DoctorHome = () => {
                 <p className="font-semibold text-2xl">
                   {error ? error : `${highestTemp !== null ? highestTemp : 'Loading...'}`}
                 </p>
+                <p className="text-sm">Patient: <b>{ `${patientTempInfo != null ? patientTempInfo.PatientName :'Loading....'}`}</b></p>
               </div>
               <div className="claymorphism-card-content">
 
@@ -837,8 +883,9 @@ const DoctorHome = () => {
             <div>
               <div className="claymorphism-card-header">
                 <p className="font-semibold text-2xl">
-                  {error ? error : `${highestPulse !== null ? highestPulse : 'Loading...'}`}
+                  {error1 ? error1 : `${highestPulse !== null ? highestPulse : 'Loading...'}`}
                 </p>
+                <p className="text-sm">Patient: <b>{ `${patientPulseInfo != null ? patientPulseInfo.PatientName :'Loading....'}`}</b></p>
               </div>
               <div className="claymorphism-card-content">
               <p className="text-sm">Highest Pulse (BPM) Today</p>
