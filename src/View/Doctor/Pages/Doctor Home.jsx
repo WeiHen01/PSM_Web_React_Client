@@ -4,7 +4,9 @@ import { Thermometer, HeartPulse, UserSquare, Users2 } from "lucide-react";
 import { useLocation } from 'react-router-dom';
 
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import axios from 'axios';
+import moment from 'moment';
 
 import {
   Card,
@@ -13,6 +15,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
+// import Times New Roman font
 
 import { Button } from "@material-tailwind/react";
 
@@ -561,44 +564,80 @@ const DoctorHome = () => {
     }
   }, [selectedPatient]);
  
+
+
   const generatePDF = () => {
     const doc = new jsPDF();
   
-    // Set the font and font size of the document
-    doc.setFontSize(15);
-    doc.setTextColor(40);
+    // Add patient's name and email to the document
+    doc.text("Patient Name: " + selectedPatient.PatientName, 14, 20);
+    doc.text("Patient Email: "+ selectedPatient.PatientEmail, 14, 30);
   
-    // Add a title to the document
-    doc.text("Patient Records", 14, 20);
+    // Set font and font size for the document
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(15);
   
     // Add a line break
-    doc.text(" ", 14, 30);
+    doc.text(" ", 14, 40);
   
-    // Fetch the pulse and temperature records
-    // Add a title to the document
-    doc.text(`Patient Records - ${selectedPatient.PatientName}`, 14, 20);
-
-    // Add the patient's email
-    doc.text(`Email: ${selectedPatient.PatientEmail}`, 14, 30);
-
-    const pulseRecordsString = pulseRecords.map((record) => `Date: ${record.MeasureDate} Pulse: ${record.PulseRate}`).join('\n');
-    const temperatureRecordsString = temperatureRecords.map((record) => `Date: ${record.MeasureDate} Temperature: ${record.Temperature}`).join('\n');
+    // Add a header for Pulse Records
+    doc.text("Records in Pulse:", 14, 50);
   
-    // Add the pulse records to the document
-    doc.text("Pulse Records:", 14, 40);
-    doc.text(pulseRecordsString, 14, 50);
+    // Define columns for the auto table
+    const columns = ["Date", "Pulse"];
   
-    // Add a page break
+    // Define data for the auto table
+    const pulseData = pulseRecords.map(record => [moment(record.MeasureDate).format('DD/MM/YYYY, h:mm:ss A'), record.PulseRate]);
+  
+    // Add the auto table to the document
+    doc.autoTable({
+      head: [columns],
+      body: pulseData,
+      startY: 60,
+      theme: 'grid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak',
+        columnWidth: 'auto'
+      },
+      columnStyles: {
+        0: { cellWidth: 40 },
+        1: { cellWidth: 30 }
+      }
+    });
+  
+    // Add a new page for Temperature Records
     doc.addPage();
+    doc.text("Records in Temperature:", 14, 20);
   
-    // Add the temperature records to the document
-    doc.text("Temperature Records:", 14, 40);
-    doc.text(temperatureRecordsString, 14, 50);
+    // Define columns for the auto table
+    const tempColumns = ["Date", "Temperature"];
+  
+    // Define data for the auto table
+    const tempData = temperatureRecords.map(record => [moment(record.MeasureDate).format('DD/MM/YYYY, h:mm:ss A'), record.Temperature]);
+  
+    // Add the auto table to the document
+    doc.autoTable({
+      head: [tempColumns],
+      body: tempData,
+      startY: 30,
+      theme: 'grid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak',
+        columnWidth: 'auto'
+      },
+      columnStyles: {
+        0: { cellWidth: 40 },
+        1: { cellWidth: 30 }
+      }
+    });
   
     // Save the PDF document
     doc.save(selectedPatient.PatientName + ".pdf");
   };
-
   
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
