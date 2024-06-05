@@ -3,7 +3,7 @@ import DoctorLayout from '../Components/DoctorLayout';
 import { Thermometer, HeartPulse, UserSquare, Users2 } from "lucide-react";
 import { useLocation } from 'react-router-dom';
 
-
+import jsPDF from 'jspdf';
 import axios from 'axios';
 
 import {
@@ -15,7 +15,6 @@ import {
 import Chart from "react-apexcharts";
 
 import { Button } from "@material-tailwind/react";
-
 
 const DoctorHome = () => {
   
@@ -530,7 +529,7 @@ const DoctorHome = () => {
     setTemperatureRecords([]);
     setProfileView(false);
   };
-
+   
   // Function to fetch pulse and temperature records for a patient
   const fetchRecords = async (patientId) => {
     try {
@@ -561,6 +560,44 @@ const DoctorHome = () => {
       fetchRecords(selectedPatient._id);
     }
   }, [selectedPatient]);
+ 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+  
+    // Set the font and font size of the document
+    doc.setFontSize(15);
+    doc.setTextColor(40);
+  
+    // Add a title to the document
+    doc.text("Patient Records", 14, 20);
+  
+    // Add a line break
+    doc.text(" ", 14, 30);
+  
+    // Fetch the pulse and temperature records
+    // Add a title to the document
+    doc.text(`Patient Records - ${selectedPatient.PatientName}`, 14, 20);
+
+    // Add the patient's email
+    doc.text(`Email: ${selectedPatient.PatientEmail}`, 14, 30);
+
+    const pulseRecordsString = pulseRecords.map((record) => `Date: ${record.MeasureDate} Pulse: ${record.PulseRate}`).join('\n');
+    const temperatureRecordsString = temperatureRecords.map((record) => `Date: ${record.MeasureDate} Temperature: ${record.Temperature}`).join('\n');
+  
+    // Add the pulse records to the document
+    doc.text("Pulse Records:", 14, 40);
+    doc.text(pulseRecordsString, 14, 50);
+  
+    // Add a page break
+    doc.addPage();
+  
+    // Add the temperature records to the document
+    doc.text("Temperature Records:", 14, 40);
+    doc.text(temperatureRecordsString, 14, 50);
+  
+    // Save the PDF document
+    doc.save(selectedPatient.PatientName + ".pdf");
+  };
 
   
   return (
@@ -704,7 +741,7 @@ const DoctorHome = () => {
 
                  {/* Wrap the Button in a div for spacing and alignment */}
                   <div className="flex justify-end mt-4">
-                    <Button onClick={()=>window.print()}>Print</Button>
+                    <Button onClick={generatePDF}>Print</Button>
                   </div>
 
                 
