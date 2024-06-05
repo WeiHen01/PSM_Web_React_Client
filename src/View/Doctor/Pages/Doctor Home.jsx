@@ -564,7 +564,14 @@ const DoctorHome = () => {
     }
   }, [selectedPatient]);
  
-
+  // helper function to convert hex code to RGB array
+  function hexToRgb(hex) {
+    const hexString = hex.replace(/^#/, '');
+    const r = parseInt(hexString.substring(0, 2), 16);
+    const g = parseInt(hexString.substring(2, 4), 16);
+    const b = parseInt(hexString.substring(4, 6), 16);
+    return [r, g, b];
+  }
 
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -588,6 +595,9 @@ const DoctorHome = () => {
   
     // Define data for the auto table
     const pulseData = pulseRecords.map(record => [moment(record.MeasureDate).format('DD/MM/YYYY, h:mm:ss A'), record.PulseRate]);
+
+    const hexCode = '#0000ce'; // red
+    const rgb = hexToRgb(hexCode);
   
     // Add the auto table to the document
     doc.autoTable({
@@ -596,14 +606,21 @@ const DoctorHome = () => {
       startY: 60,
       theme: 'grid',
       styles: {
-        fontSize: 8,
+        fontSize: 12,
         cellPadding: 2,
         overflow: 'linebreak',
-        columnWidth: 'auto'
+        columnWidth: 'auto',
+        fontFamily: 'Poppins'
+      },
+      headStyles: {
+        fillColor: rgb, // white background
+        textColor: [255, 255, 255], // black text
+        fontStyle: 'bold',
+        fontFamily: 'Poppins'
       },
       columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 30 }
+        0: { cellWidth: 100},
+        1: { cellWidth: 80 }
       }
     });
   
@@ -624,14 +641,21 @@ const DoctorHome = () => {
       startY: 30,
       theme: 'grid',
       styles: {
-        fontSize: 8,
+        fontSize: 12,
         cellPadding: 2,
         overflow: 'linebreak',
-        columnWidth: 'auto'
+        columnWidth: 'auto',
+        fontFamily: 'Poppins'
+      },
+      headStyles: {
+        fillColor: rgb, // white background
+        textColor: [255, 255, 255], // black text
+        fontStyle: 'bold',
+        fontFamily: 'Poppins'
       },
       columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 30 }
+        0: { cellWidth: 100 },
+        1: { cellWidth: 80 }
       }
     });
   
