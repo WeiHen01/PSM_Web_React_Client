@@ -236,6 +236,48 @@ const AdminControlUser = () => {
     },
   };
 
+
+  const [inactivePatients, setInactivePatients] = useState([]);
+  const [inactiveDoctors, setInactiveDoctors] = useState([]);
+  const [combinedInactiveList, setCombinedInactiveList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredInactiveList, setFilteredInactiveList] = useState([]);
+  
+  const fetchInactivePatients = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/patient/find/inactivePatient`);
+      setInactivePatients(response.data);
+    } catch (error) {
+      console.error('Error fetching inactive patients:', error);
+    }
+  };
+
+  const fetchInactiveDoctors = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/doctor/find/inactiveDoctor`);
+      setInactiveDoctors(response.data);
+    } catch (error) {
+      console.error('Error fetching inactive doctors:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInactivePatients();
+    fetchInactiveDoctors();
+  }, []);
+
+  useEffect(() => {
+    setCombinedInactiveList([...inactivePatients, ...inactiveDoctors]);
+  }, [inactivePatients, inactiveDoctors]);
+
+  useEffect(() => {
+    setFilteredInactiveList(
+      combinedInactiveList.filter(user => 
+        (user.PatientName || user.DoctorName).toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, combinedInactiveList]);
+
   return (
     <div>
         <title>BITU3973 | Admin User Activity Log</title>
@@ -452,32 +494,32 @@ const AdminControlUser = () => {
             {/* <!-- row 1 --> */}
               <div class="flex flex-wrap px-3 -mx-2 gap-4">
                 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer" >
+                <div className="claymorphism-card flex items-center justify-between w-64 hover:cursor-pointer" >
                   <div>
                     <div className="claymorphism-card-header">
                       
                       <p className='font-semibold text-2xl'>{error ? error : `${totalRecords !== null ? totalRecords : 'Loading...'}`}</p>
                     </div>
                     <div className="claymorphism-card-content">
-                      <p className="text-sm">Patients registered today</p>
+                      <p className="text-sm">Patients registered</p>
                     </div>
                   </div>
                   <User size={50}/>
                 </div>
 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
+                <div className="claymorphism-card flex items-center justify-between w-64  hover:cursor-pointer">
                   <div>
                     <div className="claymorphism-card-header">
                       <p className='font-semibold text-2xl'>{totalDoctorRecords}</p>
                     </div>
                     <div className="claymorphism-card-content">
-                      <p className="text-sm">Doctors registered today</p>
+                      <p className="text-sm">Doctors registered</p>
                     </div>
                   </div>
                   <Stethoscope size={50}/>
                 </div>
 
-                <div className="claymorphism-card flex items-center justify-between w-72 hover:cursor-pointer">
+                <div className="claymorphism-card flex items-center justify-between w-64 hover:cursor-pointer">
                   <div>
                     <div className="claymorphism-card-header">
                     <p className='font-semibold text-2xl'>{totalRecords + totalDoctorRecords}</p>
@@ -491,64 +533,67 @@ const AdminControlUser = () => {
 
               </div>
 
-              <div class="flex flex-wrap px-3 -mx-2 gap-4">
-                  <div>
-                      <h1 class=" text-lg px-1 py-2"><b>Patient</b></h1>
-                      <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
-                        <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
-                            <label label for="table-search" class="sr-only">Search</label>
-                            <div class="relative mt-1">
-                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                    </svg>
-                                </div>
-                                <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
+              <div class="px-3 -mx-2 gap-4 flex">
+                
+                <div>
+                    <h1 class=" text-lg px-1 py-2"><b>Patient</b></h1>
+                    <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
+                          <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
+                              <label label for="table-search" class="sr-only">Search</label>
+                              <div class="relative mt-1">
+                                  <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                      </svg>
+                                  </div>
+                                  <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
 
-                                
-                            </div>
-                        </div>
+                                  
+                              </div>
+                          </div>
 
-                        <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    
-                                    <th scope="col" class="px-6 py-3">
-                                        Patient
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Last Login
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Last Update
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        View Account
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                {filteredPatients.map((patient, index) => (
-                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                                        <p className="font-bold">{patient.PatientName}</p>
-                                        <p>{patient.PatientEmail}</p>
-                                    </td>
-                                    <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
-                                    <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
-                                    <td className="px-6 py-4">
-                                        <FaUser size={30} onClick={() => openPatientProfile(patient)}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
-                                    </td>
-                                </tr>
-                                ))}
-                            </tbody>
-                            
-                        </table>
+                          <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                              <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                  <tr>
+                                      
+                                      <th scope="col" class="px-6 py-3">
+                                          Patient
+                                      </th>
+                                      <th scope="col" class="px-6 py-3">
+                                          Last Login
+                                      </th>
+                                      <th scope="col" class="px-6 py-3">
+                                          Last Update
+                                      </th>
+                                      <th scope="col" class="px-6 py-3">
+                                          View Account
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  
+                                  {filteredPatients.map((patient, index) => (
+                                  <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                                          <p className="font-bold">{patient.PatientName}</p>
+                                          <p>{patient.PatientEmail}</p>
+                                      </td>
+                                      <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
+                                      <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
+                                      <td className="px-6 py-4">
+                                          <FaUser size={30} onClick={() => openPatientProfile(patient)}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                      </td>
+                                  </tr>
+                                  ))}
+                              </tbody>
+                              
+                          </table>
                       </div>
 
+
+
                       <h1 class=" text-lg px-1 py-2"><b>Doctor</b></h1>
-                    <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
+                      <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
                         <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
                             <label label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
@@ -600,14 +645,13 @@ const AdminControlUser = () => {
 
                     </div>
 
-                    
 
-                      
+                </div>
 
-                  </div>
-                  
-                  <div>
-                    <h1 class=" text-lg px-1 py-2"><b>Inactive users</b></h1>
+
+                <div>
+
+                <h1 class=" text-lg px-1 py-2"><b>Inactive users</b></h1>
                     <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
                         <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                             <label label for="table-search" class="sr-only">Search</label>
@@ -617,16 +661,19 @@ const AdminControlUser = () => {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search" value={null} onChange={null} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search users" />
+                                <input type="text" id="table-search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search users" />
                             </div>
 
                         </div>
 
-                        <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Doctor
+                                        User
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Last Login
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Action
@@ -635,21 +682,23 @@ const AdminControlUser = () => {
                             </thead>
                             <tbody>
                                 
-                                {filteredDoctors.map((doctor, index) => (
-                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <p className="font-bold">{doctor.DoctorName}</p>
-                                        <p>{calculateTimeDifference(doctor.LastLoginDateTime)}</p>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <FaBell size={30} onClick={openSendNotification}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
-                                    </td>
-                                </tr>
-                                ))}
+                            {filteredInactiveList.map((user, index) => (
+                              <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                  <p className="font-bold">{user.PatientName || user.DoctorName}</p>
+                                  <p>{user.PatientEmail || user.DoctorEmail}</p>
+                                </td>
+                                <td className="px-6 py-4">{calculateTimeDifference(user.LastLoginDateTime)}</td>
+                                <td className="px-6 py-4 text-center">
+                                    <FaBell size={30} onClick={openSendNotification}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                </td>
+                              </tr>
+                            ))}
                             </tbody>
                         </table>
 
                     </div>
+
 
                     <h1 class=" text-lg px-1 py-2"><b>Statistics</b></h1>
                     <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
@@ -659,17 +708,14 @@ const AdminControlUser = () => {
 
                     </div>
 
-                  </div>
+                </div>
 
 
-                  
+                
 
-                  
 
-              </div>
 
-              <div class="flex flex-wrap px-3 -mx-2 gap-4">
-                  
+
               </div>
 
              
