@@ -205,7 +205,7 @@ const Login = () => {
    * 
    * @param {*} e 
    */
-  const handleDoctorGoogleLogin = useCallback(async (googleemail) => {
+ /*  const handleDoctorGoogleLogin = useCallback(async (googleemail) => {
     
     try {
       const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/loginGoogle/${googleemail}`, { });
@@ -241,13 +241,13 @@ const Login = () => {
       setError(err.response.data.error); // Handle error, e.g., display error message
     }
 
-  }, [navigate]);
+  }, [navigate]); */
 
   /**
    * 
    * @param {*} e 
    */
-  const handleAdminGoogleLogin = useCallback(async (googleemail) => {
+  /* const handleAdminGoogleLogin = useCallback(async (googleemail) => {
     
     try {
       const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/loginGoogle/${googleemail}`, { });
@@ -272,7 +272,51 @@ const Login = () => {
       setError(err.response.data.error); // Handle error, e.g., display error message
     }
 
-  }, [navigate]);
+  }, [navigate]); */
+
+  const handleGoogleLogin = useCallback(async (googleemail) => {
+    try {
+      const endpoint = activeRole === 'Doctor' ? `doctor/loginGoogle/${googleemail}` : `admin/loginGoogle/${googleemail}`;
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/${endpoint}`, {});
+      console.log(response.data);
+      setError(null); 
+
+      if (response.status === 200) {
+        window.alert(`Successfully logged in as ${activeRole.toLowerCase()}!`);
+
+        const user = response.data[activeRole.toLowerCase()];
+        const userID = activeRole === 'Doctor' ? user.DoctorID : user.AdminID;
+
+        var onesignalId = "";
+
+        if(activeRole === 'Doctor'){
+          onesignalId = "D-" + userID;
+        }
+        else{
+          onesignalId = "Ad-" + userID;
+        }
+
+
+        OneSignal.login(onesignalId);
+
+        if (activeRole === 'Doctor') {
+          try {
+            await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${userID}`, {
+              LastLoginDateTime: new Date(),
+            });
+          } catch (error) {
+            console.error('Error updating profile:', error);
+          }
+          navigate('/Doctor/DoctorHome', { state: { doctorID: userID } });
+        } else {
+          navigate('/Admin/AdminCtrlUser', { state: { adminID: userID } });
+        }
+      }
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error);
+    }
+  }, [activeRole, navigate]);
   
   /**
    * Google Login using OAuth2
@@ -299,12 +343,13 @@ const Login = () => {
             setProfileInfo(response.data);
             console.log(profileInfo);
             setEmail(response.data["email"]);
-            if(activeRole === "Doctor"){
+            handleGoogleLogin(response.data["email"]);
+            /* if(activeRole === "Doctor"){
               handleDoctorGoogleLogin(email);
             }
             if(activeRole === "Admin"){
               handleAdminGoogleLogin(email);
-            }
+            } */
         })
         .catch((error) => console.log(error));
         
@@ -312,7 +357,7 @@ const Login = () => {
 
     
     
-  }, [userInfo, activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin])
+  }, [userInfo, handleGoogleLogin, profileInfo /*activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin */])
 
   // Inside the handleForgetPasswordClick function or any event handler where you want to navigate to ForgetPassword
   const handleForgetPasswordClick = () => {

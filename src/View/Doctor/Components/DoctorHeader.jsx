@@ -23,9 +23,10 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
     const Logout=()=>{
         const confirmed = window.confirm("Are you sure you want to logout?");
         if(confirmed){
-            //OneSignal.removeExternalUserId();
-            Onesignal.logout();
+            //Onesignal.removeExternalUserId();
+             
             window.alert("You have been logged out!");
+            OneSignal.logout();
             window.location.replace("/Login");
         }
     }

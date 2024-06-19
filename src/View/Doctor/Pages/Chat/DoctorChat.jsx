@@ -356,7 +356,7 @@ const DoctorChat = () => {
                   />
 
                   {/* sEND BUTTON */}
-                  <button
+                  <button type = "submit"
                     className="ml-2 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
                     onClick={() => {
                       // Handle button click

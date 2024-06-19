@@ -413,13 +413,16 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-
-
-            
-        
-
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                      Gender: {selectedPatient.PatientGender}
+                    </label>
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                      Address: {selectedPatient.PatientAddress}
+                    </label>
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                      Contact: {selectedPatient.PatientContact}
+                    </label>
                     
-
                   </div>
                 </div>
               </div>
@@ -479,7 +482,13 @@ const AdminControlUser = () => {
                     </button>
                   </div>
                   <div className="p-4">
-
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                      Contact: {selectedDoctor.DoctorContact}
+                    </label>
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                      Specialize: {selectedDoctor.DoctorSpecialize}
+                    </label>
+                    
                     
 
                   </div>
@@ -566,7 +575,7 @@ const AdminControlUser = () => {
                                           Last Update
                                       </th>
                                       <th scope="col" class="px-6 py-3">
-                                          View Account
+                                          Action
                                       </th>
                                   </tr>
                               </thead>
@@ -621,7 +630,7 @@ const AdminControlUser = () => {
                                     </th>
                                   
                                     <th scope="col" class="px-6 py-3">
-                                        View account
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
@@ -636,7 +645,7 @@ const AdminControlUser = () => {
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastLoginDateTime)}</td>
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastUpdateDateTime)}</td>
                                     <td className="px-6 py-4 text-center">
-                                        <FaUser size={30} onClick={() => openDoctorProfile(doctor)}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                        <Stethoscope size={30} onClick={() => openDoctorProfile(doctor)}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                     </td>
                                 </tr>
                                 ))}

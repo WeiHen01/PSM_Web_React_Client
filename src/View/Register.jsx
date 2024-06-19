@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import bgRegister from '../images/Register.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash, faPhone, faUserAlt  } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from 'axios';
@@ -89,6 +89,9 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [contact, setContact] = useState('');
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -112,7 +115,9 @@ const Register = () => {
       if(password === conPassword){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
-            DoctorName: 'new-doctor',
+            DoctorName: name,
+            DoctorUsername: username,
+            DoctorContact: contact,
             DoctorEmail: email,
             DoctorPassword: password,
           });
@@ -146,7 +151,9 @@ const Register = () => {
       if(password === conPassword){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
-            AdminName: 'new-admin',
+            AdminName: name,
+            AdminUsername: username,
+            AdminContact: contact,
             AdminEmail: email,
             AdminPassword: password,
           });
@@ -268,6 +275,65 @@ const Register = () => {
                   style={{ paddingLeft: '35px' }}
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} required
+                    
+                />
+              </div>
+
+              <p className='font-semibold'>Name</p>
+              
+              <div style={{ position: 'relative' }}>
+                
+                <FontAwesomeIcon
+                  icon={faUserAlt}
+                  style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+                />
+    
+                <input 
+                  placeholder="Name" 
+                  className="w-full pl-12 pr-2 py-2 bg-gray-100" 
+                  style={{ paddingLeft: '35px' }}
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} required
+                    
+                />
+              </div>
+    
+
+              <p className='font-semibold'>Username</p>
+              
+              <div style={{ position: 'relative' }}>
+                
+                <FontAwesomeIcon
+                  icon={faUserAlt}
+                  style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+                />
+    
+                <input 
+                  placeholder="Contact" 
+                  className="w-full pl-12 pr-2 py-2 bg-gray-100" 
+                  style={{ paddingLeft: '35px' }}
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)} required
+                    
+                />
+              </div>
+    
+
+              <p className='font-semibold'>Contact</p>
+              
+              <div style={{ position: 'relative' }}>
+                
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }}
+                />
+    
+                <input 
+                  placeholder="Contact" 
+                  className="w-full pl-12 pr-2 py-2 bg-gray-100" 
+                  style={{ paddingLeft: '35px' }}
+                  value={contact} 
+                  onChange={(e) => setContact(e.target.value)} required
                     
                 />
               </div>
