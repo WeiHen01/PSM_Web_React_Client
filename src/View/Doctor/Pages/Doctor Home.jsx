@@ -521,7 +521,8 @@ const DoctorHome = () => {
 
   const openPatientProfile = (patient) => {
     setSelectedPatient(patient);
-    fetchRecords(patient.PatientID);
+    fetchPatientTempRecords(patient.PatientID);
+    fetchPatientPulseRecords(patient.PatientID);
     setProfileView(true);
   };
 
@@ -534,7 +535,7 @@ const DoctorHome = () => {
   };
    
   // Function to fetch pulse and temperature records for a patient
-  const fetchRecords = async (patientId) => {
+ /*  const fetchRecords = async (patientId) => {
     try {
       const [pulseResponse, temperatureResponse] = await Promise.all([
         fetch(`http://${window.location.hostname}:8000/api/pulse/records/P-${patientId}`),
@@ -555,12 +556,41 @@ const DoctorHome = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }; */
+
+  const fetchPatientPulseRecords = async (patientId) => {
+    try {
+      const pulseResponse = await fetch(`http://${window.location.hostname}:8000/api/pulse/records/P-${patientId}`);
+      if (!pulseResponse.ok) {
+        throw new Error('Failed to fetch pulse records');
+      }
+      const pulseData = await pulseResponse.json();
+      setPulseRecords(pulseData['Pulse Records']);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  const fetchPatientTempRecords = async (patientId) => {
+    try {
+      const tempResponse = await fetch(`http://${window.location.hostname}:8000/api/temp/records/P-${patientId}`);
+      if (!tempResponse.ok) {
+        throw new Error('Failed to fetch temperature records');
+      }
+      const temperatureData = await tempResponse.json();
+      setTemperatureRecords(temperatureData['Temperature Records']);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     // Fetch pulse and temperature records when selectedPatient changes
     if (selectedPatient) {
-      fetchRecords(selectedPatient._id);
+      fetchPatientPulseRecords(selectedPatient._id);
+      fetchPatientTempRecords(selectedPatient._id);
     }
   }, [selectedPatient]);
  
@@ -732,35 +762,34 @@ const DoctorHome = () => {
                 </label>
                 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
+                {pulseRecords.length > 0 ? (
+                  <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            
-                            <th scope="col" class="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Pulse
-                            </th>
-
-                        </tr>
+                      <tr>
+                        <th scope="col" class="px-6 py-3">
+                          Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          Pulse
+                        </th>
+                      </tr>
                     </thead>
                     <tbody>
-                        
-                    {/* Render pulse records */}
-                    {pulseRecords.map((record, index) => (
-                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                          {calculateTimeDifference(record.MeasureDate)}
-                        </td>
-                        <td className="px-6 py-4">{record.PulseRate}</td>
-                      </tr>
-                    ))}
-
-                    
+                      {pulseRecords.map((record, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                            {calculateTimeDifference(record.MeasureDate)}
+                          </td>
+                          <td className="px-6 py-4">{record.PulseRate}</td>
+                        </tr>
+                      ))}
                     </tbody>
-                    
-                </table>
+                  </table>
+                ) : (
+                  <div className="text-center p-4">
+                    No pulse records found.
+                  </div>
+                )}
 
 
                 <div class="py-3"></div>
@@ -770,35 +799,34 @@ const DoctorHome = () => {
                 </label>
 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
+                {temperatureRecords.length > 0 ? (
+                  <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            
-                            <th scope="col" class="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Temperature
-                            </th>
-
-                        </tr>
+                      <tr>
+                        <th scope="col" class="px-6 py-3">
+                          Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          Temperature
+                        </th>
+                      </tr>
                     </thead>
                     <tbody>
-                        
-                    {/* Render pulse records */}
-                    {temperatureRecords.map((record, index) => (
-                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                          {calculateTimeDifference(record.MeasureDate)}
-                        </td>
-                        <td className="px-6 py-4">{record.Temperature}</td>
-                      </tr>
-                    ))}
-
-                    
+                      {temperatureRecords.map((record, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                            {calculateTimeDifference(record.MeasureDate)}
+                          </td>
+                          <td className="px-6 py-4">{record.Temperature}</td>
+                        </tr>
+                      ))}
                     </tbody>
-                    
-                </table>
+                  </table>
+                ) : (
+                  <div className="text-center p-4">
+                    No temperature records found.
+                  </div>
+                )}
 
 
 
@@ -1088,7 +1116,7 @@ const DoctorHome = () => {
                 <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
                     
                     <div class="relative mt-1">
-                      <b className='text-white'>Recent Patient Average Record</b>
+                      <b className='text-white'>Recent 5 days Patient Average Record</b>
                     </div>
               
                 </div>
