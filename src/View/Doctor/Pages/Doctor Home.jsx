@@ -757,6 +757,43 @@ const DoctorHome = () => {
               </div>
               <div className="p-4">
 
+              <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                  Temperature 
+                </label>
+
+                {/* Apply overflow-y:auto to make the table scrollable */}
+                {temperatureRecords.length > 0 ? (
+                  <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
+                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                        <th scope="col" class="px-6 py-3">
+                          Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                          Temperature in Celsius (°C)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {temperatureRecords.map((record, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                            {calculateTimeDifference(record.MeasureDate)}
+                          </td>
+                          <td className="px-6 py-4">{record.Temperature}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="text-center p-4 text-pink-600">
+                    No temperature records found.
+                  </div>
+                )}
+
+                <div class="py-3"></div>
+
+
                 <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
                   Pulse
                 </label>
@@ -786,48 +823,15 @@ const DoctorHome = () => {
                     </tbody>
                   </table>
                 ) : (
-                  <div className="text-center p-4">
+                  <div className="text-center p-4 text-pink-600">
                     No pulse records found.
                   </div>
                 )}
 
 
-                <div class="py-3"></div>
+                
 
-                <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                  Temperature 
-                </label>
-
-                {/* Apply overflow-y:auto to make the table scrollable */}
-                {temperatureRecords.length > 0 ? (
-                  <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
-                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                      <tr>
-                        <th scope="col" class="px-6 py-3">
-                          Date
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                          Temperature in Celsius (°C)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {temperatureRecords.map((record, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                          <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {calculateTimeDifference(record.MeasureDate)}
-                          </td>
-                          <td className="px-6 py-4">{record.Temperature}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="text-center p-4">
-                    No temperature records found.
-                  </div>
-                )}
-
+                
 
 
                  {/* Wrap the Button in a div for spacing and alignment */}

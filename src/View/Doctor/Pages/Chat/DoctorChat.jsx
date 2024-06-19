@@ -223,7 +223,7 @@ const DoctorChat = () => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 
-    if (diffDays === 0) {
+    if (diffDays === 0 && diffHours < 1) {
       // Message sent today
       const minutesAgo = Math.floor(diffTime / (1000 * 60));
       return `${minutesAgo} minutes ago`;
@@ -233,9 +233,6 @@ const DoctorChat = () => {
     }else if (diffDays === 0 && diffHours > 1 && diffHours < 6) {
       // Message sent yesterday
       return `${diffHours} hours ago`;
-    } else if (diffDays === 1) {
-      // Message sent yesterday
-      return 'Yesterday';
     } else {
       // Message sent on a previous date
       return messageDate.toLocaleDateString();
