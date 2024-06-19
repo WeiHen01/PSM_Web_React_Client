@@ -172,11 +172,11 @@ const Register = () => {
           setErrorMsg('Error registering as an admin. Please try again.');
         }
       }
-      else {
+      else { 
         setErrorMsg('Different password between original and confirmation password');
       }
     }
-   
+    
   };
 
   /**
