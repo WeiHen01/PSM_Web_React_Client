@@ -770,7 +770,7 @@ const DoctorHome = () => {
                           Date
                         </th>
                         <th scope="col" class="px-6 py-3">
-                          Pulse
+                          Pulse (BPM)
                         </th>
                       </tr>
                     </thead>
@@ -795,7 +795,7 @@ const DoctorHome = () => {
                 <div class="py-3"></div>
 
                 <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                  Temperature
+                  Temperature 
                 </label>
 
                 {/* Apply overflow-y:auto to make the table scrollable */}
@@ -807,7 +807,7 @@ const DoctorHome = () => {
                           Date
                         </th>
                         <th scope="col" class="px-6 py-3">
-                          Temperature
+                          Temperature in Celsius (°C)
                         </th>
                       </tr>
                     </thead>
@@ -861,7 +861,7 @@ const DoctorHome = () => {
                     </div>
                     <div>
                       <Typography variant="h6" color="blue-gray">
-                        Temperature
+                        Temperature (°C)
                       </Typography>
                       <Typography
                         variant="small"
@@ -938,7 +938,7 @@ const DoctorHome = () => {
                         color="gray"
                         className="max-w-sm font-normal"
                       >
-                        Highest record of pulse recorded by patients
+                        Highest record of pulse (BPM) recorded by patients
                       </Typography>
                     </div>
                     <div>
