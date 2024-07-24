@@ -26,7 +26,7 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
             //Onesignal.removeExternalUserId();
              
             window.alert("You have been logged out!");
-            OneSignal.logout();
+            Onesignal.logout();
             window.location.replace("/Login");
         }
     }
