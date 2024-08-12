@@ -90,8 +90,7 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
             </div>
             <div className="flex items-center gap-5">
                 
-                
-
+            
                 {/* User profile section */}
                 <div className="cursor-pointer flex gap-3" onClick={null} ref={dropdownRef}>
                     <button 
