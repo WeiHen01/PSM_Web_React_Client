@@ -45,6 +45,12 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
     const [profileImage, setProfileImageURL] = useState(''); // Define profileImageURL state
 
     useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
 
         
         const getDoctorInfo = async () => {
@@ -61,7 +67,7 @@ const DoctorHeader = ({doctorID, notificationCount, children }) => {
                 // Fetch doctor's profile image
                 const imageResponse = await fetch(`http://${window.location.hostname}:8000/api/doctor/profileImage/${doctorID}`);
                 if (!imageResponse.ok) {
-                throw new Error('Error retrieving doctor profile image');
+                    throw new Error('Error retrieving doctor profile image');
                 }
                 const imageData = await imageResponse.blob();
                 setProfileImageURL(URL.createObjectURL(imageData));

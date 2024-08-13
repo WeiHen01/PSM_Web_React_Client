@@ -2,7 +2,7 @@
  * Login.jsx: General Login Page
  */
 
-import React, { useState, useCallback  } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import bgSignIn from "../images/Login.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faUserCog, faStethoscope, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -193,9 +193,86 @@ const Login = () => {
     }
   };
 
+
+
+  /**
+   * Google Authentication
+   */
   const [userInfo, setUserInfo] = useState([]);
   const [profileInfo, setProfileInfo] = useState([]);
 
+  /**
+   * 
+   * @param {*} e 
+   */
+ /*  const handleDoctorGoogleLogin = useCallback(async (googleemail) => {
+    
+    try {
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/loginGoogle/${googleemail}`, { });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as doctor!");
+
+        const { doctor } = response.data; // Assuming the response contains the doctor object
+        const doctorID = doctor.DoctorID; // Extract DoctorID from the doctor object
+
+        OneSignal.login("D-" + doctorID);
+
+        try {
+          const response = await axios.put(`http://${window.location.hostname}:8000/api/doctor/update/id/${doctorID}`, {
+            LastLoginDateTime: new Date(),
+          });
+          console.log(response.status);
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          // Handle error state or display error message to the user
+        }
+
+        // Redirect to another route upon successful login
+        navigate('/Doctor/DoctorHome', { state: { doctorID } }); // Change '/dashboard' to your desired route
+
+        
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
+
+  }, [navigate]); */
+
+  /**
+   * 
+   * @param {*} e 
+   */
+  /* const handleAdminGoogleLogin = useCallback(async (googleemail) => {
+    
+    try {
+      const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/loginGoogle/${googleemail}`, { });
+      console.log(response.data); // Handle success, e.g., redirect to dashboard
+      setError(null); // Clear any previous errors
+
+      if(response.status === 200){
+        window.alert("Successfully logged in as admin!");
+
+        const { admin } = response.data; // Assuming the response contains the doctor object
+        const adminID = admin.AdminID; // Extract AdminID from the doctor object
+
+        OneSignal.login("Ad-" + adminID);
+
+        // Redirect to another route upon successful login
+        navigate('/Admin/AdminCtrlUser', { state: { adminID } }); // Change '/dashboard' to your desired route
+
+      }
+
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response.data.error); // Handle error, e.g., display error message
+    }
+
+  }, [navigate]); */
 
   const handleGoogleLogin = useCallback(async (googleemail) => {
     try {
@@ -240,8 +317,7 @@ const Login = () => {
       setError(err.response.data.error);
     }
   }, [activeRole, navigate]);
-
-
+  
   /**
    * Google Login using OAuth2
    */
@@ -249,8 +325,14 @@ const Login = () => {
     onSuccess: (response) => {
       setUserInfo(response);
       console.log(`Log in successfully`);
-      if (userInfo) {
-        axios
+      
+    },
+    onError: (error) => console.log(`Login Failed: ${error}`, ),
+  });
+  
+  useEffect (() => {
+    if (userInfo) {
+      axios
         .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userInfo.access_token}`, {
             headers: {
                 Authorization: `Bearer ${userInfo.access_token}`,
@@ -263,18 +345,21 @@ const Login = () => {
             console.log(profileInfo);
             setEmail(response.data["email"]);
             handleGoogleLogin(response.data["email"]);
+            /* if(activeRole === "Doctor"){
+              handleDoctorGoogleLogin(email);
+            }
+            if(activeRole === "Admin"){
+              handleAdminGoogleLogin(email);
+            } */
         })
         .catch((error) => console.log(error));
-      }
+        
+    }
 
-    },
-    onError: (error) => console.log(`Login Failed: ${error}`, ),
-  });
-  
-
-  
-  
-  
+    
+    
+  }, [userInfo, handleGoogleLogin, profileInfo /*activeRole, email, profileInfo, handleDoctorGoogleLogin, handleAdminGoogleLogin */]);
+ 
   // Inside the handleForgetPasswordClick function or any event handler where you want to navigate to ForgetPassword
   const handleForgetPasswordClick = () => {
     // Navigate to ForgetPassword and pass activeRole as part of the state object

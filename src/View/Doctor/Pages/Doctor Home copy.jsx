@@ -848,6 +848,145 @@ const DoctorHome = () => {
       )}
       
 
+      {/** Update Profile Modal */}
+      {viewTempModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <Thermometer className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Temperature (°C)
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of temperature recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewTemp}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...tempConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewPulseModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <HeartPulse className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Pulse
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of pulse (BPM) recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewPulse}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...pulseConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       
 
 
@@ -921,57 +1060,82 @@ const DoctorHome = () => {
       {/* <!-- cards --> */}
       <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
         {/* <!-- row 1 --> */}
-        <div class=" relative overflow-x-auto h-80 overflow-y-auto shadow-md sm:rounded-lg">
+        <div class="flex flex-wrap px-3 -mx-2 gap-4">
+          <div class=" relative overflow-x-auto h-80 w-2/3 overflow-y-auto shadow-md sm:rounded-lg">
                 
-            <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
-                <label label for="table-search" class="sr-only">Search</label>
-                <div class="relative mt-1">
-                    <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
+                <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                    <label label for="table-search" class="sr-only">Search</label>
+                    <div class="relative mt-1">
+                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
                     </div>
-                    <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
                 </div>
-            </div>
-
-            <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        
-                        <th scope="col" class="px-6 py-3">
-                            Patient
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Last Login
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Last Update
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    {filteredPatients.map((patient, index) => (
-                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            <p className="font-bold">{patient.PatientName}</p>
-                            <p>{patient.PatientEmail}</p>
-                        </td>
-                        <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
-                        <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
-                        <td className="px-6 py-4">
-                            <UserSquare size={40}  className='p-2  hover:bg-slate-500 hover:rounded-md' onClick={() => openPatientProfile(patient)}  />
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
-                
-            </table>
     
+                <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                            <th scope="col" class="px-6 py-3">
+                                Patient
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Last Login
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Last Update
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {filteredPatients.map((patient, index) => (
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                                <p className="font-bold">{patient.PatientName}</p>
+                                <p>{patient.PatientEmail}</p>
+                            </td>
+                            <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
+                            <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
+                            <td className="px-6 py-4">
+                                <UserSquare size={40}  className='p-2  hover:bg-slate-500 hover:rounded-md' onClick={() => openPatientProfile(patient)}  />
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    
+                </table>
+    
+            </div>
+    
+    
+            <div class= "relative overflow-x-auto h-80 w-1/4 overflow-y-auto shadow-md sm:rounded-lg">
+                    
+                <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                    
+                    <div class="relative mt-1">
+                      <b className='text-white'>Recent 5 days Patient Average Record</b>
+                    </div>
+              
+                </div>
+
+                {/** Modal content */}
+                <Card className=" bg-gray-200">
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...avgConfig} />
+                  </CardBody>
+                </Card>
+    
+                
+    
+            </div>
         </div>
         
 

@@ -1,7 +1,7 @@
 import React, {useEffect ,useState} from 'react'
 import AdminLayout from '../../Components/AdminLayout';
 import { useLocation } from 'react-router-dom';
-import { FaUser, FaBell } from 'react-icons/fa';
+import { FaUser, FaBell, FaEdit } from 'react-icons/fa';
 import { User, Stethoscope, User2Icon, Bell } from "lucide-react";
 
 import axios from 'axios';
@@ -589,8 +589,9 @@ const AdminControlUser = () => {
                                       </td>
                                       <td className="px-6 py-4">{calculateTimeDifference(patient.LastLoginDateTime)}{/* {new Date(patient.LastLoginDateTime).toLocaleString()} */}</td>
                                       <td className="px-6 py-4">{calculateTimeDifference(patient.LastUpdateDateTime)}</td>
-                                      <td className="px-6 py-4">
+                                      <td className="px-6 py-4 flex">
                                           <FaUser size={30} onClick={() => openPatientProfile(patient)}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                          <FaEdit size={30} onClick={null}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                       </td>
                                   </tr>
                                   ))}
@@ -644,8 +645,9 @@ const AdminControlUser = () => {
                                     </td>
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastLoginDateTime)}</td>
                                     <td className="px-6 py-4">{calculateTimeDifference(doctor.LastUpdateDateTime)}</td>
-                                    <td className="px-6 py-4 text-center">
+                                    <td className="px-6 py-4 text-center flex">
                                         <Stethoscope size={30} onClick={() => openDoctorProfile(doctor)}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                                        <FaEdit size={30} onClick={null}   className='p-2  hover:bg-slate-500 hover:rounded-md' />
                                     </td>
                                 </tr>
                                 ))}

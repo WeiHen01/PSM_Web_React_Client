@@ -16,7 +16,7 @@ const DoctorSidebar = ({children, doctorID, doctorName}) => {
                     <img src={Trademark} alt = "/" className="my-2 w-32"/>
                 </div>
                 <div className = "bg-gradient-to-r from-purple-dark to-red-deep h-screen">
-                    <SidebarContext.Provider value={{ expanded}}>
+                    <SidebarContext.Provider value={{expanded}}>
 
                         {/** Render sidebar items  */}
                         <ul className = ' text-white py-6 bg-gradient-to-r from-purple-dark to-red-deep h-auto'>

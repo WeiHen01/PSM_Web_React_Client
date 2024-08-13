@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef  }  from 'react';
 import Trademark from "../../../images/Trademark_color.png";
 import Logo from "../../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
-import {Bell, LogOut, UserCircle2} from 'lucide-react';
+import {LogOut, UserCircle2} from 'lucide-react';
 
 import OneSignal from 'react-onesignal';
 
@@ -37,13 +37,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const [isNotifyOpen, setIsNotifyOpen] = useState(false);
-
-    const dropdownRefNotify = useRef(null);
-
-    const toggleNotifyDropdown = () => {
-        setIsNotifyOpen(!isNotifyOpen);
-    };
+    
 
     const [profileImage, setProfileImageURL] = useState(''); // Define profileImageURL state
     
@@ -51,10 +45,6 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsDropdownOpen(false);
-            }
-
-            if (dropdownRefNotify.current && !dropdownRefNotify.current.contains(event.target)) {
-                setIsNotifyOpen(false);
             }
         };
 
@@ -74,7 +64,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
                 // Fetch doctor's profile image
                 const imageResponse = await fetch(`http://${window.location.hostname}:8000/api/admin/profileImage/${adminID}`);
                 if (!imageResponse.ok) {
-                throw new Error('Error retrieving doctor profile image');
+                    throw new Error('Error retrieving doctor profile image');
                 }
                 const imageData = await imageResponse.blob();
                 setProfileImageURL(URL.createObjectURL(imageData));
@@ -104,32 +94,7 @@ const AdminHeader = ({ adminID, notificationCount, children }) => {
             </div>
             <div className="flex items-center gap-5">
                 
-                {/* Notification section */}
-                <div className="cursor-pointer" onClick={null} ref={dropdownRefNotify}>
-                    <button 
-                       className="flex gap-2 hover:text-gray-200 cursor-pointer"
-                       onClick={toggleNotifyDropdown}
-                    >
-                        <Bell />
-                        {notificationCount > 0 && (
-                            <span className="bg-red-500 rounded-full px-2 py-1 text-white text-xs">{notificationCount}</span>
-                        )}
-                    </button>
-
-                    {/* Dropdown menu */}
-                    {isNotifyOpen && (
-                        <div
-                        id="dropdownHover"
-                        className="absolute mt-1 mr-5 px-2 right-1 w-96 bg-white divide-y overflow-x-hidden divide-gray-100 rounded-lg shadow dark:bg-gray-700"
-                        >
-                            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-                                <li>
-                                    <p className="block my-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</p>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
-                </div>
+                
 
                 {/* User profile section */}
                 <div className="cursor-pointer flex gap-3" onClick={null} ref={dropdownRef}>
