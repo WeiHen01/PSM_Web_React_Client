@@ -148,7 +148,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword && passwordMsg === '' && emailMsg === ''){
+      if(password === conPassword && passwordMsg === 'Password is strong!' && emailMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
             DoctorName: name,
@@ -184,7 +184,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword && passwordMsg === '' && emailMsg === ''){
+      if(password === conPassword && passwordMsg === 'Password is strong!' && emailMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
             AdminName: name,
@@ -404,17 +404,26 @@ const Register = () => {
 
               </div>
               <div>
-                {Array.isArray(passwordMsg) && passwordMsg.length > 0 ? (
-                  <ul style={{ color: 'red', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
-                    {passwordMsg.map((msg, index) => (
-                      <p key={index} dangerouslySetInnerHTML={{ __html: msg }} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p style={{ color: 'green', fontSize: '14px', marginTop: '5px' }}>
-                    Password is strong!
+              {Array.isArray(passwordMsg) && passwordMsg.length > 0 ? (
+                <ul style={{ color: 'red', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
+                  {passwordMsg.map((msg, index) => (
+                    <li key={index} dangerouslySetInnerHTML={{ __html: msg }} />
+                  ))}
+                </ul>
+              ) : (
+                password.length >= 8 && password.length < 13 ? (
+                  <p style={{ color: '#ff7b00', fontSize: '14px', marginTop: '5px' }}>
+                    Password is moderate.
                   </p>
-                )}
+                ) : (
+                  password.length >= 13 ? (
+                    <p style={{ color: 'green', fontSize: '14px', marginTop: '5px' }}>
+                      Password is strong!
+                    </p>
+                  ) : null
+                )
+              )}
+
               </div>
 
 
