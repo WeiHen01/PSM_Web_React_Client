@@ -109,7 +109,7 @@ const Register = () => {
         setEmailMsg('');
     }
   };
-  
+
   useEffect(() => {
     validateEmail(email);
   }, [email]);
@@ -147,7 +147,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword && passwordMsg === ''){
+      if(password === conPassword && passwordMsg === '' && emailMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
             DoctorName: name,
@@ -183,7 +183,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword && passwordMsg === ''){
+      if(password === conPassword && passwordMsg === '' && emailMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
             AdminName: name,
