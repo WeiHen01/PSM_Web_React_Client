@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import bgForgetPassword from "../images/Reset_password.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faEnvelope, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +28,24 @@ const ForgetPassword = () => {
   /** Navigation */
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
+
+  const [emailMsg, setEmailMsg] = useState('');
+
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailPattern.test(email);
+    const endsWithCom = email.endsWith('.com');
+    
+    if (!isValidEmail || !endsWithCom) {
+        setEmailMsg('Email must be in the format example@domain.com.');
+    } else {
+        setEmailMsg('');
+    }
+  };
+
+  useEffect(() => {
+    validateEmail(email);
+  }, [email]);
 
   const findDoctorAccount = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -81,12 +99,18 @@ const ForgetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
 
-    // Add your login logic here based on activeRole (Doctor or Admin)
-    if (activeRole === 'Doctor') {
-      findDoctorAccount(e);
-    } else {
-      findAdminAccount(e);
+    if(emailMsg === ''){
+      // Add your login logic here based on activeRole (Doctor or Admin)
+      if (activeRole === 'Doctor') {
+        findDoctorAccount(e);
+      } else {
+        findAdminAccount(e);
+      }
     }
+    else{
+      window.alert("The email input does not follow the format!");
+    }
+    
   };
 
 
@@ -139,6 +163,8 @@ const ForgetPassword = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
 
+            
+
             {/* Button beside the input */}
             <button
               className="ml-2 px-4 py-2 bg-orange-400 text-white rounded-md"
@@ -149,6 +175,9 @@ const ForgetPassword = () => {
             {/* End of button */}
 
           </div>
+          <p style={{ color: emailMsg ? 'white' : 'transparent', fontSize: '14px', marginTop: '5px' }}>
+            {emailMsg}
+          </p>
         </form>
       
       </div>

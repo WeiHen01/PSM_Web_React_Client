@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import bgForgetPassword from "../images/Reset_password.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -43,8 +43,25 @@ const ResetPassword = () => {
 
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
-
+  const [passwordMsg, setPasswordMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const validatePassword = (password) => {
+    const minLength = password.length >= 8;
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(password);
+
+    let message = '';
+    if (!minLength) message += 'Password must be at least 8 characters long. ';
+    if (!hasNumber) message += 'Password must contain at least 1 number. ';
+    if (!hasSpecialChar) message += 'Password must contain at least 1 special character. ';
+
+    setPasswordMsg(message);
+  };
+
+  useEffect(() => {
+    validatePassword(password);
+  }, [password]);
 
   /**
    * Update Password
@@ -147,6 +164,10 @@ const ResetPassword = () => {
             />
 
           </div>
+          <p style={{ color: passwordMsg ? '#FF073A' : '#00FF00', fontSize: '14px', marginTop: '5px' }}>
+            {passwordMsg || <b>Password is strong!</b>}
+          </p>
+    
 
           <p className='mt-3 text-base font-semibold'>Confirm Password</p>
               
