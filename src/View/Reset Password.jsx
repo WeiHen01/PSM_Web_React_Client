@@ -43,7 +43,7 @@ const ResetPassword = () => {
 
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
-  const [passwordMsg, setPasswordMsg] = useState('');
+  const [passwordMsg, setPasswordMsg] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
 
   const validatePassword = (password) => {
@@ -51,10 +51,10 @@ const ResetPassword = () => {
     const hasNumber = /\d/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(password);
 
-    let message = '';
-    if (!minLength) message += 'Password must be at least 8 characters long. ';
-    if (!hasNumber) message += 'Password must contain at least 1 number. ';
-    if (!hasSpecialChar) message += 'Password must contain at least 1 special character. ';
+    let message = [];
+    if (!minLength) message.push('Password must be <b>at least 8 characters</b> long.');
+    if (!hasNumber) message.push('Password must contain <b>at least 1 number</b>.');
+    if (!hasSpecialChar) message.push('Password must contain at least 1 special character.');
 
     setPasswordMsg(message);
   };
@@ -164,9 +164,21 @@ const ResetPassword = () => {
             />
 
           </div>
-          <p style={{ color: passwordMsg ? '#FF073A' : '#00FF00', fontSize: '14px', marginTop: '5px' }}>
-            {passwordMsg || <b>Password is strong!</b>}
-          </p>
+          
+          <div>
+            {passwordMsg.length > 0 ? (
+              <ul style={{ color: '#FF073A', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
+                {passwordMsg.map((msg, index) => (
+                  <p key={index} >{msg}</p>
+                ))}
+              </ul>
+            ) : (
+              <p style={{ color: '#00FF00', fontSize: '14px', marginTop: '5px' }}>
+                Password is strong!
+              </p>
+            )}
+          </div>
+
     
 
           <p className='mt-3 text-base font-semibold'>Confirm Password</p>

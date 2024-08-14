@@ -95,7 +95,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [passwordMsg, setPasswordMsg] = useState('');
+  const [passwordMsg, setPasswordMsg] = useState([]);
   const [emailMsg, setEmailMsg] = useState('');
 
   const validateEmail = (email) => {
@@ -104,7 +104,7 @@ const Register = () => {
     const endsWithCom = email.endsWith('.com');
     
     if (!isValidEmail || !endsWithCom) {
-        setEmailMsg('Email must be in the format example@domain.com.');
+        setEmailMsg('Email must be in the format <b>example@domain.com</b>.');
     } else {
         setEmailMsg('');
     }
@@ -119,10 +119,11 @@ const Register = () => {
     const hasNumber = /\d/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(password);
 
-    let message = '';
-    if (!minLength) message += 'Password must be at least 8 characters long. ';
-    if (!hasNumber) message += 'Password must contain at least 1 number. ';
-    if (!hasSpecialChar) message += 'Password must contain at least 1 special character. ';
+    let message = [];
+    if (!minLength) message.push('Password must be <b>at least 8 characters</b> long.');
+    if (!hasNumber) message.push('Password must contain <b>at least 1 number</b>.');
+    if (!hasSpecialChar) message.push('Password must contain <b>at least 1 special character</b>.');
+
 
     setPasswordMsg(message);
   };
@@ -314,8 +315,7 @@ const Register = () => {
                 />
               </div>
               
-              <p style={{ color: emailMsg ? 'red' : 'transparent', fontSize: '14px', marginTop: '5px' }}>
-                {emailMsg}
+              <p dangerouslySetInnerHTML={{ __html: emailMsg }} style={{ color: emailMsg ? 'red' : 'transparent', fontSize: '14px', marginTop: '5px' }}>
               </p>
 
               <p className='font-semibold'>Name</p>
@@ -403,10 +403,21 @@ const Register = () => {
                 />
 
               </div>
-              <p style={{ color: passwordMsg ? 'red' : 'green', fontSize: '14px', marginTop: '5px' }}>
-                {passwordMsg || 'Password is strong!'}
-              </p>
-    
+              <div>
+                {Array.isArray(passwordMsg) && passwordMsg.length > 0 ? (
+                  <ul style={{ color: 'red', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
+                    {passwordMsg.map((msg, index) => (
+                      <p key={index} dangerouslySetInnerHTML={{ __html: msg }} />
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ color: 'green', fontSize: '14px', marginTop: '5px' }}>
+                    Password is strong!
+                  </p>
+                )}
+              </div>
+
+
               <p className='mt-3 font-semibold'>Confirm Password</p>
               
               <div style={{ position: 'relative' }}>
