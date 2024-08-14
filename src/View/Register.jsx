@@ -95,6 +95,41 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [passwordMsg, setPasswordMsg] = useState('');
+  const [emailMsg, setEmailMsg] = useState('');
+
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailPattern.test(email);
+    const endsWithCom = email.endsWith('.com');
+    
+    if (!isValidEmail || !endsWithCom) {
+        setEmailMsg('Email must be in the format example@domain.com.');
+    } else {
+        setEmailMsg('');
+    }
+  };
+  
+  useEffect(() => {
+    validateEmail(email);
+  }, [email]);
+
+  const validatePassword = (password) => {
+    const minLength = password.length >= 8;
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(password);
+
+    let message = '';
+    if (!minLength) message += 'Password must be at least 8 characters long. ';
+    if (!hasNumber) message += 'Password must contain at least 1 number. ';
+    if (!hasSpecialChar) message += 'Password must contain at least 1 special character. ';
+
+    setPasswordMsg(message);
+  };
+
+  useEffect(() => {
+    validatePassword(password);
+  }, [password]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -112,7 +147,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword){
+      if(password === conPassword && passwordMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/doctor/register`, {
             DoctorName: name,
@@ -148,7 +183,7 @@ const Register = () => {
       window.alert("Sorry! This email has been registered!");
     }
     else {
-      if(password === conPassword){
+      if(password === conPassword && passwordMsg === ''){
         try {
           const response = await axios.post(`http://${window.location.hostname}:8000/api/admin/register`, {
             AdminName: name,
@@ -278,6 +313,10 @@ const Register = () => {
                     
                 />
               </div>
+              
+              <p style={{ color: emailMsg ? 'red' : 'transparent', fontSize: '14px', marginTop: '5px' }}>
+                {emailMsg}
+              </p>
 
               <p className='font-semibold'>Name</p>
               
@@ -362,8 +401,11 @@ const Register = () => {
                   style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
                   onClick={togglePasswordVisibility}
                 />
-    
+
               </div>
+              <p style={{ color: passwordMsg ? 'red' : 'green', fontSize: '14px', marginTop: '5px' }}>
+                {passwordMsg || 'Password is strong!'}
+              </p>
     
               <p className='mt-3 font-semibold'>Confirm Password</p>
               
@@ -382,7 +424,7 @@ const Register = () => {
                   onChange={(e) => setConPassword(e.target.value)}  
                   required 
                 />
-    
+                
                 {/* Toggle button for password visibility */}
                 <FontAwesomeIcon
                   icon={showConPassword ? faEyeSlash : faEye}
