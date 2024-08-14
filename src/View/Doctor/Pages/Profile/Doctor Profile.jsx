@@ -83,6 +83,32 @@ const DoctorProfile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
 
+  const [passwordMsg, setPasswordMsg] = useState([]);
+  const [passwordMatch, setPasswordMatch] = useState(true); // New state to track password match
+
+  const validatePassword = (newPassword) => {
+    const minLength = newPassword.length >= 8;
+    const hasNumber = /\d/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(newPassword);
+
+    let message = [];
+    if (!minLength) message.push('Password must be <b>at least 8 characters</b> long.');
+    if (!hasNumber) message.push('Password must contain <b>at least 1 number</b>.');
+    if (!hasSpecialChar) message.push('Password must contain <b>at least 1 special character</b>.');
+
+    setPasswordMsg(message);
+  };
+  
+  // Check if password and confirm password match
+  useEffect(() => {
+    setPasswordMatch(newPassword === conPassword);
+  }, [newPassword, conPassword]);
+
+  useEffect(() => {
+    validatePassword(newPassword);
+  }, [newPassword]);
+
+
   const toggleOldPasswordVisibility = () => {
     setShowOldPassword(!showOldPassword);
   };// State to track active role
@@ -485,7 +511,28 @@ const DoctorProfile = () => {
                         onClick={toggleNewPasswordVisibility}
                       />
                     </div>
-
+                    <div>
+                    {Array.isArray(passwordMsg) && passwordMsg.length > 0 ? (
+                          <ul style={{ color: '#fa3c3c', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
+                            {passwordMsg.map((msg, index) => (
+                              <li key={index} dangerouslySetInnerHTML={{ __html: msg }} />
+                            ))}
+                          </ul>
+                        ) : (
+                          newPassword.length >= 8 && newPassword.length < 13 ? (
+                            <p style={{ color: '#ff7b00', fontSize: '14px', marginTop: '5px' }}>
+                              Password is moderate.
+                            </p>
+                          ) : (
+                            newPassword.length >= 13 ? (
+                              <p style={{ color: '#03fc17', fontSize: '14px', marginTop: '5px' }}>
+                                Password is strong!
+                              </p>
+                            ) : null
+                          )
+                        )}
+                    </div>
+          
 
                     {/* Your password input */}
                     <div style={{ position: 'relative' }}>
@@ -509,12 +556,22 @@ const DoctorProfile = () => {
                         onClick={toggleConfirmPasswordVisibility}
                       />
                     </div>
+                    
+                    {/* Display password match status */}
+                    {!passwordMatch && (
+                        <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+                          Password and Confirm Password do not match.
+                        </p>
+                      )
+                    }
+
                     {/* Remember me checkbox and Lost Password link */}
                     <div className="flex justify-end">
                       <a href="/Doctor/DoctorProfile" className="text-sm text-orange-600 hover:underline">
                         Lost Password?
                       </a>
                     </div>
+                    
                     {/* Login button */}
                     <button
                       type="submit"

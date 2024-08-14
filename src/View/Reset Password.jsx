@@ -45,6 +45,8 @@ const ResetPassword = () => {
   const [conPassword, setConPassword] = useState('');
   const [passwordMsg, setPasswordMsg] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
+  const [passwordMatch, setPasswordMatch] = useState(true); // New state to track password match
+
 
   const validatePassword = (password) => {
     const minLength = password.length >= 8;
@@ -54,10 +56,15 @@ const ResetPassword = () => {
     let message = [];
     if (!minLength) message.push('Password must be <b>at least 8 characters</b> long.');
     if (!hasNumber) message.push('Password must contain <b>at least 1 number</b>.');
-    if (!hasSpecialChar) message.push('Password must contain at least 1 special character.');
+    if (!hasSpecialChar) message.push('Password must contain <b>at least 1 special character</b>.');
 
     setPasswordMsg(message);
   };
+  
+  // Check if password and confirm password match
+  useEffect(() => {
+    setPasswordMatch(password === conPassword);
+  }, [password, conPassword]);
 
   useEffect(() => {
     validatePassword(password);
@@ -166,17 +173,25 @@ const ResetPassword = () => {
           </div>
           
           <div>
-            {passwordMsg.length > 0 ? (
-              <ul style={{ color: '#FF073A', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
-                {passwordMsg.map((msg, index) => (
-                  <p key={index} >{msg}</p>
-                ))}
-              </ul>
-            ) : (
-              <p style={{ color: '#00FF00', fontSize: '14px', marginTop: '5px' }}>
-                Password is strong!
-              </p>
-            )}
+          {Array.isArray(passwordMsg) && passwordMsg.length > 0 ? (
+                <ul style={{ color: '#fa3c3c', fontSize: '14px', marginTop: '5px', paddingLeft: '20px' }}>
+                  {passwordMsg.map((msg, index) => (
+                    <li key={index} dangerouslySetInnerHTML={{ __html: msg }} />
+                  ))}
+                </ul>
+              ) : (
+                password.length >= 8 && password.length < 13 ? (
+                  <p style={{ color: '#ff7b00', fontSize: '14px', marginTop: '5px' }}>
+                    Password is moderate.
+                  </p>
+                ) : (
+                  password.length >= 13 ? (
+                    <p style={{ color: '#03fc17', fontSize: '14px', marginTop: '5px' }}>
+                      Password is strong!
+                    </p>
+                  ) : null
+                )
+              )}
           </div>
 
     
@@ -209,6 +224,12 @@ const ResetPassword = () => {
             
 
           </div>
+           {/* Display password match status */}
+           {!passwordMatch && (
+              <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+                Password and Confirm Password do not match.
+              </p>
+            )}
 
           <br />
 

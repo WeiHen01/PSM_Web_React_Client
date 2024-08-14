@@ -97,6 +97,7 @@ const Register = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [passwordMsg, setPasswordMsg] = useState([]);
   const [emailMsg, setEmailMsg] = useState('');
+  const [passwordMatch, setPasswordMatch] = useState(true); // New state to track password match
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -113,6 +114,11 @@ const Register = () => {
   useEffect(() => {
     validateEmail(email);
   }, [email]);
+
+  // Check if password and confirm password match
+  useEffect(() => {
+    setPasswordMatch(password === conPassword);
+  }, [password, conPassword]);
 
   const validatePassword = (password) => {
     const minLength = password.length >= 8;
@@ -453,6 +459,12 @@ const Register = () => {
                 />
     
               </div>
+              {/* Display password match status */}
+              {!passwordMatch && (
+                <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+                  Password and Confirm Password do not match.
+                </p>
+              )}
             
               <div className = "mt-2">
                 <button 
