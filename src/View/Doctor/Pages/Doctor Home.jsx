@@ -699,25 +699,42 @@ const DoctorHome = () => {
   };
 
 
-  // Pagination states
+  // Patient List Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Default rows per page
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Default rows per page
 
-  // Pagination Logic
+  // Patient List Pagination Logic
   const indexOfLastPatient = currentPage * rowsPerPage;
   const indexOfFirstPatient = indexOfLastPatient - rowsPerPage;
   const currentPatients = filteredPatients.slice(indexOfFirstPatient, indexOfLastPatient);
 
   const totalPages = Math.ceil(filteredPatients.length / rowsPerPage);
 
-  const handleRowsPerPageChange = (value) => {
-    setRowsPerPage(Number(value));
-    setCurrentPage(1); // Reset to the first page
-  };
+  
+  // Patient Temperature Records Pagination states
+  const [currentTempPage, setCurrentTempPage] = useState(1);
+  const [rowsTempPerPage, setRowsTempPerPage] = useState(5); // Default rows per page
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+
+  // Patient Temperature List Pagination Logic
+  const indexOfLastPatientTemp = currentTempPage * rowsTempPerPage;
+  const indexOfFirstPatientTemp = indexOfLastPatientTemp - rowsTempPerPage;
+  const currentPatientsTemp = temperatureRecords.slice(indexOfFirstPatientTemp, indexOfLastPatientTemp);
+
+  const totalPagesTemp = Math.ceil(filteredPatients.length / rowsTempPerPage);
+
+  // Patient Pulse Records Pagination states
+  const [currentPulsePage, setCurrentPulsePage] = useState(1);
+  const [rowsPulsePerPage, setRowsPulsePerPage] = useState(5); // Default rows per page
+
+
+  // Patient Pulse List Pagination Logic
+  const indexOfLastPatientPulse = currentPulsePage * rowsPulsePerPage;
+  const indexOfFirstPatientPulse = indexOfLastPatientPulse - rowsPulsePerPage;
+  const currentPatientsPulse = pulseRecords.slice(indexOfFirstPatientPulse, indexOfLastPatientPulse);
+
+  const totalPagesPulse = Math.ceil(pulseRecords.length / rowsPulsePerPage);
+
   
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -783,12 +800,56 @@ const DoctorHome = () => {
               </div>
               <div className="p-4">
 
-              <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                  Temperature 
-                </label>
+                <div class = "flex justify-between">
+                  <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                    Temperature 
+                  </label>
+
+                  <div class = "flex items-center justify-center h-full">
+                    <div class="flex items-center justify-center h-full space-x-2 mt-1 mr-3">
+                    <button 
+                        onClick={() => setCurrentTempPage(currentTempPage - 1)} 
+                        disabled={currentTempPage === 1} 
+                        class="p-2  text-gray-900 rounded-lg disabled:text-gray-300 flex items-center justify-center"
+                    >
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <span class="text-gray-900  p-2">Page <b>{currentTempPage}</b> of <b>{totalPagesTemp}</b></span>
+                    <button 
+                        onClick={() => setCurrentTempPage(currentTempPage + 1)} 
+                        disabled={currentTempPage === totalPagesTemp} 
+                        class="p-2  text-gray-900  rounded-lg disabled:text-gray-300 flex items-center justify-center"
+                    >
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                  </div>
+
+                    <div class="mt-1">
+                      <label for="rowsTempPerPage" class="sr-only">Rows per page</label>
+                      <select 
+                          id="rowsTempPerPage" 
+                          value={rowsTempPerPage} 
+                          onChange={(e) => setRowsTempPerPage(Number(e.target.value))} 
+                          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      >
+                          <option value="5">5 rows</option>
+                          <option value="10">10 rows</option>
+                          <option value="20">20 rows</option>
+                          <option value="50">50 rows</option>
+                          <option value="100">100 rows</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                {temperatureRecords.length > 0 ? (
+                {currentPatientsTemp.length > 0 ? (
                   <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
@@ -801,7 +862,7 @@ const DoctorHome = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {temperatureRecords.map((record, index) => (
+                      {currentPatientsTemp.map((record, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                           <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                             {calculateTimeDifference(record.MeasureDate)}
@@ -820,12 +881,56 @@ const DoctorHome = () => {
                 <div class="py-3"></div>
 
 
-                <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                  Pulse
-                </label>
+               
+                <div class = "flex justify-between">
+                  <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                    Pulse
+                  </label>
+
+                  <div class = "flex items-center justify-center h-full">
+                    <div class="flex items-center justify-center h-full space-x-2 mt-1 mr-3">
+                    <button 
+                        onClick={() => setCurrentPulsePage(currentPulsePage - 1)} 
+                        disabled={currentPulsePage === 1} 
+                        class="p-2  text-gray-900 rounded-lg disabled:text-gray-300 flex items-center justify-center"
+                    >
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <span class="text-gray-900  p-2">Page <b>{currentPulsePage}</b> of <b>{totalPagesPulse}</b></span>
+                    <button 
+                        onClick={() => setCurrentPulsePage(currentPulsePage + 1)} 
+                        disabled={currentPulsePage === totalPagesPulse} 
+                        class="p-2  text-gray-900  rounded-lg disabled:text-gray-300 flex items-center justify-center"
+                    >
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                  </div>
+
+                    <div class="mt-1">
+                      <label for="rowsPulsePerPage" class="sr-only">Rows per page</label>
+                      <select 
+                          id="rowsPerPage" 
+                          value={rowsPulsePerPage} 
+                          onChange={(e) => setRowsPulsePerPage(Number(e.target.value))} 
+                          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      >
+                          <option value="5">5 rows</option>
+                          <option value="10">10 rows</option>
+                          <option value="20">20 rows</option>
+                          <option value="50">50 rows</option>
+                          <option value="100">100 rows</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
                 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                {pulseRecords.length > 0 ? (
+                {currentPatientsPulse.length > 0 ? (
                   <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
@@ -838,7 +943,7 @@ const DoctorHome = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {pulseRecords.map((record, index) => (
+                      {currentPatientsPulse.map((record, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                           <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                             {calculateTimeDifference(record.MeasureDate)}
