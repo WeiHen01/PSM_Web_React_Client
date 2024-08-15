@@ -13,6 +13,8 @@ import {
   CardBody,
   CardHeader,
   Typography,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 // import Times New Roman font
@@ -40,6 +42,9 @@ const DoctorHome = () => {
 
   const [searchPatientQuery, setSearchPatientQuery] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
+
+  
+
 
   // Fetch doctors on component mount
   useEffect(() => {
@@ -692,6 +697,27 @@ const DoctorHome = () => {
     // Save the PDF document
     doc.save(selectedPatient.PatientName + ".pdf");
   };
+
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Default rows per page
+
+  // Pagination Logic
+  const indexOfLastPatient = currentPage * rowsPerPage;
+  const indexOfFirstPatient = indexOfLastPatient - rowsPerPage;
+  const currentPatients = filteredPatients.slice(indexOfFirstPatient, indexOfLastPatient);
+
+  const totalPages = Math.ceil(filteredPatients.length / rowsPerPage);
+
+  const handleRowsPerPageChange = (value) => {
+    setRowsPerPage(Number(value));
+    setCurrentPage(1); // Reset to the first page
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -923,8 +949,7 @@ const DoctorHome = () => {
         {/* <!-- row 1 --> */}
         <div class=" relative overflow-x-auto h-80 overflow-y-auto shadow-md sm:rounded-lg">
                 
-            <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
-                <label label for="table-search" class="sr-only">Search</label>
+            <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep flex justify-between items-center">
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -933,7 +958,52 @@ const DoctorHome = () => {
                     </div>
                     <input type="text" id="table-search" value={searchPatientQuery} onChange={(e) => setSearchPatientQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search patients" />
                 </div>
+
+                <div class = "flex items-center justify-center h-full">
+                  <div class="flex items-center justify-center h-full space-x-2 mt-1 mr-3">
+                  <button 
+                      onClick={() => setCurrentPage(currentPage - 1)} 
+                      disabled={currentPage === 1} 
+                      class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                  >
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
+                      </svg>
+                  </button>
+                  <span class="text-white p-2">Page <b>{currentPage}</b> of <b>{totalPages}</b></span>
+                  <button 
+                      onClick={() => setCurrentPage(currentPage + 1)} 
+                      disabled={currentPage === totalPages} 
+                      class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                  >
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
+                      </svg>
+                  </button>
+                </div>
+
+                  <div class="mt-1">
+                    <label for="rowsPerPage" class="sr-only">Rows per page</label>
+                    <select 
+                        id="rowsPerPage" 
+                        value={rowsPerPage} 
+                        onChange={(e) => setRowsPerPage(Number(e.target.value))} 
+                        class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        <option value="5">5 rows</option>
+                        <option value="10">10 rows</option>
+                        <option value="20">20 rows</option>
+                        <option value="50">50 rows</option>
+                        <option value="100">100 rows</option>
+                    </select>
+                  </div>
+                </div>
+
+
+                
             </div>
+
+            
 
             <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -955,7 +1025,7 @@ const DoctorHome = () => {
                 </thead>
                 <tbody>
                     
-                    {filteredPatients.map((patient, index) => (
+                    {currentPatients.map((patient, index) => (
                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                             <p className="font-bold">{patient.PatientName}</p>
@@ -971,6 +1041,7 @@ const DoctorHome = () => {
                 </tbody>
                 
             </table>
+            
     
         </div>
         
