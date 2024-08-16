@@ -259,8 +259,8 @@ const DoctorChat = () => {
               {patients.map(patient => (
               <div
                 className={`
-                  p-4 min-h-max border-gray-300 border-2
-                  ${selectedPatient === patient.PatientID? 'bg-pink-500 text-white' : 'hover:bg-blue-600 bg-white hover:text-white'}
+                  p-4 bg-white min-h-max border-gray-300 border-2
+                  ${selectedPatient === patient.PatientID? 'bg-pink-500' : 'hover:bg-blue-600'}
                 `}
                 key={patient.PatientID}
               >
@@ -270,8 +270,8 @@ const DoctorChat = () => {
                     <p className="text-black text-sm justify-between">
                       {chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].PatientID === `P-${patient.PatientID}`? (
                         <div className="flex items-center">
-                          <span >{patient.PatientName}:  </span>
-                          <span className="ml-1 ">{chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatMessage}</span>
+                          <span>{patient.PatientName}:  </span>
+                          <span className="ml-1">{chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatMessage}</span>
                           <div className="flex-grow"></div> {/* Spacer */}
                           <span className="text-black">{formatMessageDate(chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatDateTime)}</span>
 
@@ -296,7 +296,7 @@ const DoctorChat = () => {
             </div>
 
              {/** Right-container */}
-            <div className="right h-full w-[70%] flex flex-col justify-between border-black border-2">
+            <div className="right h-full w-[70%] flex flex-col justify-between">
               
               <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-3">
                 {patientInfo && (<p className="font-bold text-lg">{patientInfo.PatientName}</p>)}
@@ -305,7 +305,7 @@ const DoctorChat = () => {
               {/** Chat contents with bubbles */}
               
               
-              <div ref={chatContainerRef} className='h-full p-3 bg-[#ffe3a5] overflow-y-auto'>
+              <div ref={chatContainerRef} className='h-full p-3 bg-white overflow-y-auto'>
               {selectedPatient && chatHistory[selectedPatient]? (
                 chatHistory[selectedPatient].length === 0? (
                   <div className="text-center text-gray-500">No chat history available</div>

@@ -1149,6 +1149,28 @@ const DoctorHome = () => {
             
     
         </div>
+
+        <div class= "mt-4 w-5/6 relative overflow-x-auto h-80 overflow-y-auto shadow-md sm:rounded-lg">
+                    
+            <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                
+                <div class="relative mt-1">
+                  <b className='text-white'>Recent 5 days Patient Average Record</b>
+                </div>
+          
+            </div>
+
+            {/** Modal content */}
+            <Card className=" bg-gray-200">
+              
+              <CardBody className="px-2 pb-0">
+                <Chart {...avgConfig} />
+              </CardBody>
+            </Card>
+
+            
+
+        </div>
         
 
 

@@ -48,6 +48,9 @@ const AdminControlUser = () => {
     }
   };
 
+
+ 
+
   const [searchPatientQuery, setSearchPatientQuery] = useState('');
   const [searchDoctorQuery, setSearchDoctorQuery] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -76,6 +79,30 @@ const AdminControlUser = () => {
       )
     );
   }, [searchDoctorQuery, doctors]);
+
+
+   // Patient List Pagination states
+   const [currentPage, setCurrentPage] = useState(1);
+   const [rowsPerPage, setRowsPerPage] = useState(5); // Default rows per page
+ 
+   // Patient List Pagination Logic
+   const indexOfLastPatient = currentPage * rowsPerPage;
+   const indexOfFirstPatient = indexOfLastPatient - rowsPerPage;
+   const currentPatients = filteredPatients.slice(indexOfFirstPatient, indexOfLastPatient);
+ 
+   const totalPages = Math.ceil(filteredPatients.length / rowsPerPage);
+ 
+   // Doctor List Pagination states
+   const [currentDoctorPage, setCurrentDoctorPage] = useState(1);
+   const [rowsDoctorPerPage, setRowsDoctorPerPage] = useState(5); // Default rows per page
+ 
+   // Doctor List Pagination Logic
+   const indexOfLastDoctor = currentDoctorPage * rowsDoctorPerPage;
+   const indexOfFirstDoctor = indexOfLastDoctor - rowsDoctorPerPage;
+   const currentDoctors = filteredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+ 
+   const totalDoctorPages = Math.ceil(filteredDoctors.length / rowsDoctorPerPage);
+ 
 
   const calculateTimeDifference = (dateTime) => {
     const currentTime = new Date();
@@ -542,13 +569,11 @@ const AdminControlUser = () => {
 
               </div>
 
-              <div class="px-3 -mx-2 gap-4 flex">
-                
-                <div>
+              <div>
                     <h1 class=" text-lg px-1 py-2"><b>Patient</b></h1>
-                    <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
-                          <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
-                              <label label for="table-search" class="sr-only">Search</label>
+                    <div class="relative overflow-x-auto h-48 w-100 overflow-y-auto shadow-md sm:rounded-lg">
+                          <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep justify-between items-center">
+                              
                               <div class="relative mt-1">
                                   <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                                       <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -559,9 +584,49 @@ const AdminControlUser = () => {
 
                                   
                               </div>
+                              <div class="items-center justify-center flex">
+                                <button 
+                                    onClick={() => setCurrentPage(currentPage - 1)} 
+                                    disabled={currentPage === 1} 
+                                    class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                                >
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <span class="text-white p-2">Page <b>{currentPage}</b> of <b>{totalPages}</b></span>
+                                <button 
+                                    onClick={() => setCurrentPage(currentPage + 1)} 
+                                    disabled={currentPage === totalPages} 
+                                    class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                                >
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                  <div class="mt-1">
+                                    <label for="rowsPerPage" class="sr-only">Rows per page</label>
+                                    <select 
+                                        id="rowsPerPage" 
+                                        value={rowsPerPage} 
+                                        onChange={(e) => setRowsPerPage(Number(e.target.value))} 
+                                        class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                    >
+                                        <option value="5">5 rows</option>
+                                        <option value="10">10 rows</option>
+                                        <option value="20">20 rows</option>
+                                        <option value="50">50 rows</option>
+                                        <option value="100">100 rows</option>
+                                    </select>
+                                  </div>
+                              </div>
+
+
+
+                              
                           </div>
 
-                          <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                   <tr>
                                       
@@ -581,7 +646,7 @@ const AdminControlUser = () => {
                               </thead>
                               <tbody>
                                   
-                                  {filteredPatients.map((patient, index) => (
+                                  {currentPatients.map((patient, index) => (
                                   <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                                           <p className="font-bold">{patient.PatientName}</p>
@@ -604,7 +669,7 @@ const AdminControlUser = () => {
 
                       <h1 class=" text-lg px-1 py-2"><b>Doctor</b></h1>
                       <div class="relative overflow-x-auto h-48 overflow-y-auto shadow-md sm:rounded-lg">
-                        <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep">
+                        <div class="p-4 flex bg-gradient-to-r from-purple-dark to-red-deep justify-between items-center">
                             <label label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
                                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -614,6 +679,43 @@ const AdminControlUser = () => {
                                 </div>
                                 <input type="text" id="table-search" value={searchDoctorQuery} onChange={(e) => setSearchDoctorQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search doctors" />
                             </div>
+
+                            <div class="items-center justify-center flex">
+                                <button 
+                                    onClick={() => setCurrentDoctorPage(currentDoctorPage - 1)} 
+                                    disabled={currentDoctorPage === 1} 
+                                    class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                                >
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <span class="text-white p-2">Page <b>{currentDoctorPage}</b> of <b>{totalDoctorPages}</b></span>
+                                <button 
+                                    onClick={() => setCurrentDoctorPage(currentDoctorPage + 1)} 
+                                    disabled={currentDoctorPage === totalDoctorPages} 
+                                    class="p-2  text-white rounded-lg disabled:text-gray-500 flex items-center justify-center"
+                                >
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                  <div class="mt-1">
+                                    <label for="rowsPerPage" class="sr-only">Rows per page</label>
+                                    <select 
+                                        id="rowsPerPage" 
+                                        value={rowsDoctorPerPage} 
+                                        onChange={(e) => setRowsDoctorPerPage(Number(e.target.value))} 
+                                        class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                    >
+                                        <option value="5">5 rows</option>
+                                        <option value="10">10 rows</option>
+                                        <option value="20">20 rows</option>
+                                        <option value="50">50 rows</option>
+                                        <option value="100">100 rows</option>
+                                    </select>
+                                  </div>
+                              </div>
                         </div>
 
                         <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -637,7 +739,7 @@ const AdminControlUser = () => {
                             </thead>
                             <tbody>
                                 
-                                {filteredDoctors.map((doctor, index) => (
+                                {currentDoctors.map((doctor, index) => (
                                 <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <p className="font-bold">{doctor.DoctorName}</p>
@@ -659,75 +761,62 @@ const AdminControlUser = () => {
 
                 </div>
 
-
-                <div>
-
-                <h1 class=" text-lg px-1 py-2"><b>Inactive users</b></h1>
-                    <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
-                        <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
-                            <label label for="table-search" class="sr-only">Search</label>
-                            <div class="relative mt-1">
-                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                    </svg>
-                                </div>
-                                <input type="text" id="table-search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search users" />
+              <h1 class=" text-lg px-1 py-2"><b>Inactive users</b></h1>
+                <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
+                    <div class="p-4 bg-gradient-to-r from-purple-dark to-red-deep">
+                        <label label for="table-search" class="sr-only">Search</label>
+                        <div class="relative mt-1">
+                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
                             </div>
-
+                            <input type="text" id="table-search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80  focus:ring-blue-500 focus:border-blue-500  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search users" />
                         </div>
 
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        User
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Last Login
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            {filteredInactiveList.map((user, index) => (
-                              <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                  <p className="font-bold">{user.PatientName || user.DoctorName}</p>
-                                  <p>{user.PatientEmail || user.DoctorEmail}</p>
-                                </td>
-                                <td className="px-6 py-4">{calculateTimeDifference(user.LastLoginDateTime)}</td>
-                                <td className="px-6 py-4 text-center">
-                                    <FaBell size={30} onClick={openSendNotification}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
-                                </td>
-                              </tr>
-                            ))}
-                            </tbody>
-                        </table>
-
                     </div>
 
-
-                    <h1 class=" text-lg px-1 py-2"><b>Statistics</b></h1>
-                    <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
-                      <CardBody className="mt-4 grid place-items-center px-2">
-                        <Chart {...chartConfig} />
-                      </CardBody>
-
-                    </div>
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    User
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Last Login
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        {filteredInactiveList.map((user, index) => (
+                          <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              <p className="font-bold">{user.PatientName || user.DoctorName}</p>
+                              <p>{user.PatientEmail || user.DoctorEmail}</p>
+                            </td>
+                            <td className="px-6 py-4">{calculateTimeDifference(user.LastLoginDateTime)}</td>
+                            <td className="px-6 py-4 text-center">
+                                <FaBell size={30} onClick={openSendNotification}  className='p-2  hover:bg-slate-500 hover:rounded-md' />
+                            </td>
+                          </tr>
+                        ))}
+                        </tbody>
+                    </table>
 
                 </div>
 
 
-                
+                <h1 class=" text-lg px-1 py-2"><b>Statistics</b></h1>
+                <div class="relative overflow-x-auto h-56 overflow-y-auto shadow-md sm:rounded-lg">
+                  <CardBody className="mt-4 grid place-items-center px-2">
+                    <Chart {...chartConfig} />
+                  </CardBody>
 
-
-
-
-              </div>
+                </div>
 
              
 

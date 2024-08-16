@@ -249,46 +249,14 @@ const DoctorChat = () => {
           
           <h1 class="text-xl"><b>Chat with Patient</b></h1>
 
-          <div class="w-92 h-[75vh] bg-black mt-2 flex flex-row ">
+          <div class="mt-4 w-92 h-[75vh] bg-red-50 flex flex-row">
 
             {/** Left-container */}
-            <div className="left h-full w-[30%] flex flex-col bg-white overflow-y-auto border-black border-2">
+            <div className="left h-full w-[30%] flex flex-col bg-orange-200">
               
               
-              {/** Scrollable */}
-              {patients.map(patient => (
-              <div
-                className={`
-                  p-4 min-h-max border-gray-300 border-2
-                  ${selectedPatient === patient.PatientID? 'bg-pink-500 text-white' : 'hover:bg-blue-600 bg-white hover:text-white'}
-                `}
-                key={patient.PatientID}
-              >
-                <div className='cursor-pointer' onClick={() => handlePatientSelection(patient.PatientID)}>
-                  <p className="font-bold" style = {{fontSize: '15px'}}>{patient.PatientName}</p>
-                  {chatHistory[patient.PatientID] && (
-                    <p className="text-black text-sm justify-between">
-                      {chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].PatientID === `P-${patient.PatientID}`? (
-                        <div className="flex items-center">
-                          <span >{patient.PatientName}:  </span>
-                          <span className="ml-1 ">{chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatMessage}</span>
-                          <div className="flex-grow"></div> {/* Spacer */}
-                          <span className="text-black">{formatMessageDate(chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatDateTime)}</span>
-
-                        </div>
-                      ) : (
-                        <div className="flex items-center">
-                          <span>You: </span>
-                          <span className="ml-1">{chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatMessage} {'             '}</span>
-                          <div className="flex-grow"></div> {/* Spacer */}
-                          <span className="text-black">{formatMessageDate(chatHistory[patient.PatientID][chatHistory[patient.PatientID].length - 1].ChatDateTime)}</span>
-                        </div>
-                      )}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
+            </div>
+            
 
               
               
@@ -296,7 +264,7 @@ const DoctorChat = () => {
             </div>
 
              {/** Right-container */}
-            <div className="right h-full w-[70%] flex flex-col justify-between border-black border-2">
+            <div className="right h-full w-[70%] flex flex-col justify-between">
               
               <div className=" h-20 bg-gradient-to-r from-purple-dark to-red-deep text-white p-3">
                 {patientInfo && (<p className="font-bold text-lg">{patientInfo.PatientName}</p>)}
@@ -305,7 +273,7 @@ const DoctorChat = () => {
               {/** Chat contents with bubbles */}
               
               
-              <div ref={chatContainerRef} className='h-full p-3 bg-[#ffe3a5] overflow-y-auto'>
+              <div ref={chatContainerRef} className='h-full p-3 bg-orange-200 overflow-y-auto'>
               {selectedPatient && chatHistory[selectedPatient]? (
                 chatHistory[selectedPatient].length === 0? (
                   <div className="text-center text-gray-500">No chat history available</div>
@@ -315,38 +283,20 @@ const DoctorChat = () => {
                       key={chat.ChatID}
                       className={
                         chat.PatientID === `P-${patientInfo.PatientID}`
-                      ? "text-left mb-4 p-2 mr-auto w-96 bg-[#c5c5c5] rounded-md hover:translate-x-6 duration-300"
-                          : "text-left mb-4 p-2 ml-auto w-96 overflow-x-auto bg-[#ff4081] rounded-md hover:-translate-x-6 duration-300"
+                      ? "text-left mb-4 p-2 mr-auto w-96 bg-[#ff8ab1] rounded-md hover:translate-x-6 duration-300"
+                          : "text-left mb-4 p-2 ml-auto w-96 overflow-x-auto bg-white rounded-md hover:-translate-x-6 duration-300"
                       }
                       style={{wordWrap: 'break-word', maxWidth: '60ch'}}
                     >
                       {
                         chat.PatientID === `P-${patientInfo.PatientID}`
                     ? (
-                          <div className="flex items-center">
-                            <strong>{patientInfo.PatientName}</strong>
-                            <div className="flex-grow"></div> {/* Spacer */}
-                            <span className="mx-2">{formatMessageDate(chat.ChatDateTime)} {new Date(chat.ChatDateTime).toLocaleTimeString()}</span>
-                          </div>
+                          <p><strong>{patientInfo.PatientName}</strong></p>
                         )
-                        : <div className="flex items-center" style = {{color: 'white'}}>
-                            <strong>You</strong>
-                            <div className="flex-grow"></div> {/* Spacer */}
-                            <span className="mx-2">{formatMessageDate(chat.ChatDateTime)} {new Date(chat.ChatDateTime).toLocaleTimeString()}</span>
-                          </div>
+                        : <p><strong>You</strong></ p>
                       }
-                      
-                      {
-                        chat.PatientID === `P-${patientInfo.PatientID}` 
-                      ? (
-                        <p>{chat.ChatMessage}</p>
-                      )
-                      : (
-                        <p style = {{color: 'white'}}>{chat.ChatMessage}</p>
-                      )
-                      }
-                     
-                     
+                      <p>{chat.ChatMessage}</p>
+                      <p className="text-right pr-4">{formatMessageDate(chat.ChatDateTime)} {new Date(chat.ChatDateTime).toLocaleTimeString()}</p>
                     </div>
                   ))
                 )

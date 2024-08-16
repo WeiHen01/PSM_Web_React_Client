@@ -488,11 +488,11 @@ const AdminProfile = () => {
                     }
 
                     {/* Remember me checkbox and Lost Password link */}
-                    <div className="flex justify-end">
+                    {/* <div className="flex justify-end">
                       <a href="/Admin/AdminProfile" className="text-sm text-orange-600 hover:underline">
                         Lost Password?
                       </a>
-                    </div>
+                    </div> */}
                     {/* Login button */}
                     <button
                       type="submit"
