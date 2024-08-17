@@ -125,14 +125,14 @@ const DoctorHome = () => {
     fetchHighestTemp();
   }, []);
 
-  const [highestPulse, setHighestPulse] = useState(null);
+  const [highestPulseToday, setHighestPulseToday] = useState(null);
 
   useEffect(() => {
-    const fetchHighestPulse = async () => {
+    const fetchHighestPulseToday = async () => {
       try {
         const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestToday`);
         if (response.data['Highest Pulse Today']) {
-          setHighestPulse(response.data['Highest Pulse Today'].PulseRate);
+          setHighestPulseToday(response.data['Highest Pulse Today'].PulseRate);
           const id = response.data['Highest Pulse Today'].PatientID;
           const patient = id.split("-");
           const patientID = patient[1];
@@ -149,7 +149,7 @@ const DoctorHome = () => {
       }
     };
 
-    fetchHighestPulse();
+    fetchHighestPulseToday();
   }, []);
 
 
@@ -179,6 +179,7 @@ const DoctorHome = () => {
   };
 
 
+  // for displaying highest temperature records for everyday with responding patient name
   const [highestRecords, setHighestRecords] = useState([]);
 
   useEffect(() => {
@@ -198,6 +199,8 @@ const DoctorHome = () => {
     }
   };
 
+
+  // for displaying highest pulse records for everyday with responding patient name
   const [highestPulseRecords, setHighestPulseRecords] = useState([]);
 
   useEffect(() => {
@@ -216,124 +219,6 @@ const DoctorHome = () => {
       console.error('Error fetching highest records:', error);
     }
   };
-
-  const [avgTempData, setAvgTempData] = useState([]);
-  const [avgPulseData, setAvgPulseData] = useState([]);
-
-  useEffect(() => {
-    fetchAverageRecent5Days();
-  }, []);
-
-  const fetchAverageRecent5Days = async () => {
-    try {
-      const tempResponse = await axios.get(`http://${window.location.hostname}:8000/api/temp/averageRecent5Days`);
-      const pulseResponse = await axios.get(`http://${window.location.hostname}:8000/api/pulse/averageRecent5Days`);
-      
-      const tempAvgRecords = tempResponse.data['Average Temperature Recent 5 Days'];
-      const pulseAvgRecords = pulseResponse.data['Average Pulse Rate Recent 5 Days'];
-
-      const tempData = tempAvgRecords.map(record => ({
-        x: record._id,
-        y: record.avgTemp
-      }));
-
-      const pulseData = pulseAvgRecords.map(record => ({
-        x: record._id,
-        y: record.avgPulse
-      }));
-
-      setAvgTempData(tempData);
-      setAvgPulseData(pulseData);
-    } catch (error) {
-      console.error('Error fetching average records:', error);
-    }
-  };
-
-  const avgConfig = {
-    type: "bar",
-    height: 240,
-    series: [
-      {
-        name: "Temperature (°C)",
-        data: avgTempData,
-      },
-      {
-        name: "Pulse (BPM)",
-        data: avgPulseData,
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#ff6f00", "#ff006a"],
-      plotOptions: {
-        bar: {
-          columnWidth: "40%",
-          borderRadius: 2,
-        },
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },// Adjust categories as needed
-        categories: avgTempData.map(record => record.x),
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-          formatter: function(value) {
-            return value.toFixed(2); // Set to 2 decimal points
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-    },
-  };
-  
 
   const pulseConfig = {
     type: "line",
@@ -493,6 +378,126 @@ const DoctorHome = () => {
       },
     },
   };
+
+  const [avgTempData, setAvgTempData] = useState([]);
+  const [avgPulseData, setAvgPulseData] = useState([]);
+
+  useEffect(() => {
+    fetchAverageRecent5Days();
+  }, []);
+
+  const fetchAverageRecent5Days = async () => {
+    try {
+      const tempResponse = await axios.get(`http://${window.location.hostname}:8000/api/temp/averageRecent5Days`);
+      const pulseResponse = await axios.get(`http://${window.location.hostname}:8000/api/pulse/averageRecent5Days`);
+      
+      const tempAvgRecords = tempResponse.data['Average Temperature Recent 5 Days'];
+      const pulseAvgRecords = pulseResponse.data['Average Pulse Rate Recent 5 Days'];
+
+      const tempData = tempAvgRecords.map(record => ({
+        x: record._id,
+        y: record.avgTemp
+      }));
+
+      const pulseData = pulseAvgRecords.map(record => ({
+        x: record._id,
+        y: record.avgPulse
+      }));
+
+      setAvgTempData(tempData);
+      setAvgPulseData(pulseData);
+    } catch (error) {
+      console.error('Error fetching average records:', error);
+    }
+  };
+
+  const avgConfig = {
+    type: "bar",
+    height: 240,
+    series: [
+      {
+        name: "Temperature (°C)",
+        data: avgTempData,
+      },
+      {
+        name: "Pulse (BPM)",
+        data: avgPulseData,
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#ff6f00", "#ff006a"],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },// Adjust categories as needed
+        categories: avgTempData.map(record => record.x),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+          formatter: function(value) {
+            return value.toFixed(2); // Set to 2 decimal points
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
+  };
+  
+
+ 
 
 
 
@@ -1136,7 +1141,7 @@ const DoctorHome = () => {
             <div>
               <div className="claymorphism-card-header">
                 <p className="font-semibold text-2xl">
-                  {error1 ? error1 : `${highestPulse !== null ? highestPulse : 'Loading...'}`}
+                  {error1 ? error1 : `${highestPulseToday !== null ? highestPulseToday : 'Loading...'}`}
                 </p>
                 <p className="text-sm">Patient: <b>{ `${patientPulseInfo != null ? patientPulseInfo.PatientName :'Loading....'}`}</b></p>
               </div>
