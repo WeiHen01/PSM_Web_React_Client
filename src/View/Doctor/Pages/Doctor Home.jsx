@@ -13,8 +13,6 @@ import {
   CardBody,
   CardHeader,
   Typography,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 // import Times New Roman font
@@ -44,8 +42,6 @@ const DoctorHome = () => {
   const [filteredPatients, setFilteredPatients] = useState([]);
 
   
-
-
   // Fetch doctors on component mount
   useEffect(() => {
     fetchPatients();
@@ -745,6 +741,7 @@ const DoctorHome = () => {
         <h1 class="text-xl"><b>Dashboard</b></h1>
       </div>
 
+     
       {/** Update Profile Modal */}
       {viewPatientProfileModel && selectedPatient &&  (
         <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
@@ -800,56 +797,12 @@ const DoctorHome = () => {
               </div>
               <div className="p-4">
 
-                <div class = "flex justify-between">
-                  <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                    Temperature 
-                  </label>
-
-                  <div class = "flex items-center justify-center h-full">
-                    <div class="flex items-center justify-center h-full space-x-2 mt-1 mr-3">
-                    <button 
-                        onClick={() => setCurrentTempPage(currentTempPage - 1)} 
-                        disabled={currentTempPage === 1} 
-                        class="p-2  text-gray-900 rounded-lg disabled:text-gray-300 flex items-center justify-center"
-                    >
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
-                        </svg>
-                    </button>
-                    <span class="text-gray-900  p-2">Page <b>{currentTempPage}</b> of <b>{totalPagesTemp}</b></span>
-                    <button 
-                        onClick={() => setCurrentTempPage(currentTempPage + 1)} 
-                        disabled={currentTempPage === totalPagesTemp} 
-                        class="p-2  text-gray-900  rounded-lg disabled:text-gray-300 flex items-center justify-center"
-                    >
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                  </div>
-
-                    <div class="mt-1">
-                      <label for="rowsTempPerPage" class="sr-only">Rows per page</label>
-                      <select 
-                          id="rowsTempPerPage" 
-                          value={rowsTempPerPage} 
-                          onChange={(e) => setRowsTempPerPage(Number(e.target.value))} 
-                          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      >
-                          <option value="5">5 rows</option>
-                          <option value="10">10 rows</option>
-                          <option value="20">20 rows</option>
-                          <option value="50">50 rows</option>
-                          <option value="100">100 rows</option>
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-
+              <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                  Temperature 
+                </label>
 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                {currentPatientsTemp.length > 0 ? (
+                {temperatureRecords.length > 0 ? (
                   <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
@@ -862,7 +815,7 @@ const DoctorHome = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentPatientsTemp.map((record, index) => (
+                      {temperatureRecords.map((record, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                           <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                             {calculateTimeDifference(record.MeasureDate)}
@@ -881,56 +834,12 @@ const DoctorHome = () => {
                 <div class="py-3"></div>
 
 
-               
-                <div class = "flex justify-between">
-                  <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
-                    Pulse
-                  </label>
-
-                  <div class = "flex items-center justify-center h-full">
-                    <div class="flex items-center justify-center h-full space-x-2 mt-1 mr-3">
-                    <button 
-                        onClick={() => setCurrentPulsePage(currentPulsePage - 1)} 
-                        disabled={currentPulsePage === 1} 
-                        class="p-2  text-gray-900 rounded-lg disabled:text-gray-300 flex items-center justify-center"
-                    >
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7"/>
-                        </svg>
-                    </button>
-                    <span class="text-gray-900  p-2">Page <b>{currentPulsePage}</b> of <b>{totalPagesPulse}</b></span>
-                    <button 
-                        onClick={() => setCurrentPulsePage(currentPulsePage + 1)} 
-                        disabled={currentPulsePage === totalPagesPulse} 
-                        class="p-2  text-gray-900  rounded-lg disabled:text-gray-300 flex items-center justify-center"
-                    >
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                  </div>
-
-                    <div class="mt-1">
-                      <label for="rowsPulsePerPage" class="sr-only">Rows per page</label>
-                      <select 
-                          id="rowsPerPage" 
-                          value={rowsPulsePerPage} 
-                          onChange={(e) => setRowsPulsePerPage(Number(e.target.value))} 
-                          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      >
-                          <option value="5">5 rows</option>
-                          <option value="10">10 rows</option>
-                          <option value="20">20 rows</option>
-                          <option value="50">50 rows</option>
-                          <option value="100">100 rows</option>
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
+                <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
+                  Pulse
+                </label>
                 
                 {/* Apply overflow-y:auto to make the table scrollable */}
-                {currentPatientsPulse.length > 0 ? (
+                {pulseRecords.length > 0 ? (
                   <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-auto">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
@@ -943,7 +852,7 @@ const DoctorHome = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentPatientsPulse.map((record, index) => (
+                      {pulseRecords.map((record, index) => (
                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                           <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                             {calculateTimeDifference(record.MeasureDate)}
@@ -960,11 +869,6 @@ const DoctorHome = () => {
                 )}
 
 
-                
-
-                
-
-
                  {/* Wrap the Button in a div for spacing and alignment */}
                   <div className="flex justify-end mt-4">
                     <Button onClick={generatePDF}>Print</Button>
@@ -977,7 +881,145 @@ const DoctorHome = () => {
           </div>
         </div>
       )}
-      
+
+      {/** Update Profile Modal */}
+      {viewTempModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <Thermometer className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Temperature (°C)
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of temperature recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewTemp}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...tempConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewPulseModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <HeartPulse className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Pulse
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of pulse (BPM) recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewPulse}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...pulseConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       
 
