@@ -259,6 +259,7 @@ const Login = () => {
         })
         .then((response) => {
             console.log(response);
+            setEmail(response.data["email"]);
             setProfileInfo(response.data);
             console.log(profileInfo);
             setEmail(response.data["email"]);

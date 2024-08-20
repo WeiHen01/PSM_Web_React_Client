@@ -74,12 +74,12 @@ const DoctorProfile = () => {
    * 2. Update Password
    */
   /** For toggle to show password */
-  const [showOldPassword, setShowOldPassword] = useState(false);
+  /* const [showOldPassword, setShowOldPassword] = useState(false); */
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
 
   /** Input for password */
-  const [oldPassword, setOldPassword] = useState('');
+  /* const [oldPassword, setOldPassword] = useState(''); */
   const [newPassword, setNewPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
 
@@ -109,9 +109,9 @@ const DoctorProfile = () => {
   }, [newPassword]);
 
 
-  const toggleOldPasswordVisibility = () => {
+  /* const toggleOldPasswordVisibility = () => {
     setShowOldPassword(!showOldPassword);
-  };// State to track active role
+  }; */// State to track active role
 
   const toggleNewPasswordVisibility = () => {
     setShowNewPassword(!showNewPassword);
@@ -203,8 +203,8 @@ const DoctorProfile = () => {
   const updateProfilePassword = async (e) => {
     e.preventDefault();
 
-    if(oldPassword === null || newPassword === null || conPassword === null
-       || conPassword !== newPassword || oldPassword !== doctorInfo.DoctorPassword
+    if(newPassword === null || conPassword === null
+       || conPassword !== newPassword
     ){
       window.alert("Update specialty failed!");
       updatePassword();
@@ -467,7 +467,7 @@ const DoctorProfile = () => {
                   <form className="space-y-4" onSubmit={updateProfilePassword} action='POST'>
                     {/* Form inputs */}
                     {/* Your email input */}
-                    <div style={{ position: 'relative' }}>
+                    {/* <div style={{ position: 'relative' }}>
                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
                         Old password
                       </label>
@@ -482,13 +482,13 @@ const DoctorProfile = () => {
                         required
                       />
 
-                      {/* Toggle button for password visibility */}
+                     
                       <FontAwesomeIcon
                         icon={showOldPassword ? faEyeSlash : faEye}
                         style={{ position: 'absolute', right: '10px', top: '70%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#666' }}
                         onClick={toggleOldPasswordVisibility}
                       />
-                    </div>
+                    </div> */}
 
                     <div style={{ position: 'relative' }}>
                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
