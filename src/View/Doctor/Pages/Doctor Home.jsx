@@ -15,6 +15,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
+
+import { LineChart } from '@mui/x-charts/LineChart';
+import { Typography as MUITypography } from '@mui/material'; // MUI Typography
 // import Times New Roman font
 
 import { Button } from "@material-tailwind/react";
@@ -180,7 +183,7 @@ const DoctorHome = () => {
 
 
   // for displaying highest temperature records for everyday with responding patient name
-  const [highestRecords, setHighestRecords] = useState([]);
+  const [highestTempRecords, setHighestTempRecords] = useState([]);
 
   useEffect(() => {
     fetchTempHighestRecords();
@@ -193,7 +196,7 @@ const DoctorHome = () => {
         // Sorting by date in ascending order
         return new Date(a.MeasureDate) - new Date(b.MeasureDate);
       });
-      setHighestRecords(sortedRecords);
+      setHighestTempRecords(sortedRecords);
     } catch (error) {
       console.error('Error fetching highest records:', error);
     }
@@ -220,165 +223,10 @@ const DoctorHome = () => {
     }
   };
 
-  const pulseConfig = {
-    type: "line",
-    height: 240,
-    series: [
-      {
-        name: "Pulse",
-        data: highestPulseRecords.map(record => record.highestPulse),
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#C10214"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: highestPulseRecords.map(record => record.date),
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-    },
-  };
+  
 
 
-  const tempConfig = {
-    type: "line",
-    height: 240,
-    series: [
-      {
-        name: "Temperature",
-        data: highestRecords.map(record => record.highestTemp),
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#020617"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: highestRecords.map(record => record.date),
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-    },
-  };
-
+  
   const [avgTempData, setAvgTempData] = useState([]);
   const [avgPulseData, setAvgPulseData] = useState([]);
 
@@ -736,6 +584,9 @@ const DoctorHome = () => {
 
   const totalPagesPulse = Math.ceil(pulseRecords.length / rowsPulsePerPage);
 
+
+
+  
   
   return (
     <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -745,6 +596,185 @@ const DoctorHome = () => {
       <div class="w-full px-5 pt-3 h-fit overflow-hidden ">
         <h1 class="text-xl"><b>Dashboard</b></h1>
       </div>
+
+      {/** Update Profile Modal */}
+      {viewTempModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <Thermometer className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Temperature (°C)
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of temperature recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewTemp}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 flex justify-evenly">
+                    <LineChart
+                      xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+                      series={[
+                        {
+                          data: [2, 5.5, 2, 8.5, 1.5, 5],
+                          color: '#FF7F50', // Use a string for the color
+                        },
+                      ]}
+                      width={500}
+                      height={300}
+                      sx={{
+                        '& .MuiTypography-root': {
+                          fontFamily: 'Poppins, sans-serif', // Change to your desired font family
+                        },
+                        '& .MuiXAxisLabel-root': {
+                          fontFamily: 'Poppins, sans-serif', // X-axis label font
+                        },
+                        '& .MuiYAxisLabel-root': {
+                          fontFamily: 'Poppins, sans-serif', // Y-axis label font
+                        },
+                      }}
+                    />
+
+                    <p className="p-2 font-bold">Filter selection</p>
+                    
+
+                    
+                    
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewPulseModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <HeartPulse className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Pulse
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of pulse (BPM) recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewPulse}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0 flex">
+                    <LineChart
+                      xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+                      series={[
+                        {
+                          data: [2, 5.5, 2, 8.5, 1.5, 5],
+                          color: '#FFF000', // Use a string for the color
+                        },
+                      ]}
+                      width={500}
+                      height={300}
+                    />
+                    <p>Filter selection</p>
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
 
      
       {/** Update Profile Modal */}
@@ -967,145 +997,6 @@ const DoctorHome = () => {
                   </div>
 
                 
-
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/** Update Profile Modal */}
-      {viewTempModel && (
-        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-          <div className="relative p-4 w-full max-w-full">
-            <div className="relative bg-white rounded-lg shadow">
-              <div className="flex items-center justify-between p-4 border-b rounded-t">
-              <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <Thermometer className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Temperature (°C)
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                      >
-                        Highest record of temperature recorded by patients
-                      </Typography>
-                    </div>
-                    <div>
-                      
-                    </div>
-                  </CardHeader>
-                <button
-                  onClick={openViewTemp}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
-              </div>
-              <div className="p-4">
-                
-                {/** Modal content */}
-                <Card>
-                  
-                  <CardBody className="px-2 pb-0">
-                    <Chart {...tempConfig} />
-                  </CardBody>
-                </Card>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-
-      {/** Update Profile Modal */}
-      {viewPulseModel && (
-        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-          <div className="relative p-4 w-full max-w-full">
-            <div className="relative bg-white rounded-lg shadow">
-              <div className="flex items-center justify-between p-4 border-b rounded-t">
-              <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <HeartPulse className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Pulse
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                      >
-                        Highest record of pulse (BPM) recorded by patients
-                      </Typography>
-                    </div>
-                    <div>
-                      
-                    </div>
-                  </CardHeader>
-                <button
-                  onClick={openViewPulse}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
-              </div>
-              <div className="p-4">
-                
-                {/** Modal content */}
-                <Card>
-                  
-                  <CardBody className="px-2 pb-0">
-                    <Chart {...pulseConfig} />
-                  </CardBody>
-                </Card>
 
               </div>
             </div>

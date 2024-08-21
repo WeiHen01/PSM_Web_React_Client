@@ -178,43 +178,7 @@ const DoctorHome = () => {
   };
 
 
-  const [highestRecords, setHighestRecords] = useState([]);
-
-  useEffect(() => {
-    fetchTempHighestRecords();
-  }, []);
-
-  const fetchTempHighestRecords = async () => {
-    try {
-      const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestRecords`);
-      const sortedRecords = response.data.highestRecords.sort((a, b) => {
-        // Sorting by date in ascending order
-        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
-      });
-      setHighestRecords(sortedRecords);
-    } catch (error) {
-      console.error('Error fetching highest records:', error);
-    }
-  };
-
-  const [highestPulseRecords, setHighestPulseRecords] = useState([]);
-
-  useEffect(() => {
-    fetchPulseHighestRecords();
-  }, []);
-
-  const fetchPulseHighestRecords = async () => {
-    try {
-      const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestRecords`);
-      const sortedRecords = response.data.highestRecords.sort((a, b) => {
-        // Sorting by date in ascending order
-        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
-      });
-      setHighestPulseRecords(sortedRecords);
-    } catch (error) {
-      console.error('Error fetching highest records:', error);
-    }
-  };
+ 
 
   const [avgTempData, setAvgTempData] = useState([]);
   const [avgPulseData, setAvgPulseData] = useState([]);
@@ -331,6 +295,45 @@ const DoctorHome = () => {
         theme: "dark",
       },
     },
+  };
+
+
+  const [highestRecords, setHighestRecords] = useState([]);
+
+  useEffect(() => {
+    fetchTempHighestRecords();
+  }, []);
+
+  const fetchTempHighestRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestRecords`);
+      const sortedRecords = response.data.highestRecords.sort((a, b) => {
+        // Sorting by date in ascending order
+        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
+      });
+      setHighestRecords(sortedRecords);
+    } catch (error) {
+      console.error('Error fetching highest records:', error);
+    }
+  };
+
+  const [highestPulseRecords, setHighestPulseRecords] = useState([]);
+
+  useEffect(() => {
+    fetchPulseHighestRecords();
+  }, []);
+
+  const fetchPulseHighestRecords = async () => {
+    try {
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestRecords`);
+      const sortedRecords = response.data.highestRecords.sort((a, b) => {
+        // Sorting by date in ascending order
+        return new Date(a.MeasureDate) - new Date(b.MeasureDate);
+      });
+      setHighestPulseRecords(sortedRecords);
+    } catch (error) {
+      console.error('Error fetching highest records:', error);
+    }
   };
   
 
@@ -703,6 +706,147 @@ const DoctorHome = () => {
       </div>
 
       {/** Update Profile Modal */}
+      {viewTempModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <Thermometer className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Temperature (°C)
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of temperature recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewTemp}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...tempConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/** Update Profile Modal */}
+      {viewPulseModel && (
+        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
+          <div className="relative p-4 w-full max-w-full">
+            <div className="relative bg-white rounded-lg shadow">
+              <div className="flex items-center justify-between p-4 border-b rounded-t">
+              <CardHeader
+                    floated={false}
+                    shadow={false}
+                    color="transparent"
+                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+                  >
+                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
+                      <HeartPulse className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <Typography variant="h6" color="blue-gray">
+                        Pulse
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="gray"
+                        className="max-w-sm font-normal"
+                      >
+                        Highest record of pulse (BPM) recorded by patients
+                      </Typography>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </CardHeader>
+                <button
+                  onClick={openViewPulse}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4">
+                
+                {/** Modal content */}
+                <Card>
+                  
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...pulseConfig} />
+                  </CardBody>
+                </Card>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/** Update Profile Modal */}
       {viewPatientProfileModel && selectedPatient &&  (
         <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
           <div className="relative p-4 w-8/12 max-h-[80%] overflow-y-auto">
@@ -755,6 +899,8 @@ const DoctorHome = () => {
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
+              
+              
               <div className="p-4">
 
               <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">
@@ -846,147 +992,6 @@ const DoctorHome = () => {
           </div>
         </div>
       )}
-      
-
-      {/** Update Profile Modal */}
-      {viewTempModel && (
-        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-          <div className="relative p-4 w-full max-w-full">
-            <div className="relative bg-white rounded-lg shadow">
-              <div className="flex items-center justify-between p-4 border-b rounded-t">
-              <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <Thermometer className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Temperature (°C)
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                      >
-                        Highest record of temperature recorded by patients
-                      </Typography>
-                    </div>
-                    <div>
-                      
-                    </div>
-                  </CardHeader>
-                <button
-                  onClick={openViewTemp}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
-              </div>
-              <div className="p-4">
-                
-                {/** Modal content */}
-                <Card>
-                  
-                  <CardBody className="px-2 pb-0">
-                    <Chart {...tempConfig} />
-                  </CardBody>
-                </Card>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-
-      {/** Update Profile Modal */}
-      {viewPulseModel && (
-        <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-          <div className="relative p-4 w-full max-w-full">
-            <div className="relative bg-white rounded-lg shadow">
-              <div className="flex items-center justify-between p-4 border-b rounded-t">
-              <CardHeader
-                    floated={false}
-                    shadow={false}
-                    color="transparent"
-                    className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
-                  >
-                    <div className="w-max rounded-lg bg-gradient-to-r from-purple-dark to-red-deep p-5 text-white">
-                      <HeartPulse className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <Typography variant="h6" color="blue-gray">
-                        Pulse
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="max-w-sm font-normal"
-                      >
-                        Highest record of pulse (BPM) recorded by patients
-                      </Typography>
-                    </div>
-                    <div>
-                      
-                    </div>
-                  </CardHeader>
-                <button
-                  onClick={openViewPulse}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
-              </div>
-              <div className="p-4">
-                
-                {/** Modal content */}
-                <Card>
-                  
-                  <CardBody className="px-2 pb-0">
-                    <Chart {...pulseConfig} />
-                  </CardBody>
-                </Card>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       
 
 
