@@ -7,6 +7,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import axios from 'axios';
 import moment from 'moment';
+import { format } from 'date-fns';
+
 
 import {
   Card,
@@ -15,9 +17,6 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-
-import { LineChart } from '@mui/x-charts/LineChart';
-import { Typography as MUITypography } from '@mui/material'; // MUI Typography
 // import Times New Roman font
 
 import { Button } from "@material-tailwind/react";
@@ -181,17 +180,24 @@ const DoctorHome = () => {
     }
   };
 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   // for displaying highest temperature records for everyday with responding patient name
   const [highestTempRecords, setHighestTempRecords] = useState([]);
 
   useEffect(() => {
     fetchTempHighestRecords();
-  }, []);
+  }, [startDate, endDate]);
 
   const fetchTempHighestRecords = async () => {
     try {
-      const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestRecords`);
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/temp/highestRecords`, {
+        params: {
+          start: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
+          end: endDate ? format(endDate, 'yyyy-MM-dd') : undefined,
+        },
+      });
       const sortedRecords = response.data.highestRecords.sort((a, b) => {
         // Sorting by date in ascending order
         return new Date(a.MeasureDate) - new Date(b.MeasureDate);
@@ -208,11 +214,16 @@ const DoctorHome = () => {
 
   useEffect(() => {
     fetchPulseHighestRecords();
-  }, []);
+  }, [startDate, endDate]);
 
   const fetchPulseHighestRecords = async () => {
     try {
-      const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestRecords`);
+      const response = await axios.get(`http://${window.location.hostname}:8000/api/pulse/highestRecords`, {
+        params: {
+          start: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
+          end: endDate ? format(endDate, 'yyyy-MM-dd') : undefined,
+        },
+      });
       const sortedRecords = response.data.highestRecords.sort((a, b) => {
         // Sorting by date in ascending order
         return new Date(a.MeasureDate) - new Date(b.MeasureDate);
@@ -221,6 +232,165 @@ const DoctorHome = () => {
     } catch (error) {
       console.error('Error fetching highest records:', error);
     }
+  };
+
+  const tempConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Temperature",
+        data: highestTempRecords.map(record => record.highestTemp),
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#020617"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: highestTempRecords.map(record => record.date),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
+  };
+
+
+  const pulseConfig = {
+    type: "line",
+    height: 240,
+    series: [
+      {
+        name: "Pulse",
+        data: highestPulseRecords.map(record => record.highestPulse),
+      },
+    ],
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+      title: {
+        show: "",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#C10214"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: highestPulseRecords.map(record => record.date),
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    },
   };
 
   
@@ -344,8 +514,7 @@ const DoctorHome = () => {
     },
   };
   
-
- 
+  
 
 
 
@@ -654,37 +823,8 @@ const DoctorHome = () => {
                 
                 {/** Modal content */}
                 <Card>
-                  
-                  <CardBody className="px-2 flex justify-evenly">
-                    <LineChart
-                      xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                      series={[
-                        {
-                          data: [2, 5.5, 2, 8.5, 1.5, 5],
-                          color: '#FF7F50', // Use a string for the color
-                        },
-                      ]}
-                      width={500}
-                      height={300}
-                      sx={{
-                        '& .MuiTypography-root': {
-                          fontFamily: 'Poppins, sans-serif', // Change to your desired font family
-                        },
-                        '& .MuiXAxisLabel-root': {
-                          fontFamily: 'Poppins, sans-serif', // X-axis label font
-                        },
-                        '& .MuiYAxisLabel-root': {
-                          fontFamily: 'Poppins, sans-serif', // Y-axis label font
-                        },
-                      }}
-                    />
-
-                    <p className="p-2 font-bold">Filter selection</p>
-                    
-
-                    
-                    
-                  </CardBody>
+                  <Chart {...tempConfig} />
+                 
                 </Card>
 
               </div>
@@ -751,21 +891,10 @@ const DoctorHome = () => {
                 
                 {/** Modal content */}
                 <Card>
-                  
-                  <CardBody className="px-2 pb-0 flex">
-                    <LineChart
-                      xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                      series={[
-                        {
-                          data: [2, 5.5, 2, 8.5, 1.5, 5],
-                          color: '#FFF000', // Use a string for the color
-                        },
-                      ]}
-                      width={500}
-                      height={300}
-                    />
-                    <p>Filter selection</p>
+                  <CardBody className="px-2 pb-0">
+                    <Chart {...pulseConfig} />
                   </CardBody>
+                  
                 </Card>
 
               </div>
